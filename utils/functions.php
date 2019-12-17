@@ -6,12 +6,13 @@ function isActive($pagename){
 }
 
 function isUserLoggedIn(){
-    return !empty($_SESSION['idautore']);
+    return !empty($_SESSION['idUtente']);
 }
 
 function registerLoggedUser($user){
-    $_SESSION["idautore"] = $user["idautore"];
+    $_SESSION["idUtente"] = $user["idUtente"];
     $_SESSION["username"] = $user["username"];
+    $_SESSION["tipoUtente"] = $user["tipoUtente"];
     $_SESSION["nome"] = $user["nome"];
 }
 

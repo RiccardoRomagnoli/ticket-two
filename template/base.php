@@ -22,7 +22,7 @@
             <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
                 <div class="uk-navbar-item uk-width-expand">
                     <form class="uk-search uk-search-navbar uk-width-1-1">
-                        <input class="uk-search-input" type="search" placeholder="Cerca evento, luogo, autore..." autofocus>
+                        <input class="uk-search-input" type="search" placeholder="Cerca Evento, Luogo, Autore..." autofocus>
                     </form>
                 </div>
                 <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
@@ -43,41 +43,24 @@
         <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
             <div id="offcanvas-slide" uk-offcanvas="flip: true; overlay: true">
                 <div class="uk-offcanvas-bar">
-
-                    <ul class="uk-nav uk-nav-default">
-                        <li class="uk-active"><a href="#">Active</a></li>
-                        <li><a href="#">Item</a></li>
-                        <li class="uk-nav-header">Header</li>
-                        <li><a href="#">Item</a></li>
-                        <li><a href="#">Item</a></li>
-                        <li class="uk-nav-divider"></li>
-                        <li><a href="#">Item</a></li>
-                    </ul>
-
+                    <?php require_once("offcanvas.php"); ?>
                 </div>
             </div>
         </div>
+
     </header>
     <main>
+
     <?php
         if(isset($templateParams["nome"])){
             require($templateParams["nome"]);
         }
     ?>
-<img data-src="https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=650&h=433&q=80"
-     data-srcset="https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=650&h=433&q=80 650w,
-                  https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=1300&h=866&q=80 1300w"
-     sizes="(min-width: 650px) 650px, 100vw" width="650" height="433" alt="" uk-img>
-     <img data-src="https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=650&h=433&q=80"
-     data-srcset="https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=650&h=433&q=80 650w,
-                  https://images.unsplash.com/photo-1522201949034-507737bce479?fit=crop&w=1300&h=866&q=80 1300w"
-     sizes="(min-width: 650px) 650px, 100vw" width="650" height="433" alt="" uk-img>
+    
     </main>
 
-    <!-- <footer class="uk-section uk-section-default uk-position-bottom uk-background-muted" uk-sticky>
-            <p class="uk-position-center">Tecnologie Web - A.A. 2019/2020</p>
-    </footer> -->
 
+    <!-- Footer -->
     <footer class="uk-margin-top uk-margin-bottom">
         <div class="uk-container uk-text-center">
             <div class="uk-child-width-auto@m uk-flex-middle uk-grid" uk-grid>
