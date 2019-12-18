@@ -10,7 +10,7 @@
                 </div>
                 <li class="uk-nav-header">Menu</li>
                 <li class="uk-nav-divider"></li>
-                <li><a href="#">Login</a></li>
+                <li><a href="#modal-login" uk-toggle class="uk-toggle">Login</a></li>
                 <li><a href="#">Carrello</a></li>
             ';
     }else{

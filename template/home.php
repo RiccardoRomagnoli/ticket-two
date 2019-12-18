@@ -6,7 +6,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -17,7 +17,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/dark.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -28,7 +28,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/light.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -39,7 +39,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo2.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -50,7 +50,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo3.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -76,7 +76,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -87,7 +87,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/dark.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -98,7 +98,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/light.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -109,7 +109,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo2.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>
@@ -120,7 +120,7 @@
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
-                        <img src="images/photo3.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">Headline</h3>

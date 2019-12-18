@@ -9,6 +9,14 @@ class DatabaseHelper{
         }        
     }
 
+    public function getUser($mail, $password){
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE ? = Mail AND ? = Password");
+        $stmt->bind_param('ss',$mail, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 
     //TO UPDATE
 

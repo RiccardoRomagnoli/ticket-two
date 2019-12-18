@@ -10,10 +10,11 @@ function isUserLoggedIn(){
 }
 
 function registerLoggedUser($user){
-    $_SESSION["idUtente"] = $user["idUtente"];
-    $_SESSION["username"] = $user["username"];
-    $_SESSION["tipoUtente"] = $user["tipoUtente"];
-    $_SESSION["nome"] = $user["nome"];
+    $_SESSION["idUtente"] = $user["IdUtente"];
+    $_SESSION["mail"] = $user["Mail"];
+    $_SESSION["tipoUtente"] = $user["TipoUtente"];
+    $_SESSION["nome"] = $user["Nome"];
+    $_SESSION["cognome"] = $user["Cognome"];
 }
 
 function getAction($action){

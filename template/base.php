@@ -28,6 +28,7 @@
                 <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
             </div>
 
+            <!-- Nav Components -->
             <div class="uk-navbar-left nav-overlay">
                 <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
             </div>
@@ -97,7 +98,36 @@
     
     <!-- To Top Arrow -->
     <div class="uk-margin">
-        <a id="myBtn" style="display: none" href="#" uk-totop uk-scroll class="uk-position-fixed uk-position-bottom-right uk-position-large" ></a>
+        <a id="toTop" style="display: none" href="#" uk-totop uk-scroll class="uk-position-fixed uk-position-bottom-right uk-position-large" ></a>
+    </div>
+
+    <!-- Modal Login -->
+    <div id="modal-login" class="uk-modal-full uk-modal" uk-modal>
+        <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
+            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+            <form>
+                <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
+                        <legend class="uk-legend">Login</legend>
+                        <div class="uk-margin">
+                            <div class="uk-inline uk-width-1-1" uk-tooltip="title: Email; pos: left; delay: 200">
+                                <span class="uk-form-icon" uk-icon="icon: user" uk-tooltip="title: Email"></span>
+                                <input id="mail" class="uk-input" type="text">
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <div class="uk-inline uk-width-1-1" uk-tooltip="title: Password; pos: left; delay: 200">
+                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                <input id="password" class="uk-input" type="text">
+                            </div>
+                        </div>
+                        <div class="uk-button-group">
+                            <button id="loginBtn" type="button" class="uk-button uk-button-default uk-width-1-2">Login</button>
+                            <button id="singupBtn" type="button" class="uk-button uk-button-primary uk-width-1-2">Registrati</button>
+                        </div>
+                </fieldset >
+            </form>
+        </div>
     </div>
 </body>
 </html>
