@@ -18,6 +18,25 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getUserById($id){
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE IdUtente = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function insertUser($name, $surname, $mail, $password){
+        $idTypeUser = 3;
+        $query = "INSERT INTO Utente (IdTipoUtente, Nome, Cognome, Mail, Password) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issss', $idTypeUser, $name, $surname, $mail, $password);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
     //TO UPDATE
 
     public function getRandomPosts($n){

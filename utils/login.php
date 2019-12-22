@@ -1,13 +1,13 @@
 <?php
     require_once '../initializer.php';
     
-    if(!isset($_POST['username']) || !isset($_POST['password'])) {
-        echo json_encode(array('result' => 'Parametri errati'));
+    if(($_POST['mail'] == '') || $_POST['password'] == '') {
+        echo json_encode(array('result' => 'warning', 'message' => 'Parametri mancanti'));
     } else {
-        $user = $_POST['username'];
+        $mail = $_POST['mail'];
         $password = $_POST['password'];
 
-        $result = $dbh->getUser($user, $password);
+        $result = $dbh->getUser($mail, $password);
         if (count($result)==1) {
             echo json_encode(array('result' => 'ok', 'message' => 'Login Effettuato con successo!'));
             registerLoggedUser($result[0]);

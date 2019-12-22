@@ -97,8 +97,8 @@
     </footer>
     
     <!-- To Top Arrow -->
-    <div class="uk-margin">
-        <a id="toTop" style="display: none" href="#" uk-totop uk-scroll class="uk-position-fixed uk-position-bottom-right uk-position-large" ></a>
+    <div class="uk-margin uk-position-fixed uk-position-bottom-right uk-position-large">
+        <a id="toTop" style="display: none" href="#" uk-scroll uk-totop></a>
     </div>
 
     <!-- Modal Login -->
@@ -107,24 +107,45 @@
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
             <form>
                 <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
-                        <legend class="uk-legend">Login</legend>
-                        <div class="uk-margin">
-                            <div class="uk-inline uk-width-1-1" uk-tooltip="title: Email; pos: left; delay: 200">
-                                <span class="uk-form-icon" uk-icon="icon: user" uk-tooltip="title: Email"></span>
-                                <input id="mail" class="uk-input" type="text">
-                            </div>
-                        </div>
+                    <legend id="loginLegend" class="uk-legend">Login</legend>
 
-                        <div class="uk-margin">
-                            <div class="uk-inline uk-width-1-1" uk-tooltip="title: Password; pos: left; delay: 200">
-                                <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                                <input id="password" class="uk-input" type="text">
-                            </div>
+                    <div id="nameDiv" class="uk-margin" hidden>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: user" ></span>
+                            <input id="name" class="uk-input" type="text" placeholder="Inserisci Nome"> 
                         </div>
-                        <div class="uk-button-group">
-                            <button id="loginBtn" type="button" class="uk-button uk-button-default uk-width-1-2">Login</button>
-                            <button id="singupBtn" type="button" class="uk-button uk-button-primary uk-width-1-2">Registrati</button>
+                    </div>
+
+                    <div id="surnameDiv" class="uk-margin" hidden>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: user" ></span>
+                            <input id="surname" class="uk-input" type="text" placeholder="Inserisci Cognome"> 
                         </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: mail" ></span>
+                            <input id="mail" class="uk-input" type="email" placeholder="Inserisci Mail"> 
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            <input id="password" class="uk-input" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div id="passwordRipDiv" class="uk-margin" hidden>
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            <input id="passwordRip" class="uk-input" type="password" placeholder="Ripeti Password">
+                        </div>
+                    </div>
+                    <div class="uk-button-group uk-margin-top uk-width-1-1">
+                        <button id="loginBtn" type="button" class="uk-button uk-button-default uk-width-1-2">Login</button>
+                        <button id="singupBtn" type="button" class="uk-button uk-button-primary uk-width-1-2">Registrati</button>
+                    </div>
                 </fieldset >
             </form>
         </div>
