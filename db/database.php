@@ -37,6 +37,27 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function getArtistById($id){
+        $stmt = $this->db->prepare("SELECT * FROM Artista WHERE IdArtista = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getEventByIdArtist($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
+            FROM ArtistaEvento, Evento, Luogo, Citta
+            WHERE Evento.IdEvento = ArtistaEvento.IdEvento and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and ArtistaEvento.IdArtista = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     //TO UPDATE
 
     public function getRandomPosts($n){
