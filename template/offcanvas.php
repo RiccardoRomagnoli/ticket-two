@@ -44,6 +44,7 @@
                     <li><a href="#">I Miei Eventi Seguiti</a></li>
                     <li><a href="#">Carrello</a></li>
                     <li><a href="#">Notifiche</a></li>
+                    <li><a href="./logout.php">Disconnettiti</a></li>
                 ';
                 break;
         }

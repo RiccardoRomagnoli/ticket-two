@@ -11,10 +11,10 @@ $(document).ready(function(){
     $("#loginBtn").click(function(){
         var username  = $("#mail").val();
         var password  = $("#password").val();
-        console.log(username);
+
         $.post("utils/login.php",
                {username: username, password: password},
-               function(data, status){ checkLoginResult(data);});
+               function(data, status){ checkLoginResult(JSON.parse(data));});
     });
 
     $("#singupBtn").click(function(){
@@ -22,7 +22,22 @@ $(document).ready(function(){
     });
 
     function checkLoginResult(response){
-        console.log(response);
+
+        if(response.result == "ok"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right'
+            });
+            window.setTimeout(function(){location.reload()},1000)
+        }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
     }
 
     function checkSingupResult(response){

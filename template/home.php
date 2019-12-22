@@ -2,7 +2,7 @@
 
     <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
 
-        <ul class="uk-slider-items uk-child-width-1-2 uk-grid">
+        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid">
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">
@@ -72,7 +72,7 @@
 
     <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
 
-        <ul class="uk-slider-items uk-child-width-1-2 uk-grid">
+        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid">
             <li>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top">

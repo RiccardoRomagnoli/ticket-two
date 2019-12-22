@@ -17,6 +17,10 @@ function registerLoggedUser($user){
     $_SESSION["cognome"] = $user["Cognome"];
 }
 
+function logout(){
+    session_unset();
+}
+
 function getAction($action){
     $result = "";
     switch($action){
