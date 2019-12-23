@@ -1,5 +1,5 @@
 <?php
-require_once 'inintializer.php';
+require_once 'initializer.php';
 
 //Base Template
 $templateParams["titolo"] = "TicketTwo";
@@ -10,8 +10,8 @@ if(isset($_GET["idevento"])){
     $idevento = $_GET["idevento"];
 }
 $templateParams["evento"] = $dbh->getEventByIdEvento($idevento);
-$templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvent($idevento);
-$templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvent($idevento);
+$templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvento($idevento);
+$templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvento($idevento);
 
 require 'template/base.php';
 ?>

@@ -58,7 +58,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getEventByIdEvent($id){
+    public function getEventByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
@@ -72,7 +72,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getEventCategoriesByIdEvent($id){
+    public function getEventCategoriesByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Categoria.Nome
             FROM Evento INNER JOIN CategoriaEvento ON Evento.IdEvento = CategoriaEvento.IdEvento 
@@ -85,7 +85,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getEventTicketsByIdEvent($id){
+    public function getEventTicketsByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
                 Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto 
