@@ -9,11 +9,9 @@ $idevento = -1;
 if(isset($_GET["idevento"])){
     $idevento = $_GET["idevento"];
 }
-$templateParams["evento"] = $dbh->getEventByIdArtist($idevento);
-$templateParams["luogoevento"] = $dbh->getEventByIdArtist($idevento);
+$templateParams["evento"] = $dbh->getEventByIdEvento($idevento);
 $templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvent($idevento);
 $templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvent($idevento);
-$templateParams["sezionievento"] = $dbh->getEventSectionsByIdEvent($idevento);
 
 require 'template/base.php';
 ?>

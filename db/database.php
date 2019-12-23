@@ -58,6 +58,48 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getEventByIdEvent($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdEvento = ? and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getEventCategoriesByIdEvent($id){
+        $stmt = $this->db->prepare(
+            "SELECT Categoria.Nome
+            FROM Evento INNER JOIN CategoriaEvento ON Evento.IdEvento = CategoriaEvento.IdEvento 
+                INNER JOIN Categoria ON Categoria.IdCategoria = CategoriaEvento.IdCategoria 
+            WHERE Evento.IdEvento = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getEventTicketsByIdEvent($id){
+        $stmt = $this->db->prepare(
+            "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
+                Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto 
+            FROM Evento INNER JOIN Sezione ON Evento.IdEvento = Sezione.IdEvento 
+                INNER JOIN Biglietto ON Biglietto.IdSezione = Sezione.IdSezione 
+                INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto 
+            WHERE Evento.IdEvento = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     //TO UPDATE
 
     public function getRandomPosts($n){
