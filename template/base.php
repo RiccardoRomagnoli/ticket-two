@@ -8,6 +8,15 @@
     <script src="js/uikit-icons.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/utils.js"></script>
+    <?php
+    if(isset($templateParams["js"])):
+        foreach($templateParams["js"] as $script):
+    ?>  
+        <script src="<?php echo $script; ?>"></script>
+    <?php
+        endforeach;
+    endif;
+    ?>
 
     <title>
         <?php echo $templateParams["titolo"]; ?>

@@ -1,5 +1,7 @@
 <?php if(!isUserLoggedIn()): ?>
 
+<script src="js/login.js"></script>
+
 <!-- Modal Login -->
     <div id="modal-login" class="uk-modal-full uk-modal" uk-modal>
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>

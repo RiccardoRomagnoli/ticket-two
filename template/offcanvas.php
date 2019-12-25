@@ -39,7 +39,7 @@
                 echo '
                     <li class="uk-nav-header">Menu</li>
                     <li class="uk-nav-divider"></li>
-                    <li><a href="#">Profilo</a></li>
+                    <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">I Miei Biglietti</a></li>
                     <li><a href="#">I Miei Eventi Seguiti</a></li>
                     <li><a href="#">Carrello</a></li>

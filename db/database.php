@@ -10,7 +10,7 @@ class DatabaseHelper{
     }
 
     public function getUser($mail, $password){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE ? = Mail AND ? = Password");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE ? = Mail AND ? = Password");
         $stmt->bind_param('ss',$mail, $password);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -19,7 +19,7 @@ class DatabaseHelper{
     }
 
     public function getUserById($id){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE IdUtente = ?");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE IdUtente = ?");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -98,6 +98,54 @@ class DatabaseHelper{
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPaymentCards($idUser){
+        $stmt = $this->db->prepare("SELECT *, YEAR(MetodoPagamento.DataScadenza) AS Anno, MONTH(MetodoPagamento.DataScadenza) AS Mese
+                                    FROM Utente INNER JOIN MetodoPagamento ON Utente.IdUtente = MetodoPagamento.IdUtente
+                                    WHERE Utente.IdUtente = ?");
+        $stmt->bind_param('i', $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getInterests($idUser){
+        $stmt = $this->db->prepare("SELECT *, Categoria.Nome As NomeCategoria
+                                    FROM Utente INNER JOIN CategoriaSeguita ON Utente.IdUtente = CategoriaSeguita.IdUtente 
+                                                INNER JOIN Categoria ON Categoria.IdCategoria = CategoriaSeguita.IdCategoria
+                                    WHERE Utente.IdUtente = ?");
+        $stmt->bind_param('i', $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function removePayment($IdPayment){
+        $query = "DELETE FROM MetodoPagamento WHERE IdMetodoPagamento = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i',$IdPayment);
+        $stmt->execute();
+        return $result = $stmt->get_result();;
+    }
+
+    public function removeInterest($IdInterest, $IdUser){
+        $query = "DELETE FROM CategoriaSeguita WHERE IdCategoria = ? AND IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii',$IdInterest, $IdUser);
+        $stmt->execute();
+        return $result = $stmt->get_result();;
+    }
+
+    public function insertPayment($Titolare, $Data, $Numero, $IdUtente){
+        $query = "INSERT INTO MetodoPagamento (IdUtente, NumeroCarta, DataScadenza, Titolare) VALUES (?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('isss', $IdUtente, $Numero, $Data, $Titolare);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
     }
 
     //TO UPDATE
