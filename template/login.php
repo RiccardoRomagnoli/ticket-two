@@ -12,6 +12,7 @@
 
                     <div id="nameDiv" class="uk-margin" hidden>
                         <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Nome"></label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
                             <input id="name" class="uk-input" type="text" placeholder="Inserisci Nome"> 
                         </div>
@@ -19,6 +20,7 @@
 
                     <div id="surnameDiv" class="uk-margin" hidden>
                         <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Cognome"></label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
                             <input id="surname" class="uk-input" type="text" placeholder="Inserisci Cognome"> 
                         </div>
@@ -26,6 +28,7 @@
 
                     <div class="uk-margin">
                         <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Mail"></label>
                             <span class="uk-form-icon" uk-icon="icon: mail" ></span>
                             <input id="mail" class="uk-input" type="email" placeholder="Inserisci Mail"> 
                         </div>
@@ -33,12 +36,14 @@
 
                     <div class="uk-margin">
                         <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Password"></label>
                             <span class="uk-form-icon" uk-icon="icon: lock"></span>
                             <input id="password" class="uk-input" type="password" placeholder="Password">
                         </div>
                     </div>
                     <div id="passwordRipDiv" class="uk-margin" hidden>
                         <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Ripeti Passowrd"></label>
                             <span class="uk-form-icon" uk-icon="icon: lock"></span>
                             <input id="passwordRip" class="uk-input" type="password" placeholder="Ripeti Password">
                         </div>

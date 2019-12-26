@@ -4,11 +4,11 @@ $(document).ready(function(){
     var interestInserted = 0;
 
     $(".remove_card").click(function(){
-            var IdPagamento  = $(this).val();
+        var IdPagamento  = $(this).val();
 
-            $.post("utils/remove-payment.php",
-                {IdPagamento: IdPagamento},
-                function(data, status){checkRemoveResult(JSON.parse(data));} );
+        $.post("utils/remove-payment.php",
+            {IdPagamento: IdPagamento},
+            function(data, status){checkRemoveResult(JSON.parse(data));} );
     });
 
     $(".removeInterestBtn").click(function(){
@@ -47,6 +47,18 @@ $(document).ready(function(){
                    {IdCategoria: element}, 
                    function(data, status){checkInsertInterestResult(JSON.parse(data));} );
         });
+    });
+
+    $("#updateInfoBtn").click(function(){
+        var Nome = $("#nome").val();
+        var Cognome = $("#cognome").val();
+        var Email = $("#email").val();
+        var Password = $("#password").val();
+        var NewPassword = $("#new-password").val();
+
+            $.post("utils/update-info.php",
+                   {Nome: Nome, Cognome:Cognome, Email:Email, Password:Password, NewPassword:NewPassword}, 
+                   function(data, status){console.log(data);checkUpdateResult(JSON.parse(data));} );
     });
 
     function checkInsertInterestResult(response){
@@ -98,6 +110,31 @@ $(document).ready(function(){
             });
             window.setTimeout(function(){location.reload()},1000);
         }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    }
+
+    function checkUpdateResult(response){
+        if(response.result == "ok"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right'
+            });
+            window.setTimeout(function(){location.reload()},1000);
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }else {
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,
                 status: 'danger',

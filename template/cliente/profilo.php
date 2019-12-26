@@ -35,8 +35,7 @@
             </table>
         </div>
         <div class="uk-button-group uk-width-1-1 uk-flex-center uk-margin-top">
-            <button type="button" class="uk-button uk-button-primary uk-width-1-2">Modifica</button>
-            <button hidden type="button" class="uk-button uk-button-danger uk-width-1-2">Annulla</button>
+            <button type="button" class="uk-button uk-button-primary uk-width-1-2" href="#update-info" uk-toggle >Modifica</button>
         </div>
     </div>
 </div>
@@ -158,6 +157,53 @@
         <div class="uk-modal-footer uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Annulla</button>
             <button id="addInterestBtn" class="uk-button uk-button-primary uk-modal-close" type="button">Invia</button>
+        </div>
+    </div>
+</div>
+
+<div id="update-info" uk-modal>
+    <div class="uk-modal-dialog" esc-close>
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Aggiorna le Tue Informazioni</h2>
+        </div>
+        <div class="uk-modal-body">
+            <form class="uk-form-stacked">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="nome">Nome</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="nome" type="text" value="<?php echo $_SESSION["nome"]?>">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="cognome">Cognome</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="cognome" type="text" value="<?php echo $_SESSION["cognome"]?>">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="email">Email</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="email" type="text" value="<?php echo $_SESSION["mail"]?>">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="passowrd">Password</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="password" type="password" placeholder="Inserisci la nuova Password">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="new-password">Ripeti Password</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="new-password" type="password" placeholder="Re-Inserisci la nuova Password">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Annulla</button>
+            <button id="updateInfoBtn" class="uk-button uk-button-primary uk-modal-close" type="button">Invia</button>
         </div>
     </div>
 </div>

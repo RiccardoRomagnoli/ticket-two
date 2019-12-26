@@ -33,6 +33,12 @@ function registerLoggedUser($user){
     $_SESSION["cognome"] = $user["Cognome"];
 }
 
+function updateSession($Nome, $Cognome, $Email){
+    $_SESSION["mail"] = $Email;
+    $_SESSION["nome"] = $Nome;
+    $_SESSION["Cognome"] = $Cognome;
+}
+
 function logout(){
     session_unset();
 }

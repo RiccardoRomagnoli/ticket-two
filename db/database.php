@@ -165,6 +165,14 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function updateUser($Nome, $Cognome, $Email, $Password, $IdUtente){
+        $query = "UPDATE Utente SET Nome = ?, Cognome = ?, Password = ?, Mail = ? WHERE IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssssi', $Nome, $Cognome, $Password, $Email, $IdUtente);
+        
+        return $stmt->execute();
+    }
+
     //TO UPDATE
 
     public function getRandomPosts($n){
