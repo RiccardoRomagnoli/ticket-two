@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    var interestsSelected = [];
+    var interestInserted = 0;
+
     $(".remove_card").click(function(){
             var IdPagamento  = $(this).val();
 
@@ -10,7 +13,6 @@ $(document).ready(function(){
 
     $(".removeInterestBtn").click(function(){
         var IdInteresse  = $(this).val();
-        alert(IdInteresse);
 
         $.post("utils/remove-interest.php",
             {IdInteresse: IdInteresse},
@@ -27,6 +29,48 @@ $(document).ready(function(){
             function(data, status){checkInsertResult(JSON.parse(data));} );
     });
 
+    $(".addInterestCheck").change(function(){
+        // this will contain a reference to the checkbox   
+        if (this.checked) {
+            interestsSelected.push($(this).val());
+        } else {
+            var index = interestsSelected.indexOf($(this).val());
+            if (index > -1) {
+                interestsSelected.splice(index, 1);
+            }
+        }
+    });
+
+    $("#addInterestBtn").click(function(){
+        interestsSelected.forEach(element => {
+            $.post("utils/insert-interest.php",
+                   {IdCategoria: element}, 
+                   function(data, status){checkInsertInterestResult(JSON.parse(data));} );
+        });
+    });
+
+    function checkInsertInterestResult(response){
+        interestInserted++;
+        if(interestInserted == interestsSelected.length){
+            if(response.result == "ok"){
+                UIkit.notification({
+                    message: '<span uk-icon="icon: check"></span> '+response.message,
+                    status: 'success',
+                    pos: 'top-right'
+                });
+                window.setTimeout(function(){location.reload()},1000);
+            }else{
+                UIkit.notification({
+                    message: '<span uk-icon="icon: close"></span> '+response.message,
+                    status: 'danger',
+                    pos: 'top-right',
+                    timeout: 2500
+                });
+            }
+        }
+
+    }
+    
     function checkRemoveResult(response){
         if(response.result == "ok"){
             UIkit.notification({

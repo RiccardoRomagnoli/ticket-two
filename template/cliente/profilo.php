@@ -86,9 +86,9 @@
         <div class="uk-width-1-1 uk-margin">
             <?php foreach($templateParams["interessi"] as $interesse): ?>
                 <div class="uk-inline uk-margin-left">
-                <button class="removeInterestBtn" type="button" uk-icon="close" value="<?php echo $interesse["IdCategoria"]?>"></button>
-                <span class="uk-label"><?php echo $interesse["NomeCategoria"]?></span>
-            </div>
+                    <button class="removeInterestBtn" type="button" uk-icon="close" value="<?php echo $interesse["IdCategoria"]?>"></button>
+                    <span class="uk-label"><?php echo $interesse["NomeCategoria"]?></span>
+                </div>
             <?php endforeach; ?>
         </div>
         <?php if(count($templateParams["interessi"])==0): ?>
@@ -157,7 +157,7 @@
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Annulla</button>
-            <button id="addPaymentBtn" class="uk-button uk-button-primary" type="button">Invia</button>
+            <button id="addInterestBtn" class="uk-button uk-button-primary uk-modal-close" type="button">Invia</button>
         </div>
     </div>
 </div>

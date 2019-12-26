@@ -137,7 +137,7 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i',$IdPayment);
         $stmt->execute();
-        return $result = $stmt->get_result();;
+        return $result = $stmt->get_result();
     }
 
     public function removeInterest($IdInterest, $IdUser){
@@ -145,7 +145,15 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ii',$IdInterest, $IdUser);
         $stmt->execute();
-        return $result = $stmt->get_result();;
+        return $result = $stmt->get_result();
+    }
+
+    public function addInterest($IdInterest, $IdUser){
+        $query = "INSERT INTO CategoriaSeguita (IdUtente, IdCategoria) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii',$IdUser, $IdInterest);
+        $stmt->execute();
+        return $result = $stmt->get_result();
     }
 
     public function insertPayment($Titolare, $Data, $Numero, $IdUtente){
