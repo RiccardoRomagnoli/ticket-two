@@ -18,6 +18,16 @@ $(document).ready(function(){
             $("#loginBtn").addClass("uk-button-default");
             $("#singupBtn").removeClass("uk-button-default");
             $("#singupBtn").addClass("uk-button-primary");
+
+            //Animation
+            $animate = $("#formAnimation");
+
+            $animate.addClass('uk-animation-slide-left');
+    
+            $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+            function() {
+              $animate.removeClass('uk-animation-slide-left');
+            });
         }
     });
 
@@ -43,6 +53,16 @@ $(document).ready(function(){
             $("#singupBtn").addClass("uk-button-default");
             $("#loginBtn").removeClass("uk-button-default");
             $("#loginBtn").addClass("uk-button-primary");
+
+            //Animation
+            $animate = $("#formAnimation");
+
+            $animate.addClass('uk-animation-slide-left');
+    
+            $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+            function() {
+              $animate.removeClass('uk-animation-slide-left');
+            });
         }
     });
 

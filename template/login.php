@@ -6,11 +6,11 @@
     <div id="modal-login" class="uk-modal-full uk-modal" uk-modal>
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-            <form>
+            <form id="formAnimation">
                 <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
                     <legend id="loginLegend" class="uk-legend">Login</legend>
 
-                    <div id="nameDiv" class="uk-margin" hidden>
+                    <div id="nameDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
                             <label hidden for="Nome"></label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
@@ -18,7 +18,7 @@
                         </div>
                     </div>
 
-                    <div id="surnameDiv" class="uk-margin" hidden>
+                    <div id="surnameDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
                             <label hidden for="Cognome"></label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
@@ -41,7 +41,7 @@
                             <input id="password" class="uk-input" type="password" placeholder="Password">
                         </div>
                     </div>
-                    <div id="passwordRipDiv" class="uk-margin" hidden>
+                    <div id="passwordRipDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
                             <label hidden for="Ripeti Passowrd"></label>
                             <span class="uk-form-icon" uk-icon="icon: lock"></span>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div id="radio" class="uk-margin" hidden>
+                    <div id="radio" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
                             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                                 <label><input class="uk-radio" type="radio" name="radio" value="false" checked> Utente</label>
