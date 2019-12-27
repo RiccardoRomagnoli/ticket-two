@@ -48,6 +48,16 @@
                             <input id="passwordRip" class="uk-input" type="password" placeholder="Ripeti Password">
                         </div>
                     </div>
+
+                    <div id="radio" class="uk-margin" hidden>
+                        <div class="uk-inline uk-width-1-1">
+                            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                                <label><input class="uk-radio" type="radio" name="radio" value="false" checked> Utente</label>
+                                <label><input class="uk-radio" type="radio" name="radio" value="true"> Organizzatore</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="uk-button-group uk-margin-top uk-width-1-1">
                         <button id="loginBtn" type="button" class="uk-button uk-button-default uk-width-1-2">Login</button>
                         <button id="singupBtn" type="button" class="uk-button uk-button-primary uk-width-1-2">Registrati</button>

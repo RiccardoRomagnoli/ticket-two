@@ -38,6 +38,16 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function insertCreator($name, $surname, $mail, $password){
+        $idTypeUser = 2;
+        $query = "INSERT INTO Utente (IdTipoUtente, Nome, Cognome, Mail, Password) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issss', $idTypeUser, $name, $surname, $mail, $password);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
     public function getArtistById($id){
         $stmt = $this->db->prepare("SELECT * FROM Artista WHERE IdArtista = ?");
         $stmt->bind_param('i', $id);

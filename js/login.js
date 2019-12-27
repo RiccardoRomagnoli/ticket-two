@@ -13,6 +13,7 @@ $(document).ready(function(){
             $("#nameDiv").attr("hidden", true);
             $("#surnameDiv").attr("hidden", true);
             $("#passwordRipDiv").attr("hidden", true);
+            $("#radio").attr("hidden", true);
             $("#loginBtn").removeClass("uk-button-primary");
             $("#loginBtn").addClass("uk-button-default");
             $("#singupBtn").removeClass("uk-button-default");
@@ -27,15 +28,17 @@ $(document).ready(function(){
             var mail  = $("#mail").val();
             var password  = $("#password").val();
             var passwordRip  = $("#passwordRip").val();
+            var radio = $("input[name='radio']:checked").val();
 
             $.post("utils/singup.php",
-                {mail: mail, name:name, surname:surname, passwordRip:passwordRip, password: password},
-                function(data, status){checkSingupResult(JSON.parse(data));});
+                {mail: mail, name:name, surname:surname, passwordRip:passwordRip, password: password, radio:radio},
+                function(data, status){checkSingupResult( JSON.parse(data));});
         }else{
             $("#loginLegend").text("Registrazione");
             $("#nameDiv").removeAttr("hidden");
             $("#surnameDiv").removeAttr("hidden");
             $("#passwordRipDiv").removeAttr("hidden");
+            $("#radio").removeAttr("hidden");
             $("#singupBtn").removeClass("uk-button-primary");
             $("#singupBtn").addClass("uk-button-default");
             $("#loginBtn").removeClass("uk-button-default");
