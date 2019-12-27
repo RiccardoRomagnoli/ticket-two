@@ -11,7 +11,7 @@
                 <li class="uk-nav-header">Menu</li>
                 <li class="uk-nav-divider"></li>
                 <li><a href="#modal-login" uk-toggle class="uk-toggle">Login</a></li>
-                <li><a href="#">Carrello</a></li>
+                <li><a href="./carrello.php">Carrello</a></li>
             ';
     }else{
         switch($_SESSION["tipoUtente"]){
@@ -44,7 +44,7 @@
                     <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">I Miei Biglietti</a></li>
                     <li><a href="#">I Miei Eventi Seguiti</a></li>
-                    <li><a href="#">Carrello</a></li>
+                    <li><a href="./carrello.php">Carrello</a></li>
                     <li><a href="#">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
                 ';

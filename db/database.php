@@ -11,7 +11,9 @@ class DatabaseHelper{
     }
 
     public function getUser($mail, $password){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE ? = Mail AND ? = Password");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome 
+                                    FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente 
+                                    WHERE ? = Mail AND ? = Password");
         $stmt->bind_param('ss',$mail, $password);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -20,7 +22,9 @@ class DatabaseHelper{
     }
 
     public function getUserById($id){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE IdUtente = ?");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome 
+                                    FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente 
+                                    WHERE IdUtente = ?");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -181,6 +185,18 @@ class DatabaseHelper{
         $stmt->bind_param('ssssi', $Nome, $Cognome, $Password, $Email, $IdUtente);
         
         return $stmt->execute();
+    }
+
+    public function getTickets($IdUser){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
+                                                  INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
+                                    WHERE Acquisto.IdUtente = ?");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     //TO UPDATE
