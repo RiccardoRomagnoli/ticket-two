@@ -63,7 +63,7 @@ class DatabaseHelper{
 
     public function getEventByIdArtist($id){
         $stmt = $this->db->prepare(
-            "SELECT Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
+            "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
             FROM ArtistaEvento, Evento, Luogo, Citta
             WHERE Evento.IdEvento = ArtistaEvento.IdEvento and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and ArtistaEvento.IdArtista = ?");
         $stmt->bind_param('i', $id);
