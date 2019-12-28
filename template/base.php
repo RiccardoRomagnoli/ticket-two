@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="css/uikit.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
     <script src="js/uikit.min.js"></script>
     <script src="js/uikit-icons.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
@@ -22,56 +23,54 @@
         <?php echo $templateParams["titolo"]; ?>
     </title>
 </head>
-<body>
-    <header>
-
-        <!-- Nav Superiore -->
-        <nav class="uk-navbar-container uk-margin" uk-navbar uk-sticky="show-on-up: true">
-            <!-- Search Bar -->
-            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
-                <div class="uk-navbar-item uk-width-expand">
-                    <form class="uk-search uk-search-navbar uk-width-1-1">
-                        <input class="uk-search-input" type="search" placeholder="Cerca Evento, Luogo, Autore..." autofocus>
-                    </form>
+<body id="page-container">
+    <div id="content-wrap">
+        <header>
+            <!-- Nav Superiore -->
+            <nav class="uk-navbar-container uk-margin" uk-navbar uk-sticky="show-on-up: true">
+                <!-- Search Bar -->
+                <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                    <div class="uk-navbar-item uk-width-expand">
+                        <form class="uk-search uk-search-navbar uk-width-1-1">
+                            <input class="uk-search-input" type="search" placeholder="Cerca Evento, Luogo, Autore..." autofocus>
+                        </form>
+                    </div>
+                    <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
                 </div>
-                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
-            </div>
 
-            <!-- Nav Components -->
-            <div class="uk-navbar-left nav-overlay">
-                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
-            </div>
-            <div class="uk-navbar-center nav-overlay">
-                <a class="uk-navbar-item uk-logo" href="./index.php"><h1 class="uk-heading-small">Ticket Two</h1></a>
-            </div>
-            <div class="uk-navbar-right nav-overlay">
-                <a class="uk-navbar-item" href="#offcanvas-slide" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: user"></span></a>
-            </div>
-        </nav>
+                <!-- Nav Components -->
+                <div class="uk-navbar-left nav-overlay">
+                    <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                </div>
+                <div class="uk-navbar-center nav-overlay">
+                    <a class="uk-navbar-item uk-logo" href="./index.php"><h1 class="uk-heading-small">Ticket Two</h1></a>
+                </div>
+                <div class="uk-navbar-right nav-overlay">
+                    <a class="uk-navbar-item" href="#offcanvas-slide" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: user"></span></a>
+                </div>
+            </nav>
 
-        <!-- Off Canvas -->
-        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
-            <div id="offcanvas-slide" uk-offcanvas="flip: true; overlay: true">
-                <div class="uk-offcanvas-bar">
-                    <?php require_once("offcanvas.php"); ?>
+            <!-- Off Canvas -->
+            <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+                <div id="offcanvas-slide" uk-offcanvas="flip: true; overlay: true">
+                    <div class="uk-offcanvas-bar">
+                        <?php require_once("offcanvas.php"); ?>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
 
-    </header>
-    <main>
-
-    <?php
-        if(isset($templateParams["nome"])){
-            require($templateParams["nome"]);
-        }
-    ?>
-    
-    </main>
-
+        <main>
+            <?php
+            if(isset($templateParams["nome"])){
+                require($templateParams["nome"]);
+            }
+            ?>
+        </main>
+    </div>
 
     <!-- Footer -->
-    <footer class="uk-margin-top uk-margin-bottom">
+    <footer id="footer" class="uk-margin-top uk-margin-bottom">
         <div class="uk-container uk-text-center">
             <div class="uk-child-width-auto@m uk-flex-middle uk-grid" uk-grid>
                 <div class="uk-first-column">
