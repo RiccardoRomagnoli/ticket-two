@@ -9,6 +9,9 @@
     <script src="js/uikit-icons.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/utils.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
     <?php
     if(isset($templateParams["js"])):
         foreach($templateParams["js"] as $script):
@@ -70,7 +73,7 @@
     </div>
 
     <!-- Footer -->
-    <footer id="footer" class="uk-margin-top uk-margin-bottom">
+    <footer id="footer" class="uk-margin-top-meium uk-margin-bottom">
         <div class="uk-container uk-text-center">
             <div class="uk-child-width-auto@m uk-flex-middle uk-grid" uk-grid>
                 <div class="uk-first-column">

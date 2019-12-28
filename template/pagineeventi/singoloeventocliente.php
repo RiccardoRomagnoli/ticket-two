@@ -34,7 +34,7 @@ $ticketTotali = "";
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
+                . $biglietto[" "] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                 <div class="uk-accordion-content">
                     <form class="uk-grid-small" uk-grid>

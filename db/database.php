@@ -187,11 +187,14 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function getTickets($IdUser){
-        $stmt = $this->db->prepare("SELECT *
+    public function getCart($IdUser){
+        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione
                                     FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
                                                   INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
-                                    WHERE Acquisto.IdUtente = ?");
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
+                                                  INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Acquisto.IdUtente = ? AND Acquisto.Data IS NULL");
         $stmt->bind_param('i', $IdUser);
         $stmt->execute();
         $result = $stmt->get_result();
