@@ -63,7 +63,7 @@ class DatabaseHelper{
 
     public function getEventByIdArtist($id){
         $stmt = $this->db->prepare(
-            "SELECT Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
+            "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
             FROM ArtistaEvento, Evento, Luogo, Citta
             WHERE Evento.IdEvento = ArtistaEvento.IdEvento and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and ArtistaEvento.IdArtista = ?");
         $stmt->bind_param('i', $id);
@@ -187,11 +187,14 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function getTickets($IdUser){
-        $stmt = $this->db->prepare("SELECT *
+    public function getCart($IdUser){
+        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione
                                     FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
                                                   INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
-                                    WHERE Acquisto.IdUtente = ?");
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
+                                                  INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Acquisto.IdUtente = ? AND Acquisto.Data IS NULL");
         $stmt->bind_param('i', $IdUser);
         $stmt->execute();
         $result = $stmt->get_result();

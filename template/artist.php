@@ -103,12 +103,14 @@ function cardEvent($evento){
     }
     return '
         <li>
-            <div class="uk-card uk-card-default uk-margin-bottom">
-                <div class="uk-card-media-top">
-                    <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $locandina_evento . '" uk-img="" style="background-image: upload/' . $locandina_evento . '">
+            <a href="./evento.php?idevento=' . $evento["IdEvento"] . '">
+                <div class="uk-card uk-card-default uk-margin-bottom">
+                    <div class="uk-card-media-top">
+                        <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $locandina_evento . '" uk-img="" style="background-image: upload/' . $locandina_evento . '">
+                    </div>
+                    <div class="uk-card-body"><h3 class="uk-card-title">' . eventCardTitle($evento) . '</h3></div>
                 </div>
-                <div class="uk-card-body"><h3 class="uk-card-title">' . eventCardTitle($evento) . '</h3></div>
-            </div>
+            </a>
         </li>
     ';
 }
