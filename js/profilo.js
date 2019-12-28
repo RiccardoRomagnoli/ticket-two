@@ -58,7 +58,7 @@ $(document).ready(function(){
 
             $.post("utils/update-info.php",
                    {Nome: Nome, Cognome:Cognome, Email:Email, Password:Password, NewPassword:NewPassword}, 
-                   function(data, status){console.log(data);checkUpdateResult(JSON.parse(data));} );
+                   function(data, status){checkUpdateResult(JSON.parse(data));} );
     });
 
     function checkInsertInterestResult(response){

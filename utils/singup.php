@@ -13,8 +13,13 @@
         $mail = $_POST['mail'];
         $password = $_POST['password'];
         $passwordRip = $_POST['passwordRip'];
+        $radio = $_POST['radio'];  // true if creator
 
-        $result = $dbh->getUserById($dbh->insertUser($name, $surname, $mail, $password));
+        if($radio)
+            $result = $dbh->getUserById($dbh->insertCreator($name, $surname, $mail, $password));
+        else
+            $result = $dbh->getUserById($dbh->insertUser($name, $surname, $mail, $password));
+
         if (count($result)==1) {
             echo json_encode(array('result' => 'ok', 'message' => 'Registrazione Effettuata con successo!'));
             registerLoggedUser($result[0]);

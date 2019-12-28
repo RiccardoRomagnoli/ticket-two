@@ -11,7 +11,9 @@ class DatabaseHelper{
     }
 
     public function getUser($mail, $password){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE ? = Mail AND ? = Password");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome 
+                                    FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente 
+                                    WHERE ? = Mail AND ? = Password");
         $stmt->bind_param('ss',$mail, $password);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -20,7 +22,9 @@ class DatabaseHelper{
     }
 
     public function getUserById($id){
-        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente WHERE IdUtente = ?");
+        $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome 
+                                    FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente 
+                                    WHERE IdUtente = ?");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -30,6 +34,16 @@ class DatabaseHelper{
 
     public function insertUser($name, $surname, $mail, $password){
         $idTypeUser = 3;
+        $query = "INSERT INTO Utente (IdTipoUtente, Nome, Cognome, Mail, Password) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issss', $idTypeUser, $name, $surname, $mail, $password);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
+    public function insertCreator($name, $surname, $mail, $password){
+        $idTypeUser = 2;
         $query = "INSERT INTO Utente (IdTipoUtente, Nome, Cognome, Mail, Password) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('issss', $idTypeUser, $name, $surname, $mail, $password);
@@ -49,7 +63,7 @@ class DatabaseHelper{
 
     public function getEventByIdArtist($id){
         $stmt = $this->db->prepare(
-            "SELECT Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
+            "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
             FROM ArtistaEvento, Evento, Luogo, Citta
             WHERE Evento.IdEvento = ArtistaEvento.IdEvento and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and ArtistaEvento.IdArtista = ?");
         $stmt->bind_param('i', $id);
@@ -171,6 +185,21 @@ class DatabaseHelper{
         $stmt->bind_param('ssssi', $Nome, $Cognome, $Password, $Email, $IdUtente);
         
         return $stmt->execute();
+    }
+
+    public function getCart($IdUser){
+        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione
+                                    FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
+                                                  INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
+                                                  INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Acquisto.IdUtente = ? AND Acquisto.Data IS NULL");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     //TO UPDATE

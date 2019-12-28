@@ -11,7 +11,7 @@
                 <li class="uk-nav-header">Menu</li>
                 <li class="uk-nav-divider"></li>
                 <li><a href="#modal-login" uk-toggle class="uk-toggle">Login</a></li>
-                <li><a href="#">Carrello</a></li>
+                <li><a href="./carrello.php">Carrello</a></li>
             ';
     }else{
         switch($_SESSION["tipoUtente"]){
@@ -19,20 +19,22 @@
                 echo '
                     <li class="uk-nav-header">Menu</li>
                     <li class="uk-nav-divider"></li>
-                    <li><a href="#">Profilo</a></li>
+                    <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">Segnalazioni</a></li>
                     <li><a href="#">Approvazioni</a></li>
                     <li><a href="#">Notifiche</a></li>
+                    <li><a href="./logout.php">Disconnettiti</a></li>
                 ';
                 break;
             case "Organizzatore" :
                 echo '
                     <li class="uk-nav-header">Menu</li>
                     <li class="uk-nav-divider"></li>
-                    <li><a href="#">Profilo</a></li>
+                    <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">Crea Evento</a></li>
                     <li><a href="#">I Miei Eventi</a></li>
                     <li><a href="#">Notifiche</a></li>
+                    <li><a href="./logout.php">Disconnettiti</a></li>
                 ';
                 break;            
             case "Cliente" :
@@ -42,7 +44,7 @@
                     <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">I Miei Biglietti</a></li>
                     <li><a href="#">I Miei Eventi Seguiti</a></li>
-                    <li><a href="#">Carrello</a></li>
+                    <li><a href="./carrello.php">Carrello</a></li>
                     <li><a href="#">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
                 ';

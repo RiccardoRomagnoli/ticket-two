@@ -13,10 +13,21 @@ $(document).ready(function(){
             $("#nameDiv").attr("hidden", true);
             $("#surnameDiv").attr("hidden", true);
             $("#passwordRipDiv").attr("hidden", true);
+            $("#radio").attr("hidden", true);
             $("#loginBtn").removeClass("uk-button-primary");
             $("#loginBtn").addClass("uk-button-default");
             $("#singupBtn").removeClass("uk-button-default");
             $("#singupBtn").addClass("uk-button-primary");
+
+            //Animation
+            $animate = $("#formAnimation");
+
+            $animate.addClass('uk-animation-slide-left');
+    
+            $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+            function() {
+              $animate.removeClass('uk-animation-slide-left');
+            });
         }
     });
 
@@ -27,19 +38,31 @@ $(document).ready(function(){
             var mail  = $("#mail").val();
             var password  = $("#password").val();
             var passwordRip  = $("#passwordRip").val();
+            var radio = $("input[name='radio']:checked").val();
 
             $.post("utils/singup.php",
-                {mail: mail, name:name, surname:surname, passwordRip:passwordRip, password: password},
-                function(data, status){checkSingupResult(JSON.parse(data));});
+                {mail: mail, name:name, surname:surname, passwordRip:passwordRip, password: password, radio:radio},
+                function(data, status){checkSingupResult( JSON.parse(data));});
         }else{
             $("#loginLegend").text("Registrazione");
             $("#nameDiv").removeAttr("hidden");
             $("#surnameDiv").removeAttr("hidden");
             $("#passwordRipDiv").removeAttr("hidden");
+            $("#radio").removeAttr("hidden");
             $("#singupBtn").removeClass("uk-button-primary");
             $("#singupBtn").addClass("uk-button-default");
             $("#loginBtn").removeClass("uk-button-default");
             $("#loginBtn").addClass("uk-button-primary");
+
+            //Animation
+            $animate = $("#formAnimation");
+
+            $animate.addClass('uk-animation-slide-left');
+    
+            $animate.one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+            function() {
+              $animate.removeClass('uk-animation-slide-left');
+            });
         }
     });
 
