@@ -15,21 +15,25 @@ $(document).ready(function(){
             //carrello non esiste creo riga sul db
             if(idCart == 0){
                 $.post("utils/event-cart.php",
-                 {idUser: idUser, azione: "creaCart"},
-                 function(data){
-                    idCart = data;
-                    //aggiungo righe al carrello in base alla quantità
-                    for(let c=0; c<nTicketAquistati; c++){
-                        $.post("utils/event-cart.php",
-                        {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
-                        function(data){checkBuyResult(JSON.parse(data));});
-                    }});
+                    {idUser: idUser, azione: "creaCart"},
+                        function(data){
+                            idCart = data;
+                            //aggiungo righe al carrello in base alla quantità
+                            for(let c=0; c<nTicketAquistati; c++){
+                                $.post("utils/event-cart.php",
+                                    {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
+                                    function(data){checkBuyResult(JSON.parse(data));}
+                                );
+                            }
+                        }
+                    );
             } else {
                 //aggiungo righe al carrello in base alla quantità
                 for(let c=0; c<nTicketAquistati; c++){
                     $.post("utils/event-cart.php",
-                    {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
-                    function(data){checkBuyResult(JSON.parse(data));});
+                        {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
+                        function(data){checkBuyResult(JSON.parse(data));}
+                    );
                 }
             }
         });
@@ -37,22 +41,33 @@ $(document).ready(function(){
 
     //bottoni acquisto abbonamenti
     for(let counta = 1; counta <= nAbbonamenti; counta++){
-        $("#aggiungiAbbonamento" + countt).click(function(){
+        $("#aggiungiAbbonamento" + counta).click(function(){
             let nAbbonamentiAquistati = $("#numeroAbbonamento" + counta).val();
             let idAbbonamento = $("#idAbbonamento" + counta).val();
             
             //carrello non esiste creo riga sul db
             if(idCart == 0){
                 $.post("utils/event-cart.php",
-                 {idUser: idUser, azione: "creaCart"},
-                 function(data){idCart = data});
-            }
-
+                    {idUser: idUser, azione: "creaCart"},
+                    function(data){
+                        idCart = data;
+                        //aggiungo righe al carrello in base alla quantità
+                        for(let cc=0; cc<nAbbonamentiAquistati; cc++){
+                            $.post("utils/event-cart.php",
+                                {idCart: idCart, idBiglietto: idAbbonamento, azione: "acquistoBiglietto"},
+                                function(data, status){checkBuyResult(JSON.parse(data));}
+                            );
+                        }
+                    }
+                );
+            } else {
             //aggiungo righe al carrello in base alla quantità
-            for(let cc=0; cc<nAbbonamentiAquistati; cc++){
-                $.post("utils/event-cart.php",
-                {idCart: idCart, idBiglietto: idAbbonamento, azione: "acquistoBiglietto"},
-                function(data, status){checkBuyResult(JSON.parse(data));});
+                for(let cc=0; cc<nAbbonamentiAquistati; cc++){
+                    $.post("utils/event-cart.php",
+                        {idCart: idCart, idBiglietto: idAbbonamento, azione: "acquistoBiglietto"},
+                        function(data, status){checkBuyResult(JSON.parse(data));}
+                    );
+                }
             }
         });
     }
