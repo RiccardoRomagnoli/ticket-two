@@ -187,8 +187,8 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function getCart($IdUser){
-        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione
+    public function getCartByUser($IdUser){
+        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione, RigaAcquisto.Nome AS NomeReferente
                                     FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
                                                   INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
                                                   INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
@@ -200,6 +200,37 @@ class DatabaseHelper{
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCartByCart($IdCart){
+        $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione, RigaAcquisto.Nome AS NomeReferente
+                                    FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
+                                                  INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
+                                                  INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Acquisto.IdAcquisto = ? AND Acquisto.Data IS NULL");
+        $stmt->bind_param('i', $IdCart);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function updateCart($IdRiga, $Nome, $Cognome, $DataNascita){
+        $query = "UPDATE RigaAcquisto SET Nome = ?, Cognome = ?, DataNascita = ? WHERE IdRigaAcquisto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssi', $Nome, $Cognome, $DataNascita, $IdRiga);
+        
+        return $stmt->execute();
+    }
+
+    public function removeCart($IdRigaCarrello){
+        $query = "DELETE FROM RigaAcquisto WHERE IdRigaAcquisto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i',$IdRigaCarrello);
+        $stmt->execute();
+        return $result = $stmt->get_result();
     }
 
     //TO UPDATE

@@ -26,22 +26,39 @@
                                 $biglietto["Titolo"]." - ".
                                 $biglietto["NomeSezione"]." ".
                                 $biglietto["NomeTipo"]." - ".
-                                $biglietto["Prezzo"] 
+                                $biglietto["Prezzo"]." €" 
                             ?>
                         </h3>
                     </div>
                 </div>
                 <div class="uk-card-body">
                     <label hidden for="Nome"></label>
-                    <input id="nome<?php echo $biglietto["IdRigaAcquisto"]?>" class="uk-input" type="text" placeholder="Inserisci Nome">
+                    <input id="nome<?php echo $biglietto["IdRigaAcquisto"]?>" 
+                           class="uk-input" 
+                           type="text" 
+                           placeholder="Inserisci Nome" 
+                           value="<?php echo $biglietto["NomeReferente"]?>">
+
                     <label hidden for="Cognome"></label>
-                    <input id="cognome<?php echo $biglietto["IdRigaAcquisto"]?>" class="uk-input" type="text" placeholder="Inserisci Cognome">
+                    <input id="cognome<?php echo $biglietto["IdRigaAcquisto"]?>" 
+                           class="uk-input" 
+                           type="text" 
+                           placeholder="Inserisci Cognome" 
+                           value="<?php echo $biglietto["Cognome"]?>">
+
                     <label hidden for="Data Nascita"></label>
-                    <input id="datanascita<?php echo $biglietto["IdRigaAcquisto"]?>" class="datanascita uk-input" type="text" placeholder="Inserisci Data di Nascita" data-input>
+                    <input  id="datanascita<?php echo $biglietto["IdRigaAcquisto"]?>" 
+                            class="datanascita uk-input" 
+                            type="text" 
+                            placeholder="Inserisci Data di Nascita" 
+                            data-input 
+                            value="<?php echo $biglietto["DataNascita"]?>">
                 </div>
                 <div class="uk-card-footer">
-                    <button class="uk-button uk-button-default save" name="saveBtn" value="<?php echo $biglietto["IdRigaAcquisto"]?>">Salva</button>
-                    <button class="uk-button uk-button-danger remove" name="removeBtn" value="<?php echo $biglietto["IdRigaAcquisto"]?>">Elimina</button>
+                    <div class="uk-button-group uk-flex-center uk-width-1-1 ">
+                        <button class="uk-button uk-button-default save" name="saveBtn" value="<?php echo $biglietto["IdRigaAcquisto"]?>">Salva</button>
+                        <button class="uk-button uk-button-danger remove" name="removeBtn" value="<?php echo $biglietto["IdRigaAcquisto"]?>">Elimina</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,10 +66,84 @@
     </div>
 </div>
 
-<div class="uk-container uk-margin-bottom">
-    <div class="uk-button-group uk-flex-center">
-        <button class="uk-button uk-button-primary uk-text-center">Procedi all'acquisto</button>
+<div class="uk-container uk-margin-bottom uk-width-1-1">
+    <div class="uk-button-group uk-flex-center uk-width-1-1">
+        <button class="uk-button uk-button-primary uk-text-center" href="#modal-buy" uk-toggle>Procedi all'acquisto</button>
     </div>
 </div>
 <?php endif; ?>
-</div
+</div>
+
+<!-- Modal Buy -->
+<div id="modal-buy" class="uk-modal-full uk-modal" uk-modal="stack:true;">
+    <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
+        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+        <form>
+            <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
+                <legend id="loginLegend" class="uk-legend">Concludi il Pagamento</legend>
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <label for="Carta">Seleziona Carta di Pagamento</label>
+                        <input id="carta" class="uk-input" type="text" placeholder="Seleziona">
+                        <label for="codice">Inserisci Codice CVC</label>
+                        <span class="uk-form-icon" uk-icon="icon: credit-card" ></span>
+                        <input id="codice" class="uk-input" type="text" placeholder="Inserisci CVC"> 
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                        <label for="Carta">Oppure Aggiungi metodo di pagamento:</label>
+                        <div class="uk-button-group uk-width-1-1 uk-flex-center">
+                            <a class="uk-button uk-button-primary uk-margin-top uk-width-1-2" href="#add-payment" uk-toggle>Aggiungi</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="uk-button-group uk-margin-top uk-width-1-1">
+                    <button id="paga" 
+                            type="button" 
+                            class="uk-button uk-button-default uk-width-1-2" >Paga Ora</button>
+                </div>
+            </fieldset >
+        </form>
+    </div>
+</div>
+
+<div id="add-payment" uk-modal="stack:true;">
+    <div class="uk-modal-dialog" bg-close esc-close>
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Aggiungi Metodo di Pagamento</h2>
+        </div>
+        <div class="uk-modal-body">
+            <form class="uk-form-stacked">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="titolare">Titolale</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="titolare" type="text" placeholder="Inserisci Nome e Cognome...">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="numero">Numero Della Carta</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="numero" type="text" placeholder="Inserisci 16 cifre...">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="data">Anno e Mese</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="data" type="text" placeholder="MM/AAAA">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Annulla</button>
+            <button id="addPaymentBtn" class="uk-button uk-button-primary" type="button">Aggiungi</button>
+        </div>
+    </div>
+</div>
+
+
