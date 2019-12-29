@@ -87,6 +87,32 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function checkIfUserFollowArtist($idUser, $idArtist){
+        $query = "SELECT * FROM ArtistaSeguito WHERE IdArtista = ? AND IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idArtist, $idUser);
+        $stmt->execute();
+        return (count($stmt->get_result()->fetch_all(MYSQLI_ASSOC)) > 0);
+    }
+
+    public function insertFollowArtist($idUser, $idArtist){
+        $query = "INSERT INTO ArtistaSeguito (IdArtista, IdUtente) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idArtist, $idUser);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
+    public function deleteFollowArtist($idUser, $idArtist){
+        $query = "DELETE FROM ArtistaSeguito WHERE IdArtista = ? AND IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idArtist, $idUser);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
     public function getEventCategoriesByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Categoria.Nome
