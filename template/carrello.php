@@ -82,26 +82,35 @@
             <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
                 <legend id="loginLegend" class="uk-legend">Concludi il Pagamento</legend>
 
-                <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                        <label for="Carta">Seleziona Carta di Pagamento</label>
-                        <input id="carta" class="uk-input" type="text" placeholder="Seleziona">
-                        <label for="codice">Inserisci Codice CVC</label>
-                        <span class="uk-form-icon" uk-icon="icon: credit-card" ></span>
-                        <input id="codice" class="uk-input" type="text" placeholder="Inserisci CVC"> 
+                <div class="uk-margin uk-flex-middle uk-flex-center uk-child-width-1-1 uk-child-width-1-2@s" uk-grid>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="carta">Seleziona Carta di Pagamento</label>
+                        <div class="uk-form-controls">
+                            <select class="uk-select" id="carta">
+                                <option>Option 01</option>
+                                <option>Option 02</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                        <label for="Carta">Oppure Aggiungi metodo di pagamento:</label>
-                        <div class="uk-button-group uk-width-1-1 uk-flex-center">
-                            <a class="uk-button uk-button-primary uk-margin-top uk-width-1-2" href="#add-payment" uk-toggle>Aggiungi</a>
+                    <div class="uk-margin uk-text-center">
+                        <label class="uk-form-label" for="Carta">Oppure </label>
+                        <div class="uk-button-group">
+                            <a class="uk-button uk-button-small uk-button-primary" href="#add-payment" uk-toggle>Aggiungi</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="uk-button-group uk-margin-top uk-width-1-1">
+                <div class="uk-margin uk-flex-center uk-text-center">
+                    <div class="uk-inline uk-width-1-1">
+                        <div class="uk-inline">
+                            <a class="uk-form-icon" href="#" uk-icon="icon: credit-card"></a>
+                            <input id="codice" class="uk-input" type="text" placeholder="Inserisci CVC">
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="uk-button-group uk-margin-top uk-width-1-1 uk-flex-center">
                     <button id="paga" 
                             type="button" 
                             class="uk-button uk-button-default uk-width-1-2" >Paga Ora</button>
