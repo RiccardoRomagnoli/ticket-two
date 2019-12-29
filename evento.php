@@ -10,6 +10,7 @@ if(isset($_GET["idevento"])){
     $idevento = $_GET["idevento"];
 }
 $templateParams["evento"] = $dbh->getEventByIdEvento($idevento);
+$templateParams["eventoseguito"] = $dbh->isEventFollowed($_SESSION["idUtente"], $idevento);
 $templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvento($idevento);
 $templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvento($idevento);
 

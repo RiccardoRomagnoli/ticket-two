@@ -1,13 +1,32 @@
 <?php
     $evento = $templateParams["evento"][0];
-    $titleSection = '
+    $sessionData = '
+        <input type="hidden" id="idUser" value="' . $_SESSION["idUtente"] .'">
+        <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
+    ';
+
+    $titleSection = '';
+    
+    if($templateParams["eventoseguito"] == false){
+        $titleSection .= '
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
-                <a href="#" class="uk-float-left uk-margin-small-left">' . $evento["TitoloEvento"] . '</a>
-                <button class="uk-button uk-button-default uk-float-right uk-margin-small-right">Segui</button>
+                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <button id="followBtn" class="uk-button uk-button-default uk-float-right">Segui</button>
             </div>
         </div>  
     ';
+    } else {
+        $titleSection .= '
+        <div class="uk-grid uk-text-center">
+            <div class="uk-panel uk-width-1-1">
+                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <button id="followBtn" class="uk-button uk-button-default uk-float-right">Non seguire più</button>
+            </div>
+        </div>
+    ';
+    }
+
     $photoSection = '
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-auto@m uk-width-xlarge@l">
@@ -34,7 +53,7 @@ $ticketTotali = "";
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto[" "] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
+                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                 <div class="uk-accordion-content">
                     <form class="uk-grid-small" uk-grid>
