@@ -1,18 +1,8 @@
 <?php
     $evento = $templateParams["evento"][0];
     $sessionData = '
-        <input type="hidden" id="idUser" value="' . $idutente .'">
         <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
     ';
-    if(count($templateParams["carrelloaperto"]) == 1){
-        $sessionData .= '
-        <input type="hidden" id="idCart" value="' . $templateParams["carrelloaperto"][0]["IdAcquisto"] .'">
-        ';
-    } else {
-        $sessionData .= '
-        <input type="hidden" id="idCart" value="0">
-        ';
-    }
 
     $titleSection = '';
     

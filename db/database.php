@@ -309,6 +309,13 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function creaCartGuest(){
+        $query = "INSERT INTO Acquisto () VALUES ()";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(); 
+        return $stmt->insert_id;
+    }
+
     public function creaRigaAcquisto($IdCart, $IdBiglietto){
         $query = "INSERT INTO RigaAcquisto (IdAcquisto, IdBiglietto) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);

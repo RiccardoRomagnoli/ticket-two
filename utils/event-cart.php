@@ -4,14 +4,28 @@
     if($_POST['azione'] == '') {
         echo json_encode(array('result' => 'warning', 'message' => 'Azione non corretta'));
     } elseif($_POST['azione'] == 'creaCart'){
-        if($_POST['idUser'] == '') {
-            echo json_encode(array('result' => 'warning', 'message' => 'Username non corretto'));
-        } else {
-            //crea cart
-            $idUser = $_POST['idUser'];
-            $result = $dbh->creaCart($idUser);
-            echo $result[0]["IdAcquisto"];
+
+        //guest senza cookie del carrello
+        if(empty($_SESSION['idUtente']) && empty($_SESSION['carrelloaperto'])){
+            $result = $dbh->creaCartGuest();
+            setcookie("idAcquisto", $result, time() + (86400 * 30), "/");
+            $_SESSION['carrelloaperto'] = $result;
+            echo $result;
+        }elseif(empty($_SESSION['idUtente']) && !empty($_SESSION['carrelloaperto'])){//guest con cookie
+            echo $_SESSION['carrelloaperto'];
         }
+        //utente senza carrello
+        if(!empty($_SESSION['idUtente']) && $_SESSION['idUtente'] != '' && $_SESSION['carrelloaperto'] == ''){
+            //crea cart
+            $idUser = $_SESSION['idUtente'];
+            $result = $dbh->creaCart($idUser);
+            $_SESSION['carrelloaperto'] = $result[0]["IdAcquisto"]; 
+            echo $result[0]["IdAcquisto"];
+        }elseif(!empty($_SESSION['idUtente']) && $_SESSION['idUtente'] != '' && $_SESSION['carrelloaperto'] != ''){//utente con carrello
+            echo $_SESSION['carrelloaperto']; 
+        }
+
+
     } elseif($_POST['azione'] == 'acquistoBiglietto'){
         if($_POST['idCart'] == '' || $_POST['idBiglietto'] == ''){
             echo json_encode(array('result' => 'warning', 'message' => 'Cart o biglietto non corretto'));
@@ -22,7 +36,7 @@
             if ($result == true) {
                 echo json_encode(array('result' => 'ok', 'message' => 'Acquisto aggiunto al carrello'));
             } else {
-                echo json_encode(array('result' => 'error', 'message' => 'Qualcosa non va!'));
+                echo json_encode(array('result' => 'error', 'message' => 'Acquisto non riuscito!'));
             }
         }
     }
