@@ -226,5 +226,37 @@ class DatabaseHelper{
         $stmt->bind_param('ii', $IdUser, $IdEvent);
         return $stmt->execute();
     }
+
+    public function getCartOpen($IdUser) {
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Acquisto 
+                                    WHERE IdUtente = ? AND Data IS NULL");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function creaCart($IdUser){
+        $query = "INSERT INTO Acquisto (IdUtente) VALUES (?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Acquisto 
+                                    WHERE IdUtente = ? AND Data IS NULL");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function creaRigaAcquisto($IdCart, $IdBiglietto){
+        $query = "INSERT INTO RigaAcquisto (IdAcquisto, IdBiglietto) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $IdCart, $IdBiglietto);
+        return $stmt->execute();
+    }
 }
 ?>
