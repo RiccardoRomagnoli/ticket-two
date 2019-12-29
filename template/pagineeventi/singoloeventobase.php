@@ -1,3 +1,5 @@
+<script src="js/evento.js"></script>
+<?php echo $sessionData ?>
 <!--Sezione titolo e pulsante follow/modifica-->
 <div class="uk-section-xsmall uk-section-muted "> 
     <div class="uk-container"> 

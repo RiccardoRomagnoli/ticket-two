@@ -1,13 +1,41 @@
 <?php
     $evento = $templateParams["evento"][0];
-    $titleSection = '
+    $sessionData = '
+        <input type="hidden" id="idUser" value="' . $idutente .'">
+        <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
+    ';
+    if(count($templateParams["carrelloaperto"]) == 1){
+        $sessionData .= '
+        <input type="hidden" id="idCart" value="' . $templateParams["carrelloaperto"][0]["IdAcquisto"] .'">
+        ';
+    } else {
+        $sessionData .= '
+        <input type="hidden" id="idCart" value="0">
+        ';
+    }
+
+    $titleSection = '';
+    
+    if($templateParams["eventoseguito"] == false){
+        $titleSection .= '
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
-                <a href="#" class="uk-float-left uk-margin-small-left">' . $evento["TitoloEvento"] . '</a>
-                <button class="uk-button uk-button-default uk-float-right uk-margin-small-right">Segui</button>
+                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <button id="followBtn" class="uk-button uk-button-default uk-float-right">Segui</button>
             </div>
         </div>  
     ';
+    } else {
+        $titleSection .= '
+        <div class="uk-grid uk-text-center">
+            <div class="uk-panel uk-width-1-1">
+                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <button id="followBtn" class="uk-button uk-button-default uk-float-right">Non seguire più</button>
+            </div>
+        </div>
+    ';
+    }
+
     $photoSection = '
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-auto@m uk-width-xlarge@l">
@@ -28,57 +56,57 @@
             </div>
         </div>
     ';
+$countTickets = 0;
 $ticketTotali = "";
-    foreach($templateParams["bigliettievento"] as $biglietto){ 
+    foreach($templateParams["bigliettievento"] as $biglietto){
         if($biglietto["NomeBiglietto"] != "Abbonamento") {
+            $countTickets++;
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto[" "] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
+                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
-                <div class="uk-accordion-content">
-                    <form class="uk-grid-small" uk-grid>
-                        <fieldset class="uk-fieldset uk-width-1-1">
-                            <select class="uk-select uk-float-left uk-form-width-small">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <button class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
-                        </fieldset>
-                    </form>
-                </div>
+                    <div class="uk-accordion-content">
+                        <input type="hidden" id="idBiglietto'. $countTickets .'" value="'. $biglietto["IdBiglietto"] .'">
+                        <select id="numeroTicket'. $countTickets .'" class="uk-select uk-float-left uk-form-width-small">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button id="aggiungiTicket'. $countTickets .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
+                    </div>
                 <hr/>
             </li>';
         }
     }
+$countAbbonamenti = 0;
 $abbonamentiTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){ 
         if($biglietto["NomeBiglietto"] == "Abbonamento") {
+            $countAbbonamenti++;
             $abbonamentiTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
                     $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . '</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                 <div class="uk-accordion-content">
-                    <form class="uk-grid-small" uk-grid>
-                        <fieldset class="uk-fieldset uk-width-1-1">
-                            <select class="uk-select uk-float-left uk-form-width-small">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <button class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
-                        </fieldset>
-                    </form>
+                    <input type="hidden" id="idAbbonamento'. $countAbbonamenti .'" value="'. $biglietto["IdBiglietto"] .'">
+                    <select id="numeroAbbonamento'. $countAbbonamenti .'" class="uk-select uk-float-left uk-form-width-small">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    <button id="aggiungiAbbonamento'. $countAbbonamenti .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
                 </div>
                 <hr/>
             </li>';
         }
     }
     $ticketSection = '
+        <input type="hidden" id="nTickets" value="'. $countTickets .'">
+        <input type="hidden" id="nAbbonamenti" value="'. $countAbbonamenti .'">
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1">
                 <ul uk-tab>

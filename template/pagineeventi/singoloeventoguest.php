@@ -1,9 +1,10 @@
 <?php
     $evento = $templateParams["evento"][0];
+    $sessionData = '';
     $titleSection = '
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
-                <a href="#" class="uk-float-left uk-margin-small-left">' . $evento["TitoloEvento"] . '</a>
+                <h1 class="uk-float-left">' . $evento["TitoloEvento"] . '</h1>
             </div>
         </div>  
     ';

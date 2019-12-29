@@ -16,7 +16,7 @@
                     require 'template/pagineeventi/singoloeventocliente.php';
                     break;
             }
-            require 'template/pagineeventi/singoloeventobase.php';
         }
+        require 'template/pagineeventi/singoloeventobase.php';
     }
 ?>

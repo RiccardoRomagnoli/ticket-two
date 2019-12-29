@@ -75,7 +75,7 @@ class DatabaseHelper{
 
     public function getEventByIdEvento($id){
         $stmt = $this->db->prepare(
-            "SELECT Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
                  Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
             FROM Evento, Luogo, Citta
@@ -103,7 +103,8 @@ class DatabaseHelper{
     public function getEventTicketsByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
-                Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto 
+                Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto,
+                Biglietto.IdBiglietto as IdBiglietto
             FROM Evento INNER JOIN Sezione ON Evento.IdEvento = Sezione.IdEvento 
                 INNER JOIN Biglietto ON Biglietto.IdSezione = Sezione.IdSezione 
                 INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto 
@@ -233,56 +234,60 @@ class DatabaseHelper{
         return $result = $stmt->get_result();
     }
 
-    //TO UPDATE
-
-    public function getRandomPosts($n){
-        $stmt = $this->db->prepare("SELECT idarticolo, titoloarticolo, imgarticolo FROM articolo ORDER BY RAND() LIMIT ?");
-        $stmt->bind_param('i',$n);
+    public function isEventFollowed($IdUser, $IdEvent){
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM EventoSeguito 
+                                    WHERE IdUtente = ? AND IdEvento = ?");
+        $stmt->bind_param('ii', $IdUser, $IdEvent);
         $stmt->execute();
         $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return count($result->fetch_all(MYSQLI_ASSOC)) == 1;
     }
 
-    public function getPosts($n=-1){
-        $query = "SELECT idarticolo, titoloarticolo, imgarticolo, anteprimaarticolo, dataarticolo, nome FROM articolo, autore WHERE autore=idautore ORDER BY dataarticolo DESC";
-        if($n > 0){
-            $query .= " LIMIT ?";
-        }
+    public function follow($IdUser, $IdEvent){
+        $query = "INSERT INTO EventoSeguito (IdUtente, IdEvento) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);
-        if($n > 0){
-            $stmt->bind_param('i',$n);
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function insertArticle($titoloarticolo, $testoarticolo, $anteprimaarticolo, $dataarticolo, $imgarticolo, $autore){
-        $query = "INSERT INTO articolo (titoloarticolo, testoarticolo, anteprimaarticolo, dataarticolo, imgarticolo, autore) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sssssi',$titoloarticolo, $testoarticolo, $anteprimaarticolo, $dataarticolo, $imgarticolo, $autore);
-        $stmt->execute();
-        
-        return $stmt->insert_id;
-    }
-
-    public function updateArticleOfAuthor($idarticolo, $titoloarticolo, $testoarticolo, $anteprimaarticolo, $imgarticolo, $autore){
-        $query = "UPDATE articolo SET titoloarticolo = ?, testoarticolo = ?, anteprimaarticolo = ?, imgarticolo = ? WHERE idarticolo = ? AND autore = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ssssii',$titoloarticolo, $testoarticolo, $anteprimaarticolo, $imgarticolo, $idarticolo, $autore);
-        
+        $stmt->bind_param('ii', $IdUser, $IdEvent);
         return $stmt->execute();
     }
 
-    public function deleteArticleOfAuthor($idarticolo, $autore){
-        $query = "DELETE FROM articolo WHERE idarticolo = ? AND autore = ?";
+    public function unFollow($IdUser, $IdEvent){
+        $query = "DELETE FROM EventoSeguito WHERE IdUtente = ? AND IdEvento = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ii',$idarticolo, $autore);
+        $stmt->bind_param('ii', $IdUser, $IdEvent);
+        return $stmt->execute();
+    }
+
+    public function getCartOpen($IdUser) {
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Acquisto 
+                                    WHERE IdUtente = ? AND Data IS NULL");
+        $stmt->bind_param('i', $IdUser);
         $stmt->execute();
-        var_dump($stmt->error);
-        return true;
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function creaCart($IdUser){
+        $query = "INSERT INTO Acquisto (IdUtente) VALUES (?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Acquisto 
+                                    WHERE IdUtente = ? AND Data IS NULL");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function creaRigaAcquisto($IdCart, $IdBiglietto){
+        $query = "INSERT INTO RigaAcquisto (IdAcquisto, IdBiglietto) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $IdCart, $IdBiglietto);
+        return $stmt->execute();
     }
 }
 ?>
