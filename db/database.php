@@ -267,6 +267,23 @@ class DatabaseHelper{
         
         return $stmt->execute();
     }
+
+    public function deleteArtist($idArtist){
+        $query = "DELETE FROM ArtistaSeguito WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        $query = "DELETE FROM ArtistaEvento WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        $query = "DELETE FROM Artista WHERE IdArtista = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
     
     public function isEventFollowed($IdUser, $IdEvent){
         $stmt = $this->db->prepare("SELECT * 

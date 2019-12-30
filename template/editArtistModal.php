@@ -18,7 +18,7 @@
         <form class ="uk-width-1-1 uk-width-1-3@m uk-margin-left uk-margin-right">
             <fieldset class="uk-fieldset">
 
-                <legend class="uk-legend uk-text-center">Modifica Artista</legend>
+                <legend class="uk-legend uk-text-center uk-margin-top">Modifica Artista</legend>
 
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-stacked-text">Nome artista *</label>
@@ -34,8 +34,21 @@
                     <label class="uk-form-label" for="form-stacked-text">Foto artista</label>
                     <img src="upload/<?php echo $photo?>" id="editFoto" alt="">
                 </div>
+
                 <input type="file" name="fileToUpload" id="fileToUpload" accept="image/png, image/jpeg, image/jpg">
-                <button id="saveBtn" type="button" class="uk-button uk-button-primary uk-align-center">Salva</button>
+
+                <?php 
+                    if(strtolower(getUserType()) == 'organizzatore'){
+                        echo '<button id="saveBtn" type="button" class="uk-button uk-button-primary uk-align-center">Salva</button>';
+                    } else {
+                        echo '
+                        <div class="uk-button-group uk-margin-top uk-margin-bottom uk-width-1-1">
+                            <button id="saveBtn" type="button" class="uk-button uk-button-primary uk-margin-left uk-margin-right uk-width-1-2">Salva</button>
+                            <button id="deleteBtn" type="button" class="uk-button uk-button-danger uk-margin-left uk-margin-right uk-width-1-2">Elimina</button>
+                        </div>
+                        ';
+                    }
+                ?>
 
             </fieldset>
         </form>

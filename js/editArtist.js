@@ -58,7 +58,7 @@ $(document).ready(function(){
             }
             const idArtist = document.getElementById('idArtist').value;
             $.post("utils/editArtist.php",
-            {idArtist: idArtist, name: artistName, description: artistDescription, foto: artistFotoFileName}, 
+            {action: 'update', idArtist: idArtist, name: artistName, description: artistDescription, foto: artistFotoFileName}, 
             function(data, status){checkUpdateResult(JSON.parse(data), idArtist);});
             
         } else {
@@ -86,6 +86,53 @@ $(document).ready(function(){
                 status: 'success',
                 pos: 'top-right',
                 timeout: 1000
+            });
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    }
+
+    $("#deleteBtn").click(function(){
+        if(document.getElementById('idArtist').value != undefined){
+            const idArtist = document.getElementById('idArtist').value;
+            $.post("utils/editArtist.php",
+            {action: 'delete', idArtist: idArtist}, 
+            function(data, status){checkDeleteResult(JSON.parse(data));});
+        } else {
+            setTimeout(function(){
+                location.replace("index.php");
+            }, 1500);
+            UIkit.notification({
+                message: '<span uk-icon="icon: close">Errore</span> ',
+                status: 'error',
+                pos: 'top-right',
+                timeout: 1500
+            });
+        }
+    });
+
+    function checkDeleteResult(response){
+        if(response.result == "ok"){
+            setTimeout(function(){
+                location.replace("index.php");
+            }, 1500);
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right',
+                timeout: 1500
             });
         }else if(response.result == "warning"){
             UIkit.notification({
