@@ -260,6 +260,14 @@ class DatabaseHelper{
         return $result = $stmt->get_result();
     }
 
+    public function updateArtist($idArtist, $name, $description, $photoFileName){
+        $query = "UPDATE Artista SET Nome = ?, Descrizione = ?, Foto = ? WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssi', $name, $description, $photoFileName, $idArtist);
+        
+        return $stmt->execute();
+    }
+    
     public function isEventFollowed($IdUser, $IdEvent){
         $stmt = $this->db->prepare("SELECT * 
                                     FROM EventoSeguito 
