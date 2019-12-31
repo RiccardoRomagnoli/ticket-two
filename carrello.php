@@ -13,10 +13,10 @@ if(isUserLoggedIn()){
         $templateParams["idAcquisto"] = -1;
     }
 }else{
-    if(isset($_COOKIE["IdAcqusito"])){
-        $templateParams["biglietti"] = $dbh->getCartByCart($_COOKIE["IdAcqusito"]);
+    if(isset($_COOKIE["idAcquisto"])){
+        $templateParams["biglietti"] = $dbh->getCartByCart($_COOKIE["idAcquisto"]);
         if(!empty($templateParams["biglietti"])){
-            $templateParams["idAcquisto"] = $_COOKIE["IdAcqusito"];
+            $templateParams["idAcquisto"] = $_COOKIE["idAcquisto"];
         }
         else{
             $templateParams["idAcquisto"] = -1;

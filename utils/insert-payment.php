@@ -17,7 +17,7 @@
 
         $result = $dbh->insertPayment($Titolare, $Anno."-".$Mese."-"."00", $Numero, $_SESSION["idUtente"]);
         if (count($result)!=0) {
-            echo json_encode(array('result' => 'ok', 'message' => 'Inserimento Effettuato con successo!'));
+            echo json_encode(array('result' => 'ok', 'message' => 'Inserimento Effettuato con successo!', "id" => $result));
         } else {
             echo json_encode(array('result' => 'error', 'message' => 'Qualcosa non va, controlla i dati inseriti!'));
         }
