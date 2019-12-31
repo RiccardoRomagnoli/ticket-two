@@ -68,7 +68,8 @@ class DatabaseHelper{
             WHERE IdEvento IN 
             (SELECT DISTINCT Evento.IdEvento as IdEvento
             FROM Evento, Sezione, Biglietto, RigaAcquisto, Acquisto
-            WHERE Evento.IdEvento = Sezione.IdEvento and Sezione.IdSezione = Biglietto.IdSezione and Biglietto.IdBiglietto = RigaAcquisto.IdBiglietto and RigaAcquisto.IdAcquisto = Acquisto.IdAcquisto and Acquisto.IdUtente = ?)");
+            WHERE Evento.IdEvento = Sezione.IdEvento and Sezione.IdSezione = Biglietto.IdSezione and Biglietto.IdBiglietto = RigaAcquisto.IdBiglietto and RigaAcquisto.IdAcquisto = Acquisto.IdAcquisto and Acquisto.IdUtente = ?)
+            ORDER BY DataInizio");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
