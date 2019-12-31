@@ -61,6 +61,21 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getEventByIdUserThatBuyedTicket($id){
+        $stmt = $this->db->prepare(
+            "SELECT IdEvento, Titolo, Locandina
+            FROM Evento 
+            WHERE IdEvento IN 
+            (SELECT DISTINCT Evento.IdEvento as IdEvento
+            FROM Evento, Sezione, Biglietto, RigaAcquisto, Acquisto
+            WHERE Evento.IdEvento = Sezione.IdEvento and Sezione.IdSezione = Biglietto.IdSezione and Biglietto.IdBiglietto = RigaAcquisto.IdBiglietto and RigaAcquisto.IdAcquisto = Acquisto.IdAcquisto and Acquisto.IdUtente = ?)");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getEventByIdArtist($id){
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
