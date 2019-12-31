@@ -71,6 +71,13 @@ $(document).ready(function(){
                     pos: 'top-right'
                 });
                 window.setTimeout(function(){location.reload()},1000);
+            }else if(response.result == "warning"){
+                UIkit.notification({
+                    message: '<span uk-icon="icon: close"></span> '+response.message,
+                    status: 'warning',
+                    pos: 'top-right',
+                    timeout: 2500
+                });
             }else{
                 UIkit.notification({
                     message: '<span uk-icon="icon: close"></span> '+response.message,
@@ -91,6 +98,13 @@ $(document).ready(function(){
                 pos: 'top-right'
             });
             window.setTimeout(function(){location.reload()},1000);
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
         }else{
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,
@@ -109,6 +123,13 @@ $(document).ready(function(){
                 pos: 'top-right'
             });
             window.setTimeout(function(){location.reload()},1000);
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
         }else{
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,

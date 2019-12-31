@@ -15,7 +15,7 @@
 </div>
 
 <div class="uk-container">
-    <div class="uk-child-width-1-3@m uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
+    <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
     <?php foreach($templateParams["biglietti"] as $biglietto): ?>
         <div>
             <div class="uk-card uk-card-default"> 
@@ -79,7 +79,7 @@
     <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
         <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
         <form>
-            <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small">
+            <fieldset class="uk-fieldset uk-child-width-expand uk-grid-small uk-margin-left">
                 <legend id="loginLegend" class="uk-legend">Concludi il Pagamento</legend>
 
                 <div class="uk-margin uk-flex-middle uk-flex-center uk-child-width-1-1 uk-child-width-1-2@s" uk-grid>
@@ -87,8 +87,9 @@
                         <label class="uk-form-label" for="carta">Seleziona Carta di Pagamento</label>
                         <div class="uk-form-controls">
                             <select class="uk-select" id="carta">
-                                <option>Option 01</option>
-                                <option>Option 02</option>
+                                <?php foreach($templateParams["metodidipagamento"] as $carta): ?>
+                                    <option value=<?php echo $carta["IdMetodoPagamento"]?>><?php echo "************".substr($carta["NumeroCarta"], -4)." - ".$carta["Anno"]."/".$carta["Mese"]?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -100,10 +101,21 @@
                         </div>
                     </div>
                 </div>
+                
+                <?php if(isset($_COOKIE["idAcquisto"])): ?>
+                    <div class="uk-margin uk-flex-center uk-text-center">
+                        <div class="uk-inline uk-width-1-1">
+                            <label hidden for="Email">Email</label>
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input id="email" class="uk-input" type="email" placeholder="Inserisci Email">
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                 <div class="uk-margin uk-flex-center uk-text-center">
                     <div class="uk-inline uk-width-1-1">
                         <div class="uk-inline">
+                            <label hidden for="codice">Codice CVC</label>
                             <a class="uk-form-icon" href="#" uk-icon="icon: credit-card"></a>
                             <input id="codice" class="uk-input" type="text" placeholder="Inserisci CVC">
                         </div> 
@@ -113,7 +125,8 @@
                 <div class="uk-button-group uk-margin-top uk-width-1-1 uk-flex-center">
                     <button id="paga" 
                             type="button" 
-                            class="uk-button uk-button-default uk-width-1-2" >Paga Ora</button>
+                            class="uk-button uk-button-default uk-width-1-2" 
+                            value="<?php echo $templateParams["idAcquisto"]?>">Paga Ora</button>
                 </div>
             </fieldset >
         </form>
@@ -151,6 +164,44 @@
         <div class="uk-modal-footer uk-text-right">
             <button class="uk-button uk-button-default uk-modal-close" type="button">Annulla</button>
             <button id="addPaymentBtn" class="uk-button uk-button-primary" type="button">Aggiungi</button>
+        </div>
+    </div>
+</div>
+
+<div id="pay-success" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Pagamento Completato!</h2>
+        </div>
+        <div class="uk-modal-body">
+            <p>Il tuo biglietto è disponibile nella tua area riservata e inoltre lo riceverai anche per email. Stampalo e mostralo all'ingresso. Ricorta, il biglietto è nominativo!</p>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <a class="uk-button uk-button-default" href="./carrello.php">Ok</a>
+        </div>
+    </div>
+</div>
+
+<div id="pay-success-register" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Pagamento Completato!</h2>
+        </div>
+        <div class="uk-modal-body">
+            <p>Riceverai il biglietto per email. Stampalo e mostralo all'ingresso. Ricorta, il biglietto è nominativo!<br>Inserisci una password per creare il tuo account, Così potrai accedere ai tuoi biglietti anche dalla tua area riservata!!</p>
+            <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <label hidden for="Password"></label>
+                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <input id="passwordPay" class="uk-input" type="password" placeholder="Password">
+                </div>
+            </div>
+        </div>
+        <div class="uk-modal-footer uk-text-right">
+            <button id="crea" class="uk-button uk-button-default uk-modal-close" type="button">Crea Account</button>
+            <button class="uk-button uk-button-default uk-modal-close" type="button" href="./index.php">Annulla</button>
         </div>
     </div>
 </div>

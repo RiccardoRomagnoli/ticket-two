@@ -430,5 +430,51 @@ class DatabaseHelper{
         $stmt->bind_param('ii', $IdCart, $IdBiglietto);
         return $stmt->execute();
     }
+
+    public function doPaymentGuest($IdAcquisto, $Email, $CVC){
+        $idTypeUser = 3;
+        $date = date("Y-m-d");
+        $info = "Guest";
+        
+        $query = "INSERT INTO Utente (IdTipoUtente, Nome, Cognome, Mail, Password) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issss', $idTypeUser, $info, $info, $Email, $info);
+        $stmt->execute();
+
+        $id = $stmt->insert_id;
+
+        $query = "UPDATE Acquisto SET Data = ?, IdUtente = ? WHERE IdAcquisto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sii', $date, $id, $IdAcquisto);
+        $stmt->execute();
+        
+        return $id;
+    }
+
+    public function doPaymentUser($IdAcquisto, $CVC){
+        $date = date("Y-m-d");
+
+        $query = "UPDATE Acquisto SET Data = ? WHERE IdAcquisto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si', $date, $IdAcquisto);
+        
+        return $stmt->execute();
+    }
+
+    public function registerGuest($Password, $IdGuest){
+        $query = "UPDATE Utente SET Password = ? WHERE IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si', $Password, $IdGuest);
+        
+        return $IdGuest;
+    }
+
+    public function singupCart($IdUser, $IdCart){
+        $query = "UPDATE Acquisto SET IdUtente = ? WHERE IdAcquisto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $IdUser, $IdCart);
+        
+        return $stmt->execute();
+    }
 }
 ?>
