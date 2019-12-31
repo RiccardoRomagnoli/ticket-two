@@ -73,6 +73,27 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getPlaceById($id){
+        $stmt = $this->db->prepare("SELECT Luogo.*, Citta.Nome as NomeCitta, Provincia.Nome as NomeProvincia, Regione.Nome as NomeRegione FROM Luogo, Citta, Regione, Provincia WHERE IdLuogo = ? and Luogo.IdCitta = Citta.IdCitta and Citta.IdProvincia = Provincia.IdProvincia and Provincia.IdRegione = Regione.IdRegione");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getEventByIdPlace($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and Luogo.IdLuogo = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getEventByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
@@ -95,6 +116,14 @@ class DatabaseHelper{
         return (count($stmt->get_result()->fetch_all(MYSQLI_ASSOC)) > 0);
     }
 
+    public function checkIfUserFollowPlace($idUser, $idPlace){
+        $query = "SELECT * FROM LuogoSeguito WHERE IdLuogo = ? AND IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idPlace, $idUser);
+        $stmt->execute();
+        return (count($stmt->get_result()->fetch_all(MYSQLI_ASSOC)) > 0);
+    }
+
     public function insertFollowArtist($idUser, $idArtist){
         $query = "INSERT INTO ArtistaSeguito (IdArtista, IdUtente) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);
@@ -104,10 +133,28 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function insertFollowPlace($idUser, $idPlace){
+        $query = "INSERT INTO LuogoSeguito (IdLuogo, IdUtente) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idPlace, $idUser);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
     public function deleteFollowArtist($idUser, $idArtist){
         $query = "DELETE FROM ArtistaSeguito WHERE IdArtista = ? AND IdUtente = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ii', $idArtist, $idUser);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
+    public function deleteFollowPlace($idUser, $idPlace){
+        $query = "DELETE FROM LuogoSeguito WHERE IdLuogo = ? AND IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idPlace, $idUser);
         $stmt->execute();
         
         return $stmt->insert_id;
@@ -260,6 +307,52 @@ class DatabaseHelper{
         return $result = $stmt->get_result();
     }
 
+    public function updateArtist($idArtist, $name, $description, $photoFileName){
+        $query = "UPDATE Artista SET Nome = ?, Descrizione = ?, Foto = ? WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssi', $name, $description, $photoFileName, $idArtist);
+        
+        return $stmt->execute();
+    }
+
+    public function updatePlace($idPlace, $name, $description){
+        $query = "UPDATE Luogo SET Nome = ?, Descrizione = ? WHERE IdLuogo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssi', $name, $description, $idPlace);
+        
+        return $stmt->execute();
+    }
+
+    public function deleteArtist($idArtist){
+        $query = "DELETE FROM ArtistaSeguito WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        $query = "DELETE FROM ArtistaEvento WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        $query = "DELETE FROM Artista WHERE IdArtista = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtist);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+
+    public function deletePlace($idPlace){
+        $query = "DELETE FROM LuogoSeguito WHERE IdLuogo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idPlace);
+        $stmt->execute();
+        $query = "DELETE FROM Luogo WHERE IdLuogo = ? ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idPlace);
+        $stmt->execute();
+        
+        return $stmt->insert_id;
+    }
+    
     public function isEventFollowed($IdUser, $IdEvent){
         $stmt = $this->db->prepare("SELECT * 
                                     FROM EventoSeguito 

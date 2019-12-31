@@ -1,8 +1,5 @@
 <?php
 require_once 'initializer.php';
-if(!isset($_GET["id"])){
-    header("location: ./error404.php");
-}
 if(isUserLoggedIn()) {
     switch($_SESSION["tipoUtente"]){
         case "Admin":
@@ -18,12 +15,13 @@ if(isUserLoggedIn()) {
 }
 //Base Template
 $templateParams["titolo"] = "TicketTwo";
-$templateParams["nome"] = "template/artist.php";
 $templateParams["infoArtista"] = $dbh->getArtistById($_GET["id"]);
 if(count($templateParams["infoArtista"])==0){
-    header("location: ./error404.php");
+    $templateParams["nome"] = "error404.php";
+} else {
+    $templateParams["nome"] = "template/artist.php";
+    $templateParams["eventi"] = $dbh->getEventByIdArtist($_GET["id"]);
 }
-$templateParams["eventi"] = $dbh->getEventByIdArtist($_GET["id"]);
 
 require 'template/base.php';
 ?>

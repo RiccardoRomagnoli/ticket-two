@@ -1,29 +1,28 @@
-<!-- pagina artista base -->
+<!-- pagina evento base -->
 
 <!-- controlli iniziali -->
 <?php
-    $nome_artista = $templateParams["infoArtista"][0]["Nome"];
-    if($nome_artista == ""){
-        $nome_artista = "Nome assente";
+    $nome_luogo = $templateParams["infoLuogo"][0]["Nome"];
+    if($nome_luogo == ""){
+        $nome_luogo = "Nome assente";
     }
-    $foto_artista = $templateParams["infoArtista"][0]["Foto"];
-    if($foto_artista == "" || !file_exists("upload/" . $foto_artista)){
-        $foto_artista = "artist_default.jpg";
+    $descrizione_luogo = $templateParams["infoLuogo"][0]["Descrizione"];
+    if($descrizione_luogo == ""){
+        $descrizione_luogo = "Nessuna descrizione disponibile per questo luogo";
     }
-    $descrizione_artista = $templateParams["infoArtista"][0]["Descrizione"];
-    if($descrizione_artista == ""){
-        $descrizione_artista = "Nessuna descrizione disponibile per questo artista";
-    }
+    $citta = $templateParams["infoLuogo"][0]["NomeCitta"];
+    $provincia = $templateParams["infoLuogo"][0]["NomeProvincia"];
+    $regione = $templateParams["infoLuogo"][0]["NomeRegione"];
 ?>
 
-<!-- nome artista e pulsante -->
+<!-- nome luogo e pulsante -->
 <div class="uk-grid uk-text-center uk-margin-bottom uk-grid-collapse uk-width-1-1">
     <div class="uk-panel uk-width-1-1 uk-width-1-2@m">
         <div class="uk-grid uk-text-center uk-grid-collapse uk-width-1-1">
             <div class="uk-panel uk-width-0-0 uk-width-1-6@m">
             </div>
             <div class="uk-panel uk-width-1-1 uk-width-5-6@m">
-                <h1 class="uk-heading-small uk-width-1-1 uk-text-left@m"><?php echo $nome_artista; ?></h1>
+                <h1 class="uk-heading-small uk-width-1-1 uk-text-left@m"><?php echo $nome_luogo; ?></h1>
             </div>
         </div>
     </div>
@@ -42,20 +41,18 @@
     </div>
 </div>
 
-<!-- foto e descrizione artista -->
+<!-- descrizione luogo -->
 <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-1 uk-text-center uk-margin-remove-top" uk-grid>
     <div>
         <div class="uk-container">
             <div class="uk-card uk-card-default">
-                <div class="uk-card-media-top">
-                    <div class="uk-height-large uk-background-cover uk-light" data-src="upload/<?php echo $foto_artista; ?>" uk-img="" style="background-image: upload/<?php echo $foto_artista; ?>"></div>
-                </div>
                 <div class="uk-card-body">
                     <ul uk-accordion>
-                        <li>
-                            <a class="uk-accordion-title" href="#">Su questo artista</a>
+                        <li class="uk-open">
+                            <a class="uk-accordion-title" href="#">Su questo posto</a>
                             <div class="uk-accordion-content">
-                                <p><?php echo $descrizione_artista; ?></p>
+                                <p><?php echo $citta . " (" . $provincia . "), " . $regione ?></p>
+                                <p><?php echo $descrizione_luogo; ?></p>
                             </div>
                         </li>
                     </ul>
