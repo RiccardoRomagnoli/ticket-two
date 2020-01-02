@@ -126,6 +126,36 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getCategories(){
+        $stmt = $this->db->prepare(
+            "SELECT *
+            FROM Categoria");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenEventsByCategory($idCategory){
+        $stmt = $this->db->prepare(
+            "SELECT
+                Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta, CategoriaEvento
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.IdEvento = CategoriaEvento.IdEvento
+                and CategoriaEvento.IdCategoria = ?
+                and Evento.DataInizio >= CURDATE()
+            ORDER BY Evento.DataInizio DESC LIMIT 10");
+        $stmt->bind_param('i', $idCategory);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getCreatedEventsByIdUserCreator($id){
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
