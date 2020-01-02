@@ -1,9 +1,10 @@
 $(document).ready(function(){
+    $.getScript("./js/sha512.js", function() {});
 
     $("#loginBtn").click(function(){
         if( $("#loginLegend").text() == "Login"){
             var mail  = $("#mail").val();
-            var password  = $("#password").val();
+            var password  = SHA512($("#password").val());
 
             $.post("utils/login.php",
                 {mail: mail, password: password},
@@ -36,8 +37,8 @@ $(document).ready(function(){
             var name  = $("#name").val();
             var surname  = $("#surname").val();
             var mail  = $("#mail").val();
-            var password  = $("#password").val();
-            var passwordRip  = $("#passwordRip").val();
+            var password  = SHA512($("#password").val());
+            var passwordRip  = SHA512($("#passwordRip").val());
             var radio = $("input[name='radio']:checked").val();
 
             $.post("utils/singup.php",
@@ -65,6 +66,38 @@ $(document).ready(function(){
             });
         }
     });
+
+    $("#recuperaBtn").click(function(){
+        var mail = $("#email-recupera").val();
+
+        $.post("utils/RecuperaPassword.php",
+        {mail: mail},
+        function(data, status){console.log(data); checkResult(JSON.parse(data));});
+    });
+
+    function checkResult(response){
+        if(response.result == "ok"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right'
+            });
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    }
 
     function checkLoginResult(response){
         if(response.result == "ok"){
