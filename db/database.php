@@ -10,6 +10,25 @@ class DatabaseHelper{
         }        
     }
 
+    public function getUserRecover($mail){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Utente
+                                    WHERE ? = Mail");
+        $stmt->bind_param('s',$mail);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function updatePassword($Password){
+        $query = "UPDATE Utente SET Password = ? WHERE IdUtente = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si',$Password, $IdUtente);
+        
+        return $stmt->execute();
+    }
+
     public function getUser($mail, $password){
         $stmt = $this->db->prepare("SELECT *, TipoUtente.Nome AS TipoUtente, Utente.Nome AS Nome 
                                     FROM Utente INNER JOIN TipoUtente ON Utente.IdTipoUtente = TipoUtente.IdTipoUtente 
