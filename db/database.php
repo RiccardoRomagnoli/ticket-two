@@ -114,7 +114,8 @@ class DatabaseHelper{
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
-                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo,
+                 Evento.IdLuogo as IdLuogo
             FROM Evento, Luogo, Citta
             WHERE Evento.IdEvento = ? and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta");
         $stmt->bind_param('i', $id);
