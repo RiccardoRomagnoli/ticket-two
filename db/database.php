@@ -80,11 +80,61 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getEventByIdUserThatBuyedTicket($id){
+        $stmt = $this->db->prepare(
+            "SELECT IdEvento, Titolo, Locandina
+            FROM Evento 
+            WHERE IdEvento IN 
+            (SELECT DISTINCT Evento.IdEvento as IdEvento
+            FROM Evento, Sezione, Biglietto, RigaAcquisto, Acquisto
+            WHERE Evento.IdEvento = Sezione.IdEvento and Sezione.IdSezione = Biglietto.IdSezione and Biglietto.IdBiglietto = RigaAcquisto.IdBiglietto and RigaAcquisto.IdAcquisto = Acquisto.IdAcquisto and Acquisto.IdUtente = ?)
+            ORDER BY DataInizio");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getEventByIdArtist($id){
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Locandina as Locandina, Evento.DataInizio as DataInizio, Evento.DataFine as DataFine, Citta.Nome as NomeCitta
             FROM ArtistaEvento, Evento, Luogo, Citta
             WHERE Evento.IdEvento = ArtistaEvento.IdEvento and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta and ArtistaEvento.IdArtista = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getFollowedEventsByIdUser($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, EventoSeguito, Luogo, Citta
+            WHERE Evento.IdEvento = EventoSeguito.IdEvento 
+            and Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and EventoSeguito.IdUtente = ?
+            and DataInizio >= CURDATE()");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCreatedEventsByIdUserCreator($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and Evento.IdUtente = ?");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -117,10 +167,26 @@ class DatabaseHelper{
         $stmt = $this->db->prepare(
             "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
-                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo,
+                 Evento.IdLuogo as IdLuogo
             FROM Evento, Luogo, Citta
             WHERE Evento.IdEvento = ? and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta");
         $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getPurchasedTicketsByIdUserAndIdEvent($idUser, $idEvent){
+        $stmt = $this->db->prepare(
+            "SELECT RigaAcquisto.Nome as Nome, RigaAcquisto.Cognome as Cognome, RigaAcquisto.DataNascita as DataNascita, RigaAcquisto.Importo as Importo,
+                TipoBiglietto.Nome as TipoBiglietto, Sezione.Nome as Sezione, Biglietto.DataInizio as DataInizio, Biglietto.DataFine as DataFine, Biglietto.Orario as Orario
+            FROM Acquisto, RigaAcquisto, Biglietto, Sezione, TipoBiglietto
+            WHERE Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto AND RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto AND
+                Biglietto.IdSezione = Sezione.IdSezione AND Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto AND
+                Sezione.IdEvento = ? AND Acquisto.IdUtente = ?");
+        $stmt->bind_param('ii', $idEvent, $idUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
