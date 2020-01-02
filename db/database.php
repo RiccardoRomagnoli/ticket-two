@@ -21,7 +21,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function updatePassword($Password){
+    public function updatePassword($Password, $IdUtente){
         $query = "UPDATE Utente SET Password = ? WHERE IdUtente = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('si',$Password, $IdUtente);

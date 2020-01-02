@@ -10,17 +10,26 @@ if($_POST['mail'] == '') {
   $email = $_POST['mail'];
   $result=$dbh->getUserRecover($email);
 
-  $nome = $result["Nome"];
-  $cognome =$result["Cognome"];
-  $id = $result["IdUtente"];
-  $newpassword = genPw();
 
-  //send the message, check for errors
-  if (!sendMail($nome, $cognome, $id, $newpassword, $email) || !($result=$dbh->updatePassword(hash('sha512', $newpassword)))) {
-    echo json_encode(array('result' => 'error', 'message' => 'Errore nell invio della email'));
-  } else {
-    echo json_encode(array('result' => 'ok', 'message' => 'Controlla la tua posta elettronica'));
+  if (count($result)==1) {
+    $nome = $result[0]["Nome"];
+    $cognome =$result[0]["Cognome"];
+    $id = $result[0]["IdUtente"];
+    $newpassword = genPw();
+    
+    $sender = sendMail($nome, $cognome, $id, $newpassword, $email);
+  
+    //send the message, check for errors
+    if (!$sender->send()) {
+      echo json_encode(array('result' => 'error', 'message' => 'Errore nell invio della email - '.$sender->ErrorInfo));
+    } else {
+      $dbh->updatePassword(hash('sha512', $newpassword), $id);
+      echo json_encode(array('result' => 'ok', 'message' => 'Controlla la tua posta elettronica'));
+    }
+  }else {
+    echo json_encode(array('result' => 'error', 'message' => 'Errore.. Email non valida?'));
   }
+
 }
 
 function genPw(){
@@ -74,18 +83,18 @@ function genPw(){
 
 function sendMail($nome, $cognome, $id, $newpassword, $email){
 
-  $message = "<b>- Email inviata automaticamente. Non è possibile rispondere -</b>
+  $message = "<b>- Email inviata automaticamente. Non rispondere -</b>
               <br>
               <br>".date("Y/m/d, H:i:s")."
               <br>
               <br>Gentile ".$nome ." ".$cognome.",
               <br>La tua password è stata reimpostata e sarà possibile modificarla dopo il log-in,
               <br>ecco i tuoi nuovi dati:
-              <br>ID UTENTE: ".$id."
+              <br>Email: ".$email."
               <br><Stong>PASSWORD</Strong>: ".$newpassword."<br>";
 
 
-  $subject = 'Recupero password personale - Sistema di riciclaggio BioDiesel';
+  $subject = 'Recupero password - Prenotazione Eventi TicketTwo';
 
           // To send HTML mail, the Content-type header must be set
   $headers[] = 'MIME-Version: 1.0';
@@ -106,6 +115,8 @@ function sendMail($nome, $cognome, $id, $newpassword, $email){
 
   //Tell PHPMailer to use SMTP
   $mail->isSMTP();
+
+  $mail->CharSet = 'UTF-8';
 
 
   //Enable SMTP debugging
@@ -133,7 +144,7 @@ function sendMail($nome, $cognome, $id, $newpassword, $email){
   $mail->Username = "eventi@agriturismomarcheok.it";
 
   //Password to use for SMTP authentication
-  $mail->Password = ".E0JTXQv{?Ru*"; //passsssssssssssssssssss?????
+  $mail->Password = ";Ttbuq2VR&wR"; //passsssssssssssssssssss?????
 
   //Set who the message is to be sent from
   $mail->setFrom('eventi@agriturismomarcheok.it', 'TicketTwo');
@@ -151,7 +162,7 @@ function sendMail($nome, $cognome, $id, $newpassword, $email){
   //TO DO
   $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-  return $mail->send();
+  return $mail;
 }
 
 

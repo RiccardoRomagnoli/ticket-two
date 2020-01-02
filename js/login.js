@@ -75,6 +75,30 @@ $(document).ready(function(){
         function(data, status){console.log(data); checkResult(JSON.parse(data));});
     });
 
+    function checkResult(response){
+        if(response.result == "ok"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right'
+            });
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    }
+
     function checkLoginResult(response){
         if(response.result == "ok"){
             UIkit.notification({
