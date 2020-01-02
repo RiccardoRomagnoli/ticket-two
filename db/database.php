@@ -98,7 +98,8 @@ class DatabaseHelper{
             WHERE Evento.IdEvento = EventoSeguito.IdEvento 
             and Evento.IdLuogo = Luogo.IdLuogo 
             and Luogo.IdCitta = Citta.IdCitta
-            and EventoSeguito.IdUtente = ?");
+            and EventoSeguito.IdUtente = ?
+            and DataInizio >= CURDATE()");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $result = $stmt->get_result();
