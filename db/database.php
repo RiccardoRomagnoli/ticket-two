@@ -89,6 +89,23 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getFollowedEventsByIdUser($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, EventoSeguito, Luogo, Citta
+            WHERE Evento.IdEvento = EventoSeguito.IdEvento 
+            and Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and EventoSeguito.IdUtente = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getPlaceById($id){
         $stmt = $this->db->prepare("SELECT Luogo.*, Citta.Nome as NomeCitta, Provincia.Nome as NomeProvincia, Regione.Nome as NomeRegione FROM Luogo, Citta, Regione, Provincia WHERE IdLuogo = ? and Luogo.IdCitta = Citta.IdCitta and Citta.IdProvincia = Provincia.IdProvincia and Provincia.IdRegione = Regione.IdRegione");
         $stmt->bind_param('i', $id);
