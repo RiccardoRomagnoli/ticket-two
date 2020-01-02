@@ -32,7 +32,7 @@
                     <li class="uk-nav-divider"></li>
                     <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="#">Crea Evento</a></li>
-                    <li><a href="#">I Miei Eventi</a></li>
+                    <li><a href="./myCreatedEvents.php">I Miei Eventi</a></li>
                     <li><a href="#">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
                 ';
@@ -43,7 +43,7 @@
                     <li class="uk-nav-divider"></li>
                     <li><a href="./profilo.php">Profilo</a></li>
                     <li><a href="./myTickets.php">I Miei Biglietti</a></li>
-                    <li><a href="#">I Miei Eventi Seguiti</a></li>
+                    <li><a href="./myFollowedEvents.php">I Miei Eventi Seguiti</a></li>
                     <li><a href="./carrello.php">Carrello</a></li>
                     <li><a href="#">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
