@@ -31,9 +31,9 @@ if(count($templateParams["eventi"])==0){
         <div class=" uk-text-center uk-width-expand uk-margin-bottom uk-margin-top uk-padding-remove" uk-grid>
         </div>
 
-        <div class=" uk-text-center uk-width-1-1 uk-width-3-5@m uk-margin-bottom uk-margin-top uk-margin-left uk-margin-right uk-padding-remove" uk-grid>' .
-            getEventCards($templateParams["eventi"])
-        . '</div>
+        <div class=" uk-text-center uk-width-1-1 uk-width-3-5@m uk-margin-bottom uk-margin-top uk-margin-left uk-margin-right uk-padding-remove" uk-grid>'
+            . getEventCards($templateParams["eventi"]) .
+        '</div>
 
         <div class=" uk-text-center uk-width-expand uk-margin-bottom uk-margin-top uk-padding-remove" uk-grid>
         </div>
@@ -48,12 +48,14 @@ function getEventCards($eventi){
         $build = $build . 
             '<div class="uk-container uk-width-1-1 uk-width-1-2@s">
                 <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $evento["Locandina"] . '" uk-img="" style="background-image: upload/' . $evento["Locandina"] . '"></div>
-                    </div>
-                    <div class="uk-card-body">
-                        <p>' . $evento["Titolo"] . '</p>
-                    </div>
+                    <a href="./myTicketPurchase.php?idEvent=' . $evento["IdEvento"] . '">
+                        <div class="uk-card-media-top">
+                            <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $evento["Locandina"] . '" uk-img="" style="background-image: upload/' . $evento["Locandina"] . '"></div>
+                        </div>
+                        <div class="uk-card-body">
+                            <p>' . $evento["Titolo"] . '</p>
+                        </div>
+                    </a>
                 </div>
             </div>';
     endforeach;

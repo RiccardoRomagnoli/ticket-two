@@ -124,6 +124,21 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getPurchasedTicketsByIdUserAndIdEvent($idUser, $idEvent){
+        $stmt = $this->db->prepare(
+            "SELECT RigaAcquisto.Nome as Nome, RigaAcquisto.Cognome as Cognome, RigaAcquisto.DataNascita as DataNascita, RigaAcquisto.Importo as Importo,
+                TipoBiglietto.Nome as TipoBiglietto, Sezione.Nome as Sezione, Biglietto.DataInizio as DataInizio, Biglietto.DataFine as DataFine, Biglietto.Orario as Orario
+            FROM Acquisto, RigaAcquisto, Biglietto, Sezione, TipoBiglietto
+            WHERE Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto AND RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto AND
+                Biglietto.IdSezione = Sezione.IdSezione AND Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto AND
+                Sezione.IdEvento = ? AND Acquisto.IdUtente = ?");
+        $stmt->bind_param('ii', $idEvent, $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function checkIfUserFollowArtist($idUser, $idArtist){
         $query = "SELECT * FROM ArtistaSeguito WHERE IdArtista = ? AND IdUtente = ?";
         $stmt = $this->db->prepare($query);
