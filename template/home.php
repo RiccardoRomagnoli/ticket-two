@@ -1,165 +1,71 @@
-<div uk-slider="center: true; autoplay: true; autoplay-interval: 7000">
-
-    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-
-        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid">
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amett.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-
-    </div>
-
-    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
-
-</div>
-<div uk-slider="center: true; autoplay: true; autoplay-interval: 15000">
-
-    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-
-        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid">
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amett.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="uk-card uk-card-default">
-                    <div class="uk-card-media-top">
-                        <img src="" alt="">
-                    </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title">Headline</h3>
-                        <p>Lorem ipsum dolor sit amet.</p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-
-    </div>
-
-    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
-
-</div>
-
+<!-- categorie eventi -->
 <div class="uk-section">
     <div class="uk-container">
         <ul uk-accordion>
-            <li class="uk-open">
-                <a class="uk-accordion-title" href="#">Item 1</a>
-                <div class="uk-accordion-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </li>
-            <li>
-                <a class="uk-accordion-title" href="#">Item 2</a>
-                <div class="uk-accordion-content">
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
-                </div>
-            </li>
-            <li>
-                <a class="uk-accordion-title" href="#">Item 3</a>
-                <div class="uk-accordion-content">
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
-                </div>
-            </li>
+            <?php
+                foreach($templateParams["categorie"] as $categoria):
+                    echo categoryAccordion($categoria->nome, $categoria->eventiCategoria);
+                endforeach;
+            ?>
         </ul>
     </div>
 </div>
+
+<?php 
+
+    function categoryAccordion($categoryName, $categoryEvents){
+        return '
+            <li>
+                <a class="uk-accordion-title" href=#>' . $categoryName . '</a>
+                <div class="uk-accordion-content">'
+                    . eventsSlider($categoryEvents) . 
+                '</div>
+            </li>';
+    }
+
+    function eventsSlider($eventi){
+        $build = 
+            '<div uk-slider="center: true;">
+                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+                    <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-grid">';
+        foreach($eventi as $evento):
+            $build = $build . 
+                        cardEvent($evento);
+        endforeach;
+        return $build . '
+                    </ul>
+                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                </div>
+            <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+        </div>';
+    }
+
+    function cardEvent($evento){
+        $locandina_evento = $evento["Locandina"];
+        if($locandina_evento == "" || !file_exists("upload/" . $locandina_evento)){
+            $locandina_evento = "event_default.jpg";
+        }
+        return '
+            <li>
+                <a href="./evento.php?idevento=' . $evento["IdEvento"] . '">
+                    <div class="uk-card uk-card-default uk-margin-bottom">
+                        <div class="uk-card-media-top">
+                            <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $locandina_evento . '" uk-img="" style="background-image: upload/' . $locandina_evento . '">
+                        </div>
+                        <div class="uk-card-body"><h3 class="uk-card-title">' . eventCardTitle($evento) . '</h3></div>
+                    </div>
+                </a>
+            </li>
+        ';
+    }
+
+    function eventCardTitle($evento){
+        if($evento["DataInizio"] == $evento["DataFine"]){
+            return $evento["NomeCitta"] . ", " . $evento["DataInizio"];
+        } else {
+            return $evento["NomeCitta"] . ", dal " . $evento["DataInizio"] . " al " . $evento["DataFine"];
+        }
+    }
+
+?>
