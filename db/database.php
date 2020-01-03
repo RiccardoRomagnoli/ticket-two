@@ -179,7 +179,7 @@ class DatabaseHelper{
             "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
                  Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo,
-                 Evento.IdLuogo as IdLuogo
+                 Evento.IdLuogo as IdLuogo, Evento.IdUtente as IdUtente
             FROM Evento, Luogo, Citta
             WHERE Evento.IdEvento = ? and Evento.IdLuogo = Luogo.IdLuogo and Luogo.IdCitta = Citta.IdCitta");
         $stmt->bind_param('i', $id);
@@ -555,6 +555,30 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ii', $IdUser, $IdCart);
         
+        return $stmt->execute();
+    }
+
+    public function getLuoghi(){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Luogo");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function modificaEvento($idEvento, $titolo, $fotoLocation, $nomeLuogo, $dataInizio, $dataFine, $descrizione) {
+        $query = "UPDATE Evento SET IdLuogo = ?, Titolo = ?, Descrizione = ?, Locandina = ?, DataInizio = ?, DataFine = ? WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('isssssi', $nomeLuogo, $titolo, $descrizione, $fotoLocation, $dataInizio, $dataFine, $idEvento);
+        
+        return $stmt->execute();
+    }
+
+    public function eliminaEvento($idEvento) {
+        $query = "DELETE FROM Evento WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idEvento);
         return $stmt->execute();
     }
 }
