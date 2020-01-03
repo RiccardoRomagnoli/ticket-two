@@ -18,6 +18,30 @@ foreach($dbh->getCategories() as $categoriaDB):
     $eventiInCategoria = $dbh->getLatestTenEventsByCategory($categoriaDB["IdCategoria"]);
     array_push($templateParams["categorie"], new Categoria($nomeCategoria, $eventiInCategoria));
 endforeach;
+if(isUserLoggedIn()) {
+    switch($_SESSION["tipoUtente"]){
+        case "Admin":
+            break;
+        case "Organizzatore":
+            break;
+        case "Cliente":
+            $templateParams["titoloEventi1"] = 'Secondo i tuoi interessi';
+            $eventiPerTe = $dbh->getTenRandomValidInterestEvents($_SESSION['idUtente']);
+            if(count($eventiPerTe < 10)){
+                $eventiSupplementari = $dbh->getNRandomValidEventsExceptSomeEvents(10 - count($eventiPerTe), $eventiPerTe);
+                $eventiPerTe = array_merge($eventiPerTe, $eventiSupplementari);
+            }
+            $templateParams["eventi1"] = $eventiPerTe;
+            $templateParams["titoloEventi2"] = 'Ultimi eventi inseriti';
+            $templateParams["eventi2"] = $dbh->getLatestTenEvents();
+            break;
+    }
+} else {
+    $templateParams["titoloEventi1"] = 'Eventi casuali';
+    $templateParams["eventi1"] = $dbh->getTenValidRandomEvents();
+    $templateParams["titoloEventi2"] = 'Ultimi eventi inseriti';
+    $templateParams["eventi2"] = $dbh->getLatestTenEvents();
+}
 $templateParams["titolo"] = "TicketTwo";
 $templateParams["nome"] = "home.php";
 

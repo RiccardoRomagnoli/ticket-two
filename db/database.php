@@ -148,11 +148,73 @@ class DatabaseHelper{
                 and Evento.IdEvento = CategoriaEvento.IdEvento
                 and CategoriaEvento.IdCategoria = ?
                 and Evento.DataInizio >= CURDATE()
-            ORDER BY Evento.DataInizio DESC LIMIT 10");
+            ORDER BY Evento.IdEvento DESC LIMIT 10");
         $stmt->bind_param('i', $idCategory);
         $stmt->execute();
         $result = $stmt->get_result();
 
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNRandomValidEventsExceptSomeEvents($n, $events){
+        $build = 
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE() ";
+        foreach($events as $event):
+            $build = $build . ' and Evento.IdEvento != ' . $event["IdEvento"];
+        endforeach;
+        $build = $build . " ORDER BY RAND() LIMIT ?";
+        $stmt = $this->db->prepare($build);
+        $stmt->bind_param('i', $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTenValidRandomEvents(){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+            ORDER BY RAND() LIMIT 10");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTenRandomValidInterestEvents($idUser){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, CategoriaEvento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+                and CategoriaEvento.IdCategoria IN 
+                (SELECT IdCategoria
+                FROM CategoriaSeguita
+                WHERE IdUtente = ?)
+            ORDER BY RAND() LIMIT 10");
+        $stmt->bind_param('i', $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenEvents(){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+            ORDER BY Evento.IdEvento DESC LIMIT 10");
+        $stmt->execute();
+        $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
