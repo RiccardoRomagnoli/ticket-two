@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $.getScript("./js/sha512.js", function() {});
 
     var interestsSelected = [];
     var interestInserted = 0;
@@ -53,8 +54,8 @@ $(document).ready(function(){
         var Nome = $("#nome").val();
         var Cognome = $("#cognome").val();
         var Email = $("#email").val();
-        var Password = $("#password").val();
-        var NewPassword = $("#new-password").val();
+        var Password = SHA512($("#password").val());
+        var NewPassword = SHA512($("#new-password").val());
 
             $.post("utils/update-info.php",
                    {Nome: Nome, Cognome:Cognome, Email:Email, Password:Password, NewPassword:NewPassword}, 

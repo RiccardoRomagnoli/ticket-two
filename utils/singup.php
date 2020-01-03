@@ -23,7 +23,7 @@
         if (count($result)==1) {
             if(isset($_COOKIE["IdAcqusito"])){
                 $dbh->singupCart($result[0]["IdUtente"], $_COOKIE["idAcqusito"]);
-                unset($_COOKIE['idAcquisto']); 
+                unset($_COOKIE['idAcquisto']);
                 setcookie('idAcquisto', null, -1, '/');
                 echo json_encode(array('result' => 'ok', 'message' => 'Registrazione Effettuata con successo e carrello trasferito!'));
                 registerLoggedUser($result[0]);

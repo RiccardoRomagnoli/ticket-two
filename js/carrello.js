@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $.getScript("./js/sha512.js", function() {});
     var GuestId;
 
 
@@ -64,7 +65,7 @@ $(document).ready(function(){
     });
 
     $("#crea").click(function(){
-        var Password = $("#passwordPay").val();
+        var Password = SHA512($("#passwordPay").val());
 
         $.post("utils/singup-guest.php",
         {Password:Password, GuestId:GuestId},

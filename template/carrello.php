@@ -133,6 +133,7 @@
     </div>
 </div>
 
+<!-- modal aggiungi metodo di pagamento -->
 <div id="add-payment" uk-modal="stack:true;">
     <div class="uk-modal-dialog" bg-close esc-close>
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -168,6 +169,7 @@
     </div>
 </div>
 
+<!-- modal pagamento completato -->
 <div id="pay-success" uk-modal>
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -183,6 +185,7 @@
     </div>
 </div>
 
+<!-- modal inserisci password dopo registrazione -->
 <div id="pay-success-register" uk-modal>
     <div class="uk-modal-dialog">
         <button class="uk-modal-close-default" type="button" uk-close></button>
