@@ -226,8 +226,50 @@ class DatabaseHelper{
             FROM Evento, Luogo, Citta
             WHERE Evento.IdLuogo = Luogo.IdLuogo 
             and Luogo.IdCitta = Citta.IdCitta
-            and Evento.IdUtente = ?");
+            and Evento.IdUtente = ?
+            ORDER BY Evento.IdEvento DESC");
         $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenCreatedEventsByIdUserCreator($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and Evento.IdUtente = ?
+            ORDER BY Evento.IdEvento DESC limit 10");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenEventsSimilarToMyOrganizedEvents($idUser){
+        $myEvents = "SELECT IdEvento FROM Evento WHERE IdUtente = ? ";
+        $categoriesOfMyEvents = "SELECT DISTINCT IdCategoria FROM CategoriaEvento WHERE IdEvento IN (" . $myEvents . ")";
+        $idEventsMatchingMyCategoriesExcludingMyEvents = 
+            "SELECT DISTINCT IdEvento 
+            FROM CategoriaEvento
+            WHERE IdEvento NOT IN (" . $myEvents . ") AND IdCategoria IN (" . $categoriesOfMyEvents . ")";
+        $latestTenEventsSimilarToMine = 
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+            Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+            Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and Evento.IdUtente IN (" . $idEventsMatchingMyCategoriesExcludingMyEvents . ") 
+            ORDER BY Evento.IdEvento DESC limit 10";
+        $stmt = $this->db->prepare($latestTenEventsSimilarToMine);
+        $stmt->bind_param('ii', $idUser, $idUser);
         $stmt->execute();
         $result = $stmt->get_result();
 

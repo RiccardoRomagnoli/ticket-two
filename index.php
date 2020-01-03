@@ -23,6 +23,10 @@ if(isUserLoggedIn()) {
         case "Admin":
             break;
         case "Organizzatore":
+            $templateParams["titoloEventi1"] = 'I miei eventi organizzati più recenti';
+            $templateParams["eventi1"] = $dbh->getLatestTenCreatedEventsByIdUserCreator($_SESSION['idUtente']);
+            $templateParams["titoloEventi2"] = 'Ultimi eventi inseriti simili ai miei';
+            $templateParams["eventi2"] = $dbh->getLatestTenEventsSimilarToMyOrganizedEvents($_SESSION['idUtente']);
             break;
         case "Cliente":
             $templateParams["titoloEventi1"] = 'Secondo i tuoi interessi';
