@@ -380,9 +380,9 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione, RigaAcquisto.Nome AS NomeReferente
                                     FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
                                                   INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
-                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
-                                                  INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
-                                                  INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdSezione
+                                                  INNER JOIN Evento ON Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
                                     WHERE Acquisto.IdUtente = ? AND Acquisto.Data IS NULL");
         $stmt->bind_param('i', $IdUser);
         $stmt->execute();
@@ -576,5 +576,33 @@ class DatabaseHelper{
         
         return $stmt->execute();
     }
+
+    public function getUserByCart($IdAcquisto){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Acquisto INNER JOIN Utente ON Acquisto.IdUtente = Utente.IdUtente 
+                                    WHERE Acquisto.IdAcquisto = ?");
+        $stmt->bind_param('i', $IdAcquisto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);    
+    }
+
+    public function getCartToPrint($IdUser){
+        $stmt = $this->db->prepare("SELECT RigaAcquisto.Nome AS NomeReferente, RigaAcquisto.Cognome AS CognomeReferente, RigaAcquisto.DataNascita AS DataReferente,
+                                           Evento.Titolo, Evento.DataInizio, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione, RigaAcquisto.IdRigaAcquisto AS Barcode 
+                                    FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
+                                                  INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdSezione
+                                                  INNER JOIN Evento ON Evento.IdEvento = Sezione.IdEvento
+                                                  INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Acquisto.IdAcquisto = ?");
+        $stmt->bind_param('i', $IdUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
+
 ?>

@@ -34,12 +34,12 @@ $(document).ready(function(){
 
             $.post("utils/pay-cart.php",
             {IdAcquisto:IdAcquisto, Email:Email, codice:CVC},
-            function(data, status){checkPaymentResultAndSingUp(JSON.parse(data));}
+            function(data, status){checkPaymentResultAndSingUp(JSON.parse(data), IdAcquisto);}
             );
         }else{
             $.post("utils/pay-cart.php",
             {IdAcquisto:IdAcquisto, codice:CVC},
-            function(data, status){checkPaymentResult(JSON.parse(data));}
+            function(data, status){checkPaymentResult(JSON.parse(data), IdAcquisto);}
             );
         }
     });
@@ -130,14 +130,19 @@ $(document).ready(function(){
         }
     }
 
-    function checkPaymentResult(response){
+    function checkPaymentResult(response, IdAcquisto){
         if(response.result == "ok"){
             UIkit.notification({
                 message: '<span uk-icon="icon: check"></span> '+response.message,
                 status: 'success',
                 pos: 'top-right'
             });
+
             UIkit.modal("#pay-success").show();
+            $.post("utils/sendmail-tickets.php",
+            {IdAcquisto:IdAcquisto},
+            function(data, status){console.log(data);}
+            );
         }else if(response.result == "warning"){
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,
@@ -155,7 +160,7 @@ $(document).ready(function(){
         }
     }
 
-    function checkPaymentResultAndSingUp(response){
+    function checkPaymentResultAndSingUp(response, IdAcquisto){
         if(response.result == "ok"){
             UIkit.notification({
                 message: '<span uk-icon="icon: check"></span> '+response.message,
@@ -164,6 +169,11 @@ $(document).ready(function(){
             });
             UIkit.modal("#pay-success-register").show();
             GuestId = response.id;
+
+            $.post("utils/sendmail-tickets.php",
+            {IdAcquisto:IdAcquisto},
+            function(data, status){console.log(data);}
+            );
         }else if(response.result == "warning"){
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,

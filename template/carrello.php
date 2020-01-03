@@ -170,9 +170,8 @@
 </div>
 
 <!-- modal pagamento completato -->
-<div id="pay-success" uk-modal>
+<div id="pay-success" uk-modal="bg-close:false;">
     <div class="uk-modal-dialog">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
             <h2 class="uk-modal-title">Pagamento Completato!</h2>
         </div>
@@ -186,9 +185,8 @@
 </div>
 
 <!-- modal inserisci password dopo registrazione -->
-<div id="pay-success-register" uk-modal>
+<div id="pay-success-register" uk-modal="bg-close:false;">
     <div class="uk-modal-dialog">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">
             <h2 class="uk-modal-title">Pagamento Completato!</h2>
         </div>
