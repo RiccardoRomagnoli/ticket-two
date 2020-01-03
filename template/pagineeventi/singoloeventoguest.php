@@ -36,50 +36,69 @@
 
     $countTickets = 0;
     $ticketTotali = "";
+    //per ogni biglietto dell'evento
     foreach($templateParams["bigliettievento"] as $biglietto){
+        //se sono semplici ticket di giorni singoli
         if($biglietto["NomeBiglietto"] != "Abbonamento") {
-            $countTickets++;
-            $ticketTotali .= '
-            <li>
-                <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
-                    ' . $biglietto["PrezzoBiglietto"] . '€
-                    <div class="uk-accordion-content">
-                        <input type="hidden" id="idBiglietto'. $countTickets .'" value="'. $biglietto["IdBiglietto"] .'">
-                        <select id="numeroTicket'. $countTickets .'" class="uk-select uk-float-left uk-form-width-small">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <button id="aggiungiTicket'. $countTickets .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
-                    </div>
-                <hr/>
-            </li>';
+            //controllo se posti finiti non li visualizzo
+            $postiOccupati = $dbh->getTicketSezionePresi($biglietto["IdSezione"], $biglietto["DataInizioBiglietto"], 
+                                                            $biglietto["DataFineBiglietto"], $biglietto["Orario"])[0]["PostiOccupati"];
+            $postiLiberi = $biglietto["PostiTotali"] - $postiOccupati;
+            
+            if($postiLiberi > 0){
+                $countTickets++;
+                $ticketTotali .= '
+                <li>
+                    <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
+                    . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . ' ' . $biglietto["Orario"] .'</a>
+                        ' . $biglietto["PrezzoBiglietto"] . '€
+                        <div class="uk-accordion-content">
+                            <input type="hidden" id="idBiglietto'. $countTickets .'" value="'. $biglietto["IdBiglietto"] .'">
+                            <select id="numeroTicket'. $countTickets .'" class="uk-select uk-float-left uk-form-width-small">';
+                            for($i = 1 ; $i <= 4 && $i <= $postiLiberi; $i++){
+                                $ticketTotali .= '
+                                <option value="'. $i .'">'. $i .'</option>
+                                ';
+                            }
+                $ticketTotali .= '
+                            </select>
+                            <button id="aggiungiTicket'. $countTickets .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
+                        </div>
+                    <hr/>
+                </li>';
+            }
         }
     }
     $countAbbonamenti = 0;
     $abbonamentiTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){ 
         if($biglietto["NomeBiglietto"] == "Abbonamento") {
-            $countAbbonamenti++;
-            $abbonamentiTotali .= '
-            <li>
-                <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
-                    $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . '</a>
-                    ' . $biglietto["PrezzoBiglietto"] . '€
-                <div class="uk-accordion-content">
-                    <input type="hidden" id="idAbbonamento'. $countAbbonamenti .'" value="'. $biglietto["IdBiglietto"] .'">
-                    <select id="numeroAbbonamento'. $countAbbonamenti .'" class="uk-select uk-float-left uk-form-width-small">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                    <button id="aggiungiAbbonamento'. $countAbbonamenti .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
-                </div>
-                <hr/>
-            </li>';
+            $postiOccupati = $dbh->getAbbonamentoSezionePresi($biglietto["IdSezione"], $biglietto["DataInizioBiglietto"], 
+                                                            $biglietto["DataFineBiglietto"])[0]["PostiOccupati"];
+            $postiLiberi = $biglietto["PostiTotali"] - $postiOccupati;
+            
+            if($postiLiberi > 0){
+                $countAbbonamenti++;
+                $abbonamentiTotali .= '
+                <li>
+                    <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
+                        $biglietto["NomeBiglietto"] . ' Dal ' . $biglietto["DataInizioBiglietto"] . ' al '. $biglietto["DataFineBiglietto"] .'</a>
+                        ' . $biglietto["PrezzoBiglietto"] . '€
+                    <div class="uk-accordion-content">
+                        <input type="hidden" id="idAbbonamento'. $countAbbonamenti .'" value="'. $biglietto["IdBiglietto"] .'">
+                        <select id="numeroAbbonamento'. $countAbbonamenti .'" class="uk-select uk-float-left uk-form-width-small">';
+                        for($i = 1 ; $i <= 4 && $i <= $postiLiberi; $i++){
+                            $abbonamentiTotali .= '
+                            <option value="'. $i .'">'. $i .'</option>
+                            ';
+                        }
+                $abbonamentiTotali .='
+                        </select>
+                        <button id="aggiungiAbbonamento'. $countAbbonamenti .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
+                    </div>
+                    <hr/>
+                </li>';
+            }
         }
     }
     $ticketSection = '

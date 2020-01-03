@@ -292,7 +292,7 @@ class DatabaseHelper{
         $stmt = $this->db->prepare(
             "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
                 Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto,
-                Biglietto.IdBiglietto as IdBiglietto
+                Biglietto.IdBiglietto as IdBiglietto, Biglietto.IdSezione as IdSezione, Biglietto.Orario as Orario
             FROM Evento INNER JOIN Sezione ON Evento.IdEvento = Sezione.IdEvento 
                 INNER JOIN Biglietto ON Biglietto.IdSezione = Sezione.IdSezione 
                 INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto 
@@ -627,6 +627,31 @@ class DatabaseHelper{
         $stmt->bind_param('i', $idEvento);
         return $stmt->execute();
     }
-}
 
+    public function getTicketSezionePresi($idSezione, $dataInizio, $dataFine, $orario){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS 'PostiOccupati' 
+                                    FROM `RigaAcquisto` INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto 
+                                    WHERE Biglietto.IdSezione = ? && 
+                                        ((Biglietto.DataInizio = ? && Biglietto.DataFine = ? && Biglietto.Orario = ?) 
+                                        || (Biglietto.DataInizio <= ? && Biglietto.DataFine >= ?)) 
+                                    GROUP BY Biglietto.IdSezione");
+        $stmt->bind_param('isssss', $idSezione, $dataInizio, $dataFine, $orario, $dataInizio, $dataFine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getAbbonamentoSezionePresi($idSezione, $dataInizio, $dataFine){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS 'PostiOccupati' 
+                                    FROM RigaAcquisto INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto 
+                                    WHERE Biglietto.IdSezione = ? && (Biglietto.DataInizio >= ? && Biglietto.DataFine <= ?)
+                                    GROUP BY Biglietto.IdSezione");
+        $stmt->bind_param('iss', $idSezione, $dataInizio, $dataFine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+}
 ?>
