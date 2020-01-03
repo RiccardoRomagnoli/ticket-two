@@ -33,39 +33,54 @@
     }
 
     function eventsSliderTop($eventi){
-        $build = 
-            '<div uk-slider="center: true; autoplay: true; autoplay-interval: 2500; pause-on-hover: true">
-                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-                    <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid">';
-        foreach($eventi as $evento):
-            $build = $build . 
-                        cardEvent($evento);
-        endforeach;
-        return $build . '
-                    </ul>
-                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                </div>
-            <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
-        </div>';
+        if (count($eventi) > 0){
+            $build = 
+                '<div uk-slider="center: true; autoplay: true; autoplay-interval: 2500; pause-on-hover: true">
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+                        <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid">';
+            foreach($eventi as $evento):
+                $build = $build . 
+                            cardEvent($evento);
+            endforeach;
+            return $build . '
+                        </ul>
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                    </div>
+                    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                </div>';
+        } else {
+            return 
+                '<div class="uk-card uk-card-default uk-margin-bottom uk-margin-left uk-margin-right">
+                    <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle"><h3 class="uk-card-title">Nessun evento al momento</h3></div>
+                </div>';
+        }
+        
     }
 
     function eventsSlider($eventi){
-        $build = 
-            '<div uk-slider="center: true;">
-                <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-                    <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-grid">';
-        foreach($eventi as $evento):
-            $build = $build . 
-                        cardEvent($evento);
-        endforeach;
-        return $build . '
-                    </ul>
-                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                </div>
-            <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
-        </div>';
+        if (count($eventi) > 0){
+            $build = 
+                '<div uk-slider="center: true;">
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+                        <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m uk-grid">';
+            foreach($eventi as $evento):
+                $build = $build . 
+                            cardEvent($evento);
+            endforeach;
+            return $build . '
+                        </ul>
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                    </div>
+                <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+            </div>';
+        } else {
+            return 
+                '<div class="uk-card uk-card-default uk-margin-bottom">
+                    <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle"><h3 class="uk-card-title">Nessun evento al momento</h3></div>
+                </div>';
+        }
     }
 
     function cardEvent($evento){

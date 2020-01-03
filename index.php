@@ -21,6 +21,10 @@ endforeach;
 if(isUserLoggedIn()) {
     switch($_SESSION["tipoUtente"]){
         case "Admin":
+            $templateParams["titoloEventi1"] = 'Eventi casuali';
+            $templateParams["eventi1"] = $dbh->getTenValidRandomEvents();
+            $templateParams["titoloEventi2"] = 'Ultimi eventi inseriti';
+            $templateParams["eventi2"] = $dbh->getLatestTenEvents();
             break;
         case "Organizzatore":
             $templateParams["titoloEventi1"] = 'I miei eventi organizzati più recenti';
