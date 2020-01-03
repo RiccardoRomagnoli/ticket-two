@@ -4,6 +4,45 @@ $(document).ready(function(){
     const nTickets = $("#nTickets").val();
     const nAbbonamenti = $("#nAbbonamenti").val();
 
+    const fp = flatpickr("#dataFineModifica", {
+        minDate: "today",
+    });
+
+    $("#nomeLuogo").select2({
+        placeholder: "Seleziona un luogo"
+    });
+    
+    $("#dataInizioModifica").flatpickr({
+        onChange: function(selectedDates, dateStr, instance) {
+            fp.set("minDate", dateStr);
+            fp.setDate(dateStr);
+        },
+        minDate: "today",
+    });
+
+    $("#modificaEventoForm").submit(function(e) {
+        e.preventDefault();
+        let titolo = $("#nomeEvento").val();
+        let dataInizio = $("#dataInizioModifica").val();
+        let dataFine = $("#dataFineModifica").val();
+        let descrizione = $("#descrizioneEvento").val();
+        let fotoLocation = $("#pathLocandina").val();
+        let nomeLuogo = $("#nomeLuogo").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "modificaEvento", idEvento: idEvent, titolo: titolo, dataInizio: dataInizio,
+                dataFine: dataFine, descrizione: descrizione, fotoLocation: fotoLocation,
+                nomeLuogo: nomeLuogo
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
+
     //bottoni acquisto ticket
     for(let countt = 1; countt <= nTickets; countt++){
         $("#aggiungiTicket" + countt).click(function(){
@@ -19,7 +58,7 @@ $(document).ready(function(){
                     for(let c=0; c<nTicketAquistati; c++){
                         $.post("utils/event-cart.php",
                             {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
-                            function(data){checkBuyResult(JSON.parse(data));}
+                            function(data){checkEvento(JSON.parse(data));}
                         );
                     }
                 }
@@ -42,7 +81,7 @@ $(document).ready(function(){
                     for(let cc=0; cc<nAbbonamentiAquistati; cc++){
                         $.post("utils/event-cart.php",
                             {idCart: idCart, idBiglietto: idAbbonamento, azione: "acquistoBiglietto"},
-                            function(data){checkBuyResult(JSON.parse(data));}
+                            function(data){checkEvento(JSON.parse(data));}
                         );
                     }
                 }
@@ -55,74 +94,47 @@ $(document).ready(function(){
         if( $("#followBtn").text() == "Segui"){
              $.post("utils/follow-event.php",
                  {idEvent: idEvent, follow: "true"},
-                 function(data){checkFollowResult(JSON.parse(data));});
+                 function(data){
+                    checkEvento(JSON.parse(data));
+                    if(JSON.parse(data).result == "ok"){
+                        $("#followBtn").text("Non seguire più");
+                    }
+                    });
         } else {
             $.post("utils/follow-event.php",
                 {idEvent: idEvent, follow: "false"},
-                function(data){checkUnFollowResult(JSON.parse(data));});
+                function(data){
+                    checkEvento(JSON.parse(data));
+                    if(JSON.parse(data).result == "ok") {
+                        $("#followBtn").text("Segui");
+                    }
+                });
         }
     });
+
+    $("#deleteEventBtn").click(function(){
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "eliminaEvento", idEvento: idEvent
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok"){
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
     
-
-    //check buy result
-    function checkBuyResult(response){
+    //check eventi
+    function checkEvento(response){
         if(response.result == "ok"){
             UIkit.notification({
                 message: '<span uk-icon="icon: check"></span> '+response.message,
                 status: 'success',
-                pos: 'top-right'
-            });
-        }else if(response.result == "warning"){
-            UIkit.notification({
-                message: '<span uk-icon="icon: close"></span> '+response.message,
-                status: 'warning',
                 pos: 'top-right',
-                timeout: 2500
+                timeout: 1500
             });
-        }else{
-            UIkit.notification({
-                message: '<span uk-icon="icon: close"></span> '+response.message,
-                status: 'danger',
-                pos: 'top-right',
-                timeout: 2500
-            });
-        }
-    }
-    //check follow result
-    function checkFollowResult(response){
-        if(response.result == "ok"){
-            UIkit.notification({
-                message: '<span uk-icon="icon: check"></span> '+response.message,
-                status: 'success',
-                pos: 'top-right'
-            });
-            $("#followBtn").text("Non seguire più");
-        }else if(response.result == "warning"){
-            UIkit.notification({
-                message: '<span uk-icon="icon: close"></span> '+response.message,
-                status: 'warning',
-                pos: 'top-right',
-                timeout: 2500
-            });
-        }else{
-            UIkit.notification({
-                message: '<span uk-icon="icon: close"></span> '+response.message,
-                status: 'danger',
-                pos: 'top-right',
-                timeout: 2500
-            });
-        }
-    }
-
-    //check unfollow result
-    function checkUnFollowResult(response){
-        if(response.result == "ok"){
-            UIkit.notification({
-                message: '<span uk-icon="icon: check"></span> '+response.message,
-                status: 'success',
-                pos: 'top-right'
-            });
-            $("#followBtn").text("Segui");
         }else if(response.result == "warning"){
             UIkit.notification({
                 message: '<span uk-icon="icon: close"></span> '+response.message,

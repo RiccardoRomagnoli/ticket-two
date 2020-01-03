@@ -36,7 +36,7 @@
     $descriptionSection = '
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1">
-                <a href="#" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
+                <a href="./place.php?id='. $evento["IdLuogo"] .'" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
             </div>
             <div class="uk-width-1-1">
             ' . $evento["DataInizio"] . '-' . $evento["DataFine"] . '

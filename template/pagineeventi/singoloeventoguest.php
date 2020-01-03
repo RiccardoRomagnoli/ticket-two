@@ -4,26 +4,13 @@
         <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
         ';
 
-    $titleSection = '';
-    
-    if($templateParams["eventoseguito"] == false){
-        $titleSection .= '
+    $titleSection = '
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
                 <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
             </div>
         </div>  
-    ';
-    } else {
-        $titleSection .= '
-        <div class="uk-grid uk-text-center">
-            <div class="uk-panel uk-width-1-1">
-                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
-                <button id="followBtn" class="uk-button uk-button-default uk-float-right">Non seguire più</button>
-            </div>
-        </div>
-    ';
-    }
+        ';
 
     $photoSection = '
         <div class="uk-grid uk-margin-remove-top">
@@ -32,10 +19,11 @@
             </div>
         </div>
     ';
+
     $descriptionSection = '
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1">
-                <a href="#" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
+                <a href="./place.php?id='. $evento["IdLuogo"] .'" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
             </div>
             <div class="uk-width-1-1">
             ' . $evento["DataInizio"] . '-' . $evento["DataFine"] . '
@@ -45,8 +33,9 @@
             </div>
         </div>
     ';
-$countTickets = 0;
-$ticketTotali = "";
+
+    $countTickets = 0;
+    $ticketTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){
         if($biglietto["NomeBiglietto"] != "Abbonamento") {
             $countTickets++;
@@ -69,8 +58,8 @@ $ticketTotali = "";
             </li>';
         }
     }
-$countAbbonamenti = 0;
-$abbonamentiTotali = "";
+    $countAbbonamenti = 0;
+    $abbonamentiTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){ 
         if($biglietto["NomeBiglietto"] == "Abbonamento") {
             $countAbbonamenti++;
