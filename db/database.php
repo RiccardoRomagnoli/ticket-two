@@ -395,7 +395,7 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("SELECT *, TipoBiglietto.Nome AS NomeTipo, Sezione.Nome AS NomeSezione, RigaAcquisto.Nome AS NomeReferente
                                     FROM Acquisto INNER JOIN RigaAcquisto ON Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto 
                                                   INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto
-                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdBiglietto
+                                                  INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdSezione
                                                   INNER JOIN Evento On Evento.IdEvento = Sezione.IdEvento
                                                   INNER JOIN TipoBiglietto On Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
                                     WHERE Acquisto.IdAcquisto = ? AND Acquisto.Data IS NULL");

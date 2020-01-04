@@ -2,7 +2,7 @@ $(document).ready(function(){
     $.getScript("./js/sha512.js", function() {});
 
     $("#loginBtn").click(function(){
-        if( $("#loginLegend").text() == "Login"){
+        if( $("#loginLegend").text() === "Login"){
             var mail  = $("#mail").val();
             var password  = SHA512($("#password").val());
 
