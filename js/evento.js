@@ -189,56 +189,30 @@ $(document).ready(function(){
             });
     });
 
-    //sezione model modficaLuogo
+    //sezione model modificaLuogo
 
-    const nTickets = $("#nTickets").val();
-    const nAbbonamenti = $("#nAbbonamenti").val();
+    //bottone acquisto ticket
 
-    //bottoni acquisto ticket
-    for(let countt = 1; countt <= nTickets; countt++){
-        $("#aggiungiTicket" + countt).click(function(){
-            let nTicketAquistati = $("#numeroTicket" + countt).val();
-            let idBiglietto = $("#idBiglietto" + countt).val();
-            
-            //carrello non esiste creo riga sul db
-            $.post("utils/event-cart.php",
-                {azione: "creaCart"},
-                function(data){
-                    idCart = data;
-                    //aggiungo righe al carrello in base alla quantità
-                    for(let c=0; c<nTicketAquistati; c++){
-                        $.post("utils/event-cart.php",
-                            {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
-                            function(data){checkEvento(JSON.parse(data));}
-                        );
-                    }
+    $(".aggiungiTicket").click(function(){
+        let idBiglietto = $(this).val();
+        let nTicket = $("#numeroTicket" + idBiglietto).val();
+        
+        //carrello non esiste creo riga sul db
+        $.post("utils/event-cart.php",
+            {azione: "creaCart"},
+            function(data){
+                idCart = data;
+                //aggiungo righe al carrello in base alla quantità
+                for(let c=0; c<nTicket; c++){
+                    $.post("utils/event-cart.php",
+                        {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
+                        function(data){checkEvento(JSON.parse(data));}
+                    );
                 }
-            );
-        });
-    }
+            }
+        );
+    });
 
-    //bottoni acquisto abbonamenti
-    for(let counta = 1; counta <= nAbbonamenti; counta++){
-        $("#aggiungiAbbonamento" + counta).click(function(){
-            let nAbbonamentiAquistati = $("#numeroAbbonamento" + counta).val();
-            let idAbbonamento = $("#idAbbonamento" + counta).val();
-            
-            //carrello non esiste creo riga sul db
-            $.post("utils/event-cart.php",
-                {azione: "creaCart"},
-                function(data){
-                    idCart = data;
-                    //aggiungo righe al carrello in base alla quantità
-                    for(let cc=0; cc<nAbbonamentiAquistati; cc++){
-                        $.post("utils/event-cart.php",
-                            {idCart: idCart, idBiglietto: idAbbonamento, azione: "acquistoBiglietto"},
-                            function(data){checkEvento(JSON.parse(data));}
-                        );
-                    }
-                }
-            );
-        });
-    }
 
     //apertura form modifica biglietto
     $(".editTicket").click(function(){

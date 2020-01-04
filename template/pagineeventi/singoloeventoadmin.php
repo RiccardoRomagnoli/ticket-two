@@ -54,7 +54,7 @@
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
+                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . ' ' . $biglietto["Orario"] .'</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                         <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
@@ -73,7 +73,7 @@
             $abbonamentiTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
-                    $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . '</a>
+                    $biglietto["NomeBiglietto"] . ' Dal ' . $biglietto["DataInizioBiglietto"] . ' al '. $biglietto["DataFineBiglietto"] . '</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                     <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
