@@ -1,6 +1,10 @@
 <?php 
     $evento = $templateParams["evento"][0];
+    $sessionData = '';
+    
     require_once 'template/pagineeventi/editEventModal.php';
+    require_once 'template/pagineeventi/editSectionModal.php';
+
     $sessionData .= '
         <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
     ';
@@ -49,15 +53,21 @@ $countTickets = 0;
 $ticketTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){
         if($biglietto["NomeBiglietto"] != "Abbonamento") {
-            $countTickets++;
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
                 . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
-                        <input type="hidden" id="idBiglietto'. $countTickets .'" value="'. $biglietto["IdBiglietto"] .'">
-                        <button id="editTicket'. $countTickets .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                    ';
+                    if($evento["IdUtente"] == $idutente){
+                        $ticketTotali .= '
+                        <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
+                            <button value="'. $biglietto["IdBiglietto"] .'" class="editTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                        </a>    
+                        ';
+                    }
+            $ticketTotali .= '
                     </div>
                 <hr/>
             </li>';
@@ -73,10 +83,17 @@ $abbonamentiTotali = "";
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
                     $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . '</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
-                <div class="uk-accordion-content">
-                    <input type="hidden" id="idAbbonamento'. $countAbbonamenti .'" value="'. $biglietto["IdBiglietto"] .'">
-                    <button id="editAbbonamento'. $countAbbonamenti .'" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
-                </div>
+                    <div class="uk-accordion-content">
+                    ';
+                    if($evento["IdUtente"] == $idutente){
+                        $abbonamentiTotali .= '
+                    <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
+                        <button value="'. $biglietto["IdBiglietto"] .'" class="editTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                    </a>
+                    ';
+                    }
+            $abbonamentiTotali .= '
+                    </div>
                 <hr/>
             </li>';
         }

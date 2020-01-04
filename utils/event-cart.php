@@ -69,6 +69,17 @@
                 }
                 break;
             
+            case 'getInfoBiglietto':
+                $idBiglietto = $_POST['idBiglietto'];
+                $result = $dbh->getInfoBiglietto($idBiglietto);
+                $biglietto = $result["0"];
+                echo json_encode(array('nomeSezione' => $biglietto["NomeSezione"], 'dataInizio' => $biglietto["DataInizio"],
+                                        'dataFine' => $biglietto["DataFine"], 'orarioBiglietto' => $biglietto["Orario"],
+                                        'prezzoBiglietto' => $biglietto["Prezzo"], 'idTipoBiglietto' => $biglietto["IdTipoBiglietto"],
+                                        'postiTotali' => $biglietto["PostiTotali"]
+                                    ));
+                break;
+
             case 'aggiungiEvento':
             
                 break;

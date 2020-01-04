@@ -717,6 +717,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getTipoBiglietti(){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM TipoBiglietto");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function modificaEvento($idEvento, $titolo, $fotoLocation, $nomeLuogo, $dataInizio, $dataFine, $descrizione) {
         $query = "UPDATE Evento SET IdLuogo = ?, Titolo = ?, Descrizione = ?, Locandina = ?, DataInizio = ?, DataFine = ? WHERE IdEvento = ?";
         $stmt = $this->db->prepare($query);
@@ -752,6 +761,19 @@ class DatabaseHelper{
                                     WHERE Biglietto.IdSezione = ? && (Biglietto.DataInizio >= ? && Biglietto.DataFine <= ?)
                                     GROUP BY Biglietto.IdSezione");
         $stmt->bind_param('iss', $idSezione, $dataInizio, $dataFine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getInfoBiglietto($idBiglietto){
+
+        $stmt = $this->db->prepare("SELECT Biglietto.IdTipoBiglietto as IdTipoBiglietto, Prezzo, DataInizio, DataFine, Orario, Sezione.Nome as NomeSezione, PostiTotali
+                                    FROM Biglietto INNER JOIN TipoBiglietto ON TipoBiglietto.IdTipoBiglietto = Biglietto.IdTipoBiglietto 
+                                    INNER JOIN Sezione ON Sezione.IdSezione = Biglietto.IdSezione
+                                    WHERE Biglietto.IdBiglietto = ?");
+        $stmt->bind_param('i', $idBiglietto);
         $stmt->execute();
         $result = $stmt->get_result();
 

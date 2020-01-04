@@ -8,10 +8,33 @@ $(document).ready(function(){
         minDate: "today",
     });
 
+    const fpFBiglietto = flatpickr("#dataFineBiglietto", {
+        minDate: "today",
+    });
+
+    const fpOBiglietto = flatpickr("#orarioBiglietto", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true
+    });
+
     $("#nomeLuogo").select2({
         placeholder: "Seleziona un luogo"
     });
     
+    $("#nomeTipoBiglietto").select2({
+        placeholder: "Seleziona un tipo"
+    });
+
+    $("#dataInizioBiglietto").flatpickr({
+        onChange: function(selectedDates, dateStr, instance) {
+            fpFBiglietto.set("minDate", dateStr);
+            fpFBiglietto.setDate(dateStr);
+        },
+        minDate: "today",
+    });
+
     $("#dataInizioModifica").flatpickr({
         onChange: function(selectedDates, dateStr, instance) {
             fp.set("minDate", dateStr);
@@ -88,6 +111,22 @@ $(document).ready(function(){
             );
         });
     }
+
+    $(".editTicket").click(function(){
+        $.post("utils/event-cart.php",
+                {azione: "getInfoBiglietto", idBiglietto: $(this).val()},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#nomeSezione").val(risposta.nomeSezione);
+                    $("#dataInizioBiglietto").val(risposta.dataInizio);
+                    $("#dataFineBiglietto").val(risposta.dataFine);
+                    $('#nomeTipoBiglietto option[value=' + risposta.idTipoBiglietto +']').prop('selected', 'selected').change();
+                    $("#orarioBiglietto").val(risposta.orarioBiglietto);
+                    $("#postiTotali").val(risposta.postiTotali);
+                    $("#prezzoBiglietto").val(risposta.prezzoBiglietto);
+                }
+            );
+    });
 
     //bottone follow/unfollow
     $("#followBtn").click(function(){
