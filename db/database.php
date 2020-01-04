@@ -784,7 +784,7 @@ class DatabaseHelper{
         $query = "UPDATE Biglietto SET IdSezione = ?, IdTipoBiglietto = ?, Prezzo = ?, DataInizio = ?, DataFine = ?, Orario = ? WHERE IdBiglietto = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('iidsssi', $idSezioneEvento, $idTipoBiglietto, $prezzoBiglietto, $dataInizioBiglietto, $dataFineBiglietto, $orarioBiglietto, $idBiglietto);
-        return $stmt->execute();;
+        return $stmt->execute();
     }
 
     public function getSezioni($idEvento){
@@ -798,5 +798,29 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getInfoSezione($idSezione){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Sezione
+                                    WHERE IdSezione = ?");
+        $stmt->bind_param('i', $idSezione);           
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function modificaSezione($idSezione, $nomeSezione, $postiTotali){
+        $query = "UPDATE Sezione SET Nome = ?, PostiTotali = ? WHERE IdSezione = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sii', $nomeSezione, $postiTotali, $idSezione);
+        return $stmt->execute();
+    }
+
+    public function eliminaBiglietto($idBiglietto){
+        $query = "DELETE FROM Biglietto WHERE IdBiglietto = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idBiglietto);
+        return $stmt->execute();
+    }
 }
 ?>

@@ -101,10 +101,9 @@ $(document).ready(function(){
             function(data){
                 checkEvento(JSON.parse(data));
                 if(JSON.parse(data).result == "ok") {
-                    window.setTimeout(function(){location.reload()},1500);
+                    window.setTimeout(function(){location.reload();},1500);
                 }
             });
-
     });
 
     const fpFBiglietto = flatpickr("#dataFineBiglietto", {
@@ -127,6 +126,25 @@ $(document).ready(function(){
         placeholder: "Seleziona una sezione"
     });
 
+    $('#idSezioneEvento').on('change', function (e) {
+        let idSezione = $(this).val();
+        $('.editSection').val(idSezione);
+      });
+
+    $('.editSection').click(function(){
+        let idSezione = $(this).val();
+
+        $.post("utils/event-cart.php",
+                {azione: "getInfoSezione", idSezione: idSezione},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#idSezioneModifica").val(risposta.idSezione);
+                    $("#nomeSezione").val(risposta.nomeSezione);
+                    $("#postiTotali").val(risposta.postiTotali);
+                }
+            );
+    });
+
     $("#orarioBiglietto").flatpickr({
         enableTime: true,
         noCalendar: true,
@@ -134,7 +152,42 @@ $(document).ready(function(){
         time_24hr: true
     });
 
+    $("#deleteBigliettoBtn").click(function(){
+        let idBiglietto = $("#idBigliettoModifica").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "eliminaBiglietto", idBiglietto: idBiglietto
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok"){
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
+
     //sezione model modificaSezione
+
+    $("#modificaSezioneForm").submit(function(e) {
+        e.preventDefault();
+        let idSezione = $("#idSezioneModifica").val();
+        let nomeSezione = $("#nomeSezione").val();
+        let postiTotali = $("#postiTotali").val();
+
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "modificaSezione", idSezione: idSezione, nomeSezione: nomeSezione,
+                postiTotali: postiTotali
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){UIkit.modal($("#modal-editSection")).hide();},1500);
+                }
+            });
+    });
 
     //sezione model modficaLuogo
 

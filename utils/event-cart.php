@@ -49,9 +49,9 @@
                 $dataFine = $_POST['dataFine'];
                 $descrizione = $_POST['descrizione'];
                 $fotoLocation = $_POST['fotoLocation'];
-                $nomeLuogo = $_POST['nomeLuogo'];
+                $idLuogo = $_POST['idLuogo'];
 
-                $result = $dbh->modificaEvento($idEvento, $titolo, $fotoLocation, $nomeLuogo, $dataInizio, $dataFine, $descrizione);
+                $result = $dbh->modificaEvento($idEvento, $titolo, $fotoLocation, $idLuogo, $dataInizio, $dataFine, $descrizione);
                 if ($result == true) {
                     echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
                 } else {
@@ -73,10 +73,9 @@
                 $idBiglietto = $_POST['idBiglietto'];
                 $result = $dbh->getInfoBiglietto($idBiglietto);
                 $biglietto = $result["0"];
-                echo json_encode(array('nomeSezione' => $biglietto["NomeSezione"], 'dataInizio' => $biglietto["DataInizio"],
+                echo json_encode(array('idSezioneEvento' => $biglietto["IdSezioneEvento"], 'dataInizio' => $biglietto["DataInizio"],
                                         'dataFine' => $biglietto["DataFine"], 'orarioBiglietto' => $biglietto["Orario"],
-                                        'prezzoBiglietto' => $biglietto["Prezzo"], 'idTipoBiglietto' => $biglietto["IdTipoBiglietto"],
-                                        'postiTotali' => $biglietto["PostiTotali"]
+                                        'prezzoBiglietto' => $biglietto["Prezzo"], 'idTipoBiglietto' => $biglietto["IdTipoBiglietto"]
                                     ));
                 break;
 
@@ -84,8 +83,31 @@
             
                 break;
 
-            case 'modificaSezione':
-            
+            case 'eliminaBiglietto':
+                $idBiglietto = $_POST['idBiglietto'];
+                $result = $dbh->eliminaBiglietto($idBiglietto);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Eliminazione effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Eliminazione non riuscita!'));
+                }
+                break;
+
+            case 'modificaBiglietto':
+                $idBiglietto = $_POST['idBiglietto'];
+                $idSezioneEvento = $_POST['idSezioneEvento'];
+                $dataInizioBiglietto = $_POST['dataInizioBiglietto'];
+                $dataFineBiglietto = $_POST['dataFineBiglietto'];
+                $idTipoBiglietto = $_POST['idTipoBiglietto'];
+                $orarioBiglietto = $_POST['orarioBiglietto'];
+                $prezzoBiglietto= $_POST['prezzoBiglietto'];
+
+                $result = $dbh->modificaBiglietto($idBiglietto, $idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                }
                 break;
 
             case 'cancellaSezione':
@@ -94,6 +116,27 @@
 
             case 'aggiungiSezione':
             
+                break;
+
+            case 'modificaSezione':
+                $idSezione = $_POST['idSezione'];
+                $nomeSezione = $_POST['nomeSezione'];
+                $postiTotali = $_POST['postiTotali'];
+                $result = $dbh->modificaSezione($idSezione, $nomeSezione, $postiTotali);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                }
+                break;
+                 
+            case 'getInfoSezione':
+                $idSezione = $_POST['idSezione'];
+                $result = $dbh->getInfoSezione($idSezione);
+                $sezione = $result[0];
+                echo json_encode(array('idSezione' => $sezione["IdSezione"], 'nomeSezione' => $sezione["Nome"],
+                    'postiTotali' => $sezione["PostiTotali"]
+                    ));
                 break;
         }
     }
