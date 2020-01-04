@@ -1,14 +1,15 @@
 <?php 
-$luoghi = '<option value="'. $evento["IdLuogo"] .'">'. $evento["NomeLuogo"] .'</option>';
-foreach ($templateParams["luoghi"] as $luogo) {
+$optionsLuoghi = '<option value="'. $evento["IdLuogo"] .'">'. $evento["NomeLuogo"] .'</option>';
+$luoghi = $dbh->getLuoghi();
+foreach ($luoghi as $luogo) {
     if($luogo["IdLuogo"] != $evento["IdLuogo"]){
-        $luoghi .= '
+        $optionsLuoghi .= '
         <option value="'. $luogo["IdLuogo"] .'">'. $luogo["Nome"] .'</option>
     ';
     }
 }
-$sessionData = '
-    <div id="modal-editEvent" class="uk-modal-full uk-modal" uk-modal>
+$sessionData .= '
+    <div id="modal-editEvent" class="uk-modal-full uk-modal" uk-modal stack="true">
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
             <form id="modificaEventoForm" class ="uk-width-1-1 uk-width-1-3@m uk-margin-left uk-margin-right">
@@ -28,8 +29,8 @@ $sessionData = '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Luogo evento</label></br>
-                        <select id="nomeLuogo">
-                            '. $luoghi .'
+                        <select id="idLuogo">
+                            '. $optionsLuoghi .'
                         </select>
                     </div>
 

@@ -16,12 +16,12 @@ if(isset($_SESSION["idUtente"])){
 } else {
     unset($_SESSION["carrelloaperto"]);
 }
+
+//tutte le info sull'evento
 $templateParams["evento"] = $dbh->getEventByIdEvento($idevento);
 $templateParams["eventoseguito"] = $dbh->isEventFollowed($idutente, $idevento);
 $templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvento($idevento);
 $templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvento($idevento);
-$templateParams["luoghi"] = $dbh->getLuoghi();
-$templateParams["tipologiaBiglietto"] = $dbh->getTipoBiglietti();
 
 if(isset($_COOKIE["idAcquisto"])){
     $_SESSION["carrelloaperto"] = $_COOKIE["idAcquisto"];

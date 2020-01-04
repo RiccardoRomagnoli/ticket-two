@@ -1,37 +1,60 @@
 $(document).ready(function(){
 
     const idEvent = $("#idEvent").val();
-    const nTickets = $("#nTickets").val();
-    const nAbbonamenti = $("#nAbbonamenti").val();
 
-    const fp = flatpickr("#dataFineModifica", {
-        minDate: "today",
+    //bottone follow/unfollow
+    $("#followBtn").click(function(){
+        if( $("#followBtn").text() == "Segui"){
+             $.post("utils/follow-event.php",
+                 {idEvent: idEvent, follow: "true"},
+                 function(data){
+                    checkEvento(JSON.parse(data));
+                    if(JSON.parse(data).result == "ok"){
+                        $("#followBtn").text("Non seguire più");
+                    }
+                    });
+        } else {
+            $.post("utils/follow-event.php",
+                {idEvent: idEvent, follow: "false"},
+                function(data){
+                    checkEvento(JSON.parse(data));
+                    if(JSON.parse(data).result == "ok") {
+                        $("#followBtn").text("Segui");
+                    }
+                });
+        }
     });
 
-    const fpFBiglietto = flatpickr("#dataFineBiglietto", {
-        minDate: "today",
+    //sezione model modificaEvento
+
+    $("#modificaEventoForm").submit(function(e) {
+        e.preventDefault();
+        let titolo = $("#nomeEvento").val();
+        let dataInizio = $("#dataInizioModifica").val();
+        let dataFine = $("#dataFineModifica").val();
+        let descrizione = $("#descrizioneEvento").val();
+        let fotoLocation = $("#pathLocandina").val();
+        let idLuogo = $("#idLuogo").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "modificaEvento", idEvento: idEvent, titolo: titolo, dataInizio: dataInizio,
+                dataFine: dataFine, descrizione: descrizione, fotoLocation: fotoLocation,
+                idLuogo: idLuogo
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
     });
 
-    const fpOBiglietto = flatpickr("#orarioBiglietto", {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true
-    });
-
-    $("#nomeLuogo").select2({
+    $("#idLuogo").select2({
         placeholder: "Seleziona un luogo"
     });
-    
-    $("#nomeTipoBiglietto").select2({
-        placeholder: "Seleziona un tipo"
-    });
 
-    $("#dataInizioBiglietto").flatpickr({
-        onChange: function(selectedDates, dateStr, instance) {
-            fpFBiglietto.set("minDate", dateStr);
-            fpFBiglietto.setDate(dateStr);
-        },
+    const fp = flatpickr("#dataFineModifica", {
         minDate: "today",
     });
 
@@ -43,20 +66,37 @@ $(document).ready(function(){
         minDate: "today",
     });
 
-    $("#modificaEventoForm").submit(function(e) {
-        e.preventDefault();
-        let titolo = $("#nomeEvento").val();
-        let dataInizio = $("#dataInizioModifica").val();
-        let dataFine = $("#dataFineModifica").val();
-        let descrizione = $("#descrizioneEvento").val();
-        let fotoLocation = $("#pathLocandina").val();
-        let nomeLuogo = $("#nomeLuogo").val();
+    $("#deleteEventBtn").click(function(){
         $.post(
             "utils/event-cart.php",
             {
-                azione: "modificaEvento", idEvento: idEvent, titolo: titolo, dataInizio: dataInizio,
-                dataFine: dataFine, descrizione: descrizione, fotoLocation: fotoLocation,
-                nomeLuogo: nomeLuogo
+                azione: "eliminaEvento", idEvento: idEvent
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok"){
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
+
+    //sezione model modificaBiglietto
+
+    $("#modificaBigliettoForm").submit(function(e) {
+        e.preventDefault();
+        let idBiglietto = $("#idBigliettoModifica").val();
+        let idSezioneEvento = $("#idSezioneEvento").val();
+        let dataInizioBiglietto = $("#dataInizioBiglietto").val();
+        let dataFineBiglietto = $("#dataFineBiglietto").val();
+        let idTipoBiglietto = $('#idTipoBiglietto').val();
+        let orarioBiglietto = $("#orarioBiglietto").val();
+        let prezzoBiglietto = $("#prezzoBiglietto").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "modificaBiglietto", idBiglietto: idBiglietto, idSezioneEvento: idSezioneEvento,
+                dataInizioBiglietto: dataInizioBiglietto, dataFineBiglietto: dataFineBiglietto,
+                idTipoBiglietto: idTipoBiglietto, orarioBiglietto: orarioBiglietto, prezzoBiglietto: prezzoBiglietto
             },
             function(data){
                 checkEvento(JSON.parse(data));
@@ -64,7 +104,42 @@ $(document).ready(function(){
                     window.setTimeout(function(){location.reload()},1500);
                 }
             });
+
     });
+
+    const fpFBiglietto = flatpickr("#dataFineBiglietto", {
+        minDate: "today",
+    });
+
+    $("#dataInizioBiglietto").flatpickr({
+        onChange: function(selectedDates, dateStr, instance) {
+            fpFBiglietto.set("minDate", dateStr);
+            fpFBiglietto.setDate(dateStr);
+        },
+        minDate: "today",
+    });
+
+    $("#idTipoBiglietto").select2({
+        placeholder: "Seleziona un tipo"
+    });
+    
+    $("#idSezioneEvento").select2({
+        placeholder: "Seleziona una sezione"
+    });
+
+    $("#orarioBiglietto").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+    //sezione model modificaSezione
+
+    //sezione model modficaLuogo
+
+    const nTickets = $("#nTickets").val();
+    const nAbbonamenti = $("#nAbbonamenti").val();
 
     //bottoni acquisto ticket
     for(let countt = 1; countt <= nTickets; countt++){
@@ -112,57 +187,22 @@ $(document).ready(function(){
         });
     }
 
+    //apertura form modifica biglietto
     $(".editTicket").click(function(){
+        let idBiglietto = $(this).val();
         $.post("utils/event-cart.php",
-                {azione: "getInfoBiglietto", idBiglietto: $(this).val()},
+                {azione: "getInfoBiglietto", idBiglietto: idBiglietto},
                 function(data){
                     let risposta = JSON.parse(data);
-                    $("#nomeSezione").val(risposta.nomeSezione);
+                    $("#idBigliettoModifica").val(idBiglietto);
+                    $('#idSezioneEvento option[value=' + risposta.idSezioneEvento +']').prop('selected', 'selected').change();
                     $("#dataInizioBiglietto").val(risposta.dataInizio);
                     $("#dataFineBiglietto").val(risposta.dataFine);
-                    $('#nomeTipoBiglietto option[value=' + risposta.idTipoBiglietto +']').prop('selected', 'selected').change();
+                    $('#idTipoBiglietto option[value=' + risposta.idTipoBiglietto +']').prop('selected', 'selected').change();
                     $("#orarioBiglietto").val(risposta.orarioBiglietto);
-                    $("#postiTotali").val(risposta.postiTotali);
                     $("#prezzoBiglietto").val(risposta.prezzoBiglietto);
                 }
             );
-    });
-
-    //bottone follow/unfollow
-    $("#followBtn").click(function(){
-        if( $("#followBtn").text() == "Segui"){
-             $.post("utils/follow-event.php",
-                 {idEvent: idEvent, follow: "true"},
-                 function(data){
-                    checkEvento(JSON.parse(data));
-                    if(JSON.parse(data).result == "ok"){
-                        $("#followBtn").text("Non seguire più");
-                    }
-                    });
-        } else {
-            $.post("utils/follow-event.php",
-                {idEvent: idEvent, follow: "false"},
-                function(data){
-                    checkEvento(JSON.parse(data));
-                    if(JSON.parse(data).result == "ok") {
-                        $("#followBtn").text("Segui");
-                    }
-                });
-        }
-    });
-
-    $("#deleteEventBtn").click(function(){
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "eliminaEvento", idEvento: idEvent
-            },
-            function(data){
-                checkEvento(JSON.parse(data));
-                if(JSON.parse(data).result == "ok"){
-                    window.setTimeout(function(){location.reload()},1500);
-                }
-            });
     });
     
     //check eventi
