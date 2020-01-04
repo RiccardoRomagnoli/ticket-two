@@ -85,8 +85,8 @@
                     <ul uk-margin class="uk-subnav uk-flex-center">
                         <li class="uk-first-column"><a href="./whoWeAre.php">Chi siamo</a></li>
                         <li><a href="./mission.php">Mission</a></li>
-                        <li><a href="./ble">Bli</a></li>
-                        <li><a href="./bla">Blo</a></li>
+                        <li><a href="./privacy.php">Privacy</a></li>
+                        <li><a href="./contactUs.php">Contattaci</a></li>
                     </ul>
                 </div>
                 <div class>
