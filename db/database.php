@@ -148,11 +148,73 @@ class DatabaseHelper{
                 and Evento.IdEvento = CategoriaEvento.IdEvento
                 and CategoriaEvento.IdCategoria = ?
                 and Evento.DataInizio >= CURDATE()
-            ORDER BY Evento.DataInizio DESC LIMIT 10");
+            ORDER BY Evento.IdEvento DESC LIMIT 10");
         $stmt->bind_param('i', $idCategory);
         $stmt->execute();
         $result = $stmt->get_result();
 
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNRandomValidEventsExceptSomeEvents($n, $events){
+        $build = 
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE() ";
+        foreach($events as $event):
+            $build = $build . ' and Evento.IdEvento != ' . $event["IdEvento"];
+        endforeach;
+        $build = $build . " ORDER BY RAND() LIMIT ?";
+        $stmt = $this->db->prepare($build);
+        $stmt->bind_param('i', $n);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTenValidRandomEvents(){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+            ORDER BY RAND() LIMIT 10");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTenRandomValidInterestEvents($idUser){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, CategoriaEvento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+                and CategoriaEvento.IdCategoria IN 
+                (SELECT IdCategoria
+                FROM CategoriaSeguita
+                WHERE IdUtente = ?)
+            ORDER BY RAND() LIMIT 10");
+        $stmt->bind_param('i', $idUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenEvents(){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.*, Citta.Nome as NomeCitta
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+                and Luogo.IdCitta = Citta.IdCitta
+                and Evento.DataInizio >= CURDATE()
+            ORDER BY Evento.IdEvento DESC LIMIT 10");
+        $stmt->execute();
+        $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -164,8 +226,50 @@ class DatabaseHelper{
             FROM Evento, Luogo, Citta
             WHERE Evento.IdLuogo = Luogo.IdLuogo 
             and Luogo.IdCitta = Citta.IdCitta
-            and Evento.IdUtente = ?");
+            and Evento.IdUtente = ?
+            ORDER BY Evento.IdEvento DESC");
         $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenCreatedEventsByIdUserCreator($id){
+        $stmt = $this->db->prepare(
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and Evento.IdUtente = ?
+            ORDER BY Evento.IdEvento DESC limit 10");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLatestTenEventsSimilarToMyOrganizedEvents($idUser){
+        $myEvents = "SELECT IdEvento FROM Evento WHERE IdUtente = ? ";
+        $categoriesOfMyEvents = "SELECT DISTINCT IdCategoria FROM CategoriaEvento WHERE IdEvento IN (" . $myEvents . ")";
+        $idEventsMatchingMyCategoriesExcludingMyEvents = 
+            "SELECT DISTINCT IdEvento 
+            FROM CategoriaEvento
+            WHERE IdEvento NOT IN (" . $myEvents . ") AND IdCategoria IN (" . $categoriesOfMyEvents . ")";
+        $latestTenEventsSimilarToMine = 
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+            Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
+            Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
+            FROM Evento, Luogo, Citta
+            WHERE Evento.IdLuogo = Luogo.IdLuogo 
+            and Luogo.IdCitta = Citta.IdCitta
+            and Evento.IdUtente IN (" . $idEventsMatchingMyCategoriesExcludingMyEvents . ") 
+            ORDER BY Evento.IdEvento DESC limit 10";
+        $stmt = $this->db->prepare($latestTenEventsSimilarToMine);
+        $stmt->bind_param('ii', $idUser, $idUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -292,7 +396,7 @@ class DatabaseHelper{
         $stmt = $this->db->prepare(
             "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
                 Biglietto.DataInizio as DataInizioBiglietto, Biglietto.DataFine as DataFineBiglietto, TipoBiglietto.Nome as NomeBiglietto,
-                Biglietto.IdBiglietto as IdBiglietto
+                Biglietto.IdBiglietto as IdBiglietto, Biglietto.IdSezione as IdSezione, Biglietto.Orario as Orario
             FROM Evento INNER JOIN Sezione ON Evento.IdEvento = Sezione.IdEvento 
                 INNER JOIN Biglietto ON Biglietto.IdSezione = Sezione.IdSezione 
                 INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto 
@@ -627,6 +731,31 @@ class DatabaseHelper{
         $stmt->bind_param('i', $idEvento);
         return $stmt->execute();
     }
-}
 
+    public function getTicketSezionePresi($idSezione, $dataInizio, $dataFine, $orario){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS 'PostiOccupati' 
+                                    FROM `RigaAcquisto` INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto 
+                                    WHERE Biglietto.IdSezione = ? && 
+                                        ((Biglietto.DataInizio = ? && Biglietto.DataFine = ? && Biglietto.Orario = ?) 
+                                        || (Biglietto.DataInizio <= ? && Biglietto.DataFine >= ?)) 
+                                    GROUP BY Biglietto.IdSezione");
+        $stmt->bind_param('isssss', $idSezione, $dataInizio, $dataFine, $orario, $dataInizio, $dataFine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getAbbonamentoSezionePresi($idSezione, $dataInizio, $dataFine){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS 'PostiOccupati' 
+                                    FROM RigaAcquisto INNER JOIN Biglietto ON RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto 
+                                    WHERE Biglietto.IdSezione = ? && (Biglietto.DataInizio >= ? && Biglietto.DataFine <= ?)
+                                    GROUP BY Biglietto.IdSezione");
+        $stmt->bind_param('iss', $idSezione, $dataInizio, $dataFine);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+}
 ?>
