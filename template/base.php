@@ -93,13 +93,9 @@
                     <div class="uk-text-right@m uk-text-center">
                         <div uk-grid="" class="uk-child-width-auto uk-grid-small uk-flex-center uk-grid">
                             <div class="uk-first-column">
-                                <a href="https://github.com/" uk-icon="icon: github" class="uk-icon-link uk-icon">
+                                <a href="https://bitbucket.org/Tale97/tw_pulita_romagnoli_talmi/src/master/" uk-icon="icon: github" class="uk-icon-link uk-icon">
                                 </a>
                             </div> 
-                            <div>
-                                <a href="https://discordapp.com/" uk-icon="icon: commenting" class="uk-icon-link uk-icon">
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
