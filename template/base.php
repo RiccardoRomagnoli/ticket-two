@@ -83,8 +83,8 @@
                 </div>
                 <div class="uk-margin-auto">
                     <ul uk-margin class="uk-subnav uk-flex-center">
-                        <li class="uk-first-column"><a href="./blo">Bla</a></li>
-                        <li><a href="./bli">Ble</a></li>
+                        <li class="uk-first-column"><a href="./whoWeAre.php">Chi siamo</a></li>
+                        <li><a href="./mission.php">Mission</a></li>
                         <li><a href="./ble">Bli</a></li>
                         <li><a href="./bla">Blo</a></li>
                     </ul>
