@@ -33,21 +33,32 @@ $(document).ready(function(){
         let dataInizio = $("#dataInizioModifica").val();
         let dataFine = $("#dataFineModifica").val();
         let descrizione = $("#descrizioneEvento").val();
-        let fotoLocation = $("#pathLocandina").val();
+        let myFile = $('#pathLocandina').prop('files')[0];
         let idLuogo = $("#idLuogo").val();
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "modificaEvento", idEvento: idEvent, titolo: titolo, dataInizio: dataInizio,
-                dataFine: dataFine, descrizione: descrizione, fotoLocation: fotoLocation,
-                idLuogo: idLuogo
-            },
-            function(data){
+        let formData = new FormData();
+        
+        formData.append("azione", "modificaEvento");
+        formData.append("idEvento", idEvent);
+        formData.append("titolo", titolo);
+        formData.append("dataInizio", dataInizio);
+        formData.append("dataFine", dataFine);
+        formData.append("descrizione", descrizione);
+        formData.append("fotoLocation", myFile);
+        formData.append("idLuogo", idLuogo);
+
+        $.ajax({
+            url: 'utils/event-cart.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data){
                 checkEvento(JSON.parse(data));
                 if(JSON.parse(data).result == "ok") {
                     window.setTimeout(function(){location.reload()},1500);
                 }
-            });
+            }
+          });
     });
 
     $("#idLuogo").select2({
@@ -284,6 +295,7 @@ $(document).ready(function(){
             }
         );
     });
+
 
     //apertura form modifica biglietto
     $(".editTicket").click(function(){

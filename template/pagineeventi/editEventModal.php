@@ -24,7 +24,7 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Locandina evento</label>
-                        <input required id ="pathLocandina" class="uk-input" type="text" placeholder="Inserisci foto da fare" value="'. $evento["Locandina"] .'"></input>
+                        <input type="file" name="pathLocandina" id="pathLocandina" />
                     </div>
 
                     <div class="uk-margin">

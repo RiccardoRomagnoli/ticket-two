@@ -873,5 +873,13 @@ class DatabaseHelper{
         $stmt->bind_param('iidsss', $idSezioneEvento, $idTipoBiglietto, $prezzoBiglietto, $dataInizioBiglietto, $dataFineBiglietto, $orarioBiglietto);
         return $stmt->execute();
     }
+
+    public function modificaEventoNoImage($idEvento, $titolo, $idLuogo, $dataInizio, $dataFine, $descrizione){
+        $query = "UPDATE Evento SET IdLuogo = ?, Titolo = ?, Descrizione = ?, DataInizio = ?, DataFine = ? WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('issssi', $idLuogo, $titolo, $descrizione, $dataInizio, $dataFine, $idEvento);
+        
+        return $stmt->execute();
+    }
 }
 ?>

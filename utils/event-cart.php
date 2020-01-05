@@ -48,14 +48,26 @@
                 $dataInizio = $_POST['dataInizio'];
                 $dataFine = $_POST['dataFine'];
                 $descrizione = $_POST['descrizione'];
-                $fotoLocation = $_POST['fotoLocation'];
+                $result = 0;
+                $msg = "";
+                if(!empty($_FILES["fotoLocation"])){
+                    list($result, $msg) = uploadImage(UPLOAD_DIR, $_FILES["fotoLocation"]);
+                }
                 $idLuogo = $_POST['idLuogo'];
-
-                $result = $dbh->modificaEvento($idEvento, $titolo, $fotoLocation, $idLuogo, $dataInizio, $dataFine, $descrizione);
-                if ($result == true) {
-                    echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                if($result != 0){
+                    $result = $dbh->modificaEvento($idEvento, $titolo, $msg, $idLuogo, $dataInizio, $dataFine, $descrizione);
+                    if ($result == true) {
+                        echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                    } else {
+                        echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                    }
                 } else {
-                    echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                    $result = $dbh->modificaEventoNoImage($idEvento, $titolo, $idLuogo, $dataInizio, $dataFine, $descrizione);
+                    if ($result == true) {
+                        echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                    } else {
+                        echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                    }
                 }
                 break;
 
