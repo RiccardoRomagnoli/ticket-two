@@ -932,5 +932,12 @@ class DatabaseHelper{
         $stmt->bind_param('iss', $idCitta, $nomeLuogo, $descrizioneLuogo);
         return $stmt->execute();
     }
+
+    public function aggiungiSezione($idEvento, $nomeSezione, $postiTotali){
+        $query = "INSERT INTO Sezione (IdEvento, Nome, PostiTotali) VALUE (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iss', $idEvento, $nomeSezione, $postiTotali);
+        return $stmt->execute();
+    }
 }
 ?>

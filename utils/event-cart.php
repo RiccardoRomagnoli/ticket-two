@@ -143,7 +143,15 @@
                 break;
 
             case 'aggiungiSezione':
-            
+                $idEvento = $_POST['idEvento'];
+                $nomeSezione = $_POST['nomeSezione'];
+                $postiTotali = $_POST['postiTotali'];
+                $result = $dbh->aggiungiSezione($idEvento, $nomeSezione, $postiTotali);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Aggiunta non riuscita!'));
+                }
                 break;
             
             case 'aggiungiLuogo':

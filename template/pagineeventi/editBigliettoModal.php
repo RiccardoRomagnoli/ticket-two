@@ -31,8 +31,11 @@ $sessionData .= '
                         <select style="width: 50%" id="idSezioneEvento">
                             '. $optionSezioniEvento .'
                         </select>
+                        <a href="#modal-addSection" uk-toggle class="uk-toggle uk-float-right">
+                            <button id="addSection" class="uk-icon-button uk-float-right" uk-icon="plus-circle"></button>
+                        </a>
                         <a href="#modal-editSection" uk-toggle class="uk-toggle uk-float-right">
-                            <button class="editSection uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                            <button class="editSection uk-icon-button uk-float-right" uk-icon="pencil"></button>
                         </a>
                     </div>
 

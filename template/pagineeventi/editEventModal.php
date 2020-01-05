@@ -33,7 +33,7 @@ $sessionData .= '
                             '. $optionsLuoghi .'
                         </select>
                         <a href="#modal-addLuogo" uk-toggle class="uk-toggle uk-float-right">
-                            <button class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                            <button id="apriModalAddLuogo" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
                         </a>
                     </div>
 

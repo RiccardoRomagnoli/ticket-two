@@ -229,6 +229,15 @@ $(document).ready(function(){
             $("#idAddCitta").prop('disabled', false);
     });
 
+    $("#apriModalAddLuogo").click(function(){
+            $("#addLuogoForm")[0].reset();
+            $("#idAddProvincia").empty();
+            $("#idAddCitta").empty();
+            $("#idAddProvincia").prop('disabled', true);
+            $("#idAddCitta").prop('disabled', true);
+        }
+    );
+
     $("#idAddCitta").select2({
         placeholder: "Seleziona una citta"
     });
@@ -349,7 +358,32 @@ $(document).ready(function(){
             });
     });
 
-    //sezione model modificaLuogo
+    //sezione model addSezione
+
+    $("#addSezioneForm").submit(function(e) {
+        e.preventDefault();
+        let nomeSezione = $("#nomeSezioneAdd").val();
+        let postiTotali = $("#postiTotaliAdd").val();
+
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "aggiungiSezione", idEvento: idEvent, nomeSezione: nomeSezione,
+                postiTotali: postiTotali
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){
+                        //aggiornamento con post della select delle sezioni 
+                        UIkit.modal($("#modal-addSection")).hide();},1500);
+                }
+            });
+    });
+    
+    $("#addSection").click(function(){
+        $("#addSezioneForm")[0].reset();
+    });
 
     //bottone acquisto ticket
 

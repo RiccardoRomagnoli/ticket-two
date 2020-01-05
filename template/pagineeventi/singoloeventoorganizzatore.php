@@ -7,6 +7,7 @@
     require_once 'template/pagineeventi/editSectionModal.php';
     require_once 'template/pagineeventi/addBigliettoModal.php';
     require_once 'template/pagineeventi/addLuogoModal.php';
+    require_once 'template/pagineeventi/addSectionModal.php';
 
     //dati utili per la pagina
     $sessionData .= '
