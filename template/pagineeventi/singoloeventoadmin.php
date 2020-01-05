@@ -8,6 +8,7 @@
     require_once 'template/pagineeventi/addLuogoModal.php';
     require_once 'template/pagineeventi/addSectionModal.php';
 
+    
     //dati utili per la pagina
     $sessionData .= '
         <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
@@ -19,7 +20,7 @@
             <div class="uk-panel uk-width-1-1">
                 <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
                 <a href="#modal-editEvent" uk-toggle class="uk-toggle uk-float-right">
-                    <button class="uk-button uk-button-default uk-button-primary">Modifica</button>
+                    <button id="openModalEditEvent" class="uk-button uk-button-default uk-button-primary">Modifica</button>
                 </a>          
             </div>
         </div>  

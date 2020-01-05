@@ -24,7 +24,7 @@
     if($evento["IdUtente"] == $idutente){
             $titleSection .= '
                 <a href="#modal-editEvent" uk-toggle class="uk-toggle uk-float-right">
-                    <button class="uk-button uk-button-default uk-button-primary">Modifica</button>
+                    <button id="openModalEditEvent" class="uk-button uk-button-default uk-button-primary">Modifica</button>
                 </a>
                 ';
     }

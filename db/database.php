@@ -939,5 +939,69 @@ class DatabaseHelper{
         $stmt->bind_param('iss', $idEvento, $nomeSezione, $postiTotali);
         return $stmt->execute();
     }
+
+    public function getArtisti(){
+        $stmt = $this->db->prepare("SELECT Nome, IdArtista
+        FROM Artista");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getArtistiNonEvento($idevento){
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Artista
+                                    WHERE Artista.IdArtista 
+                                        NOT IN (SELECT ArtistaEvento.IdArtista 
+                                                FROM Evento INNER JOIN ArtistaEvento ON Evento.IdEvento = ArtistaEvento.IdEvento 
+                                                WHERE Evento.IdEvento = ?)");
+        $stmt->bind_param('i', $idevento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCategorieNonEvento($idevento){
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Categoria
+                                    WHERE  Categoria.IdCategoria 
+                                        NOT IN (SELECT CategoriaEvento.IdCategoria 
+                                                FROM Evento INNER JOIN CategoriaEvento ON Evento.IdEvento = CategoriaEvento.IdEvento 
+                                                WHERE Evento.IdEvento = ?)");
+        $stmt->bind_param('i', $idevento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function aggiungiCategoriaEvento($idEvento, $idCategoria){
+        $query = "INSERT INTO CategoriaEvento (IdEvento, IdCategoria) VALUE (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idEvento, $idCategoria);
+        return $stmt->execute();
+    }
+
+    public function aggiungiArtistaEvento($idEvento, $idArtista){
+        $query = "INSERT INTO ArtistaEvento (IdEvento, IdArtista) VALUE (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ii', $idEvento, $idArtista);
+        return $stmt->execute();
+    }
+
+    public function cancellaCategorieEvento($idEvento){
+        $query = "DELETE FROM CategoriaEvento WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idEvento);
+        return $stmt->execute();
+    }
+
+    public function cancellaArtistiEvento($idEvento){
+        $query = "DELETE FROM ArtistaEvento WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idEvento);
+        return $stmt->execute();
+    }
+
 }
 ?>

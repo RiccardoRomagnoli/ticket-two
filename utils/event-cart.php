@@ -26,6 +26,34 @@
                     echo $_SESSION['carrelloaperto']; 
                 }
                 break;
+
+            case 'getArtistiEvento':    
+                    $idEvento = $_POST['idEvento'];
+                    $result = $dbh-> getEventArtistsByIdEvento($idEvento);
+                    echo json_encode(array_values($result));
+                
+                break;
+
+            case 'getArtistiNonEvento':    
+                $idEvento = $_POST['idEvento'];
+                $result = $dbh->getArtistiNonEvento($idEvento);
+                echo json_encode(array_values($result));
+            
+                break;
+            
+            case 'getCategorieEvento':    
+                $idEvento = $_POST['idEvento'];
+                $result = $dbh-> getEventCategoriesByIdEvento($idEvento);
+                echo json_encode(array_values($result));
+            
+                break;
+
+            case 'getCategorieNonEvento':    
+                $idEvento = $_POST['idEvento'];
+                $result = $dbh->getCategorieNonEvento($idEvento);
+                echo json_encode(array_values($result));
+            
+                break;
             
             case 'acquistoBiglietto':
                 if($_POST['idCart'] == '' || $_POST['idBiglietto'] == ''){
@@ -99,7 +127,7 @@
                 $orarioBiglietto = $_POST['orarioBiglietto'];
                 $prezzoBiglietto= $_POST['prezzoBiglietto'];
 
-                $result = $dbh->addBiglietto( $idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto);
+                $result = $dbh->addBiglietto($idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto);
                 if ($result == true) {
                     echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
                 } else {
@@ -107,8 +135,26 @@
                 }
                 break;
 
-            case 'aggiungiEvento':
-            
+            case 'cancellaCategorieEvento':
+                $idEvento = $_POST['idEvento'];
+                $dbh->cancellaCategorieEvento($idEvento);
+                break;
+
+            case 'cancellaArtistiEvento':
+                $idEvento = $_POST['idEvento'];
+                $dbh->cancellaArtistiEvento($idEvento);
+                break;
+
+            case 'aggiungiCategoriaEvento':
+                $idEvento = $_POST['idEvento'];
+                $idCategoria = $_POST['idCategoria'];
+                $dbh->aggiungiCategoriaEvento($idEvento, $idCategoria);
+                break;
+
+            case 'aggiungiArtistaEvento':
+                $idEvento = $_POST['idEvento'];
+                $idArtista = $_POST['idArtista'];
+                $dbh->aggiungiArtistaEvento($idEvento, $idArtista);
                 break;
 
             case 'eliminaBiglietto':

@@ -25,7 +25,13 @@ $(document).ready(function(){
         }
     });
 
-    //sezione model modificaEvento
+
+    $(".uk-search-input").click(function(){
+
+        console.log($(this).text());
+    });
+
+    //sezione model modifica evento
 
     $("#modificaEventoForm").submit(function(e) {
         e.preventDefault();
@@ -35,6 +41,8 @@ $(document).ready(function(){
         let descrizione = $("#descrizioneEvento").val();
         let myFile = $('#pathLocandina').prop('files')[0];
         let idLuogo = $("#idLuogo").val();
+        let categorie = $("#idCategoria").val(); 
+        let artisti =  $("#idArtista").val();
         let formData = new FormData();
         
         formData.append("azione", "modificaEvento");
@@ -46,6 +54,35 @@ $(document).ready(function(){
         formData.append("fotoLocation", myFile);
         formData.append("idLuogo", idLuogo);
 
+        //delete categorie e artisti di un evento
+
+        $.post("utils/event-cart.php",
+        {idEvento: idEvent, azione: "cancellaCategorieEvento"},
+        function(data){
+        });
+
+        $.post("utils/event-cart.php",
+            {idEvento: idEvent, azione: "cancellaArtistiEvento"},
+            function(data){
+        });       
+
+        //aggiungi per ogni categoria e artista delle let
+
+        categorie.forEach(categoria => {
+            $.post("utils/event-cart.php",
+            {idEvento: idEvent, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
+            function(data){
+            });    
+        }); 
+
+        artisti.forEach(artista => {
+            $.post("utils/event-cart.php",
+            {idEvento: idEvent, idArtista: artista, azione: "aggiungiArtistaEvento"},
+            function(data){
+            });    
+        });
+
+        //modifica dei campi dell'evento
         $.ajax({
             url: 'utils/event-cart.php',
             data: formData,
@@ -58,7 +95,18 @@ $(document).ready(function(){
                     window.setTimeout(function(){location.reload()},1500);
                 }
             }
-          });
+        });
+
+    });
+
+    $("#idArtista").select2({
+        placeholder: "Seleziona un artista",
+        allowClear: true
+    });
+
+    $("#idCategoria").select2({
+        placeholder: "Seleziona una categoria",
+        allowClear: true
     });
 
     $("#idLuogo").select2({
@@ -405,8 +453,81 @@ $(document).ready(function(){
                 }
             }
         );
-    });
+    });  
 
+    //bottone apertura modal modifica evento
+    $("#openModalEditEvent").click(function(){
+        //pulisci le select
+        $("#idArtista").prop("disabled", true);
+        $("#idCategoria").prop("disabled", true);
+        $("#idArtista").empty();
+        $("#idCategoria").empty();
+
+        //riempi gli artisti scelti prima
+        $.post("utils/event-cart.php",
+                {azione: "getArtistiEvento", idEvento: idEvent},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(artista => {
+                            var e = document.createElement("option");
+                            e.selected = true;
+                            e.value = artista.IdArtista;
+                            e.text = artista.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#idArtista").append(c);
+                }
+            );
+            
+        //riempi gli artisti non scelti
+        $.post("utils/event-cart.php",
+                {azione: "getArtistiNonEvento", idEvento: idEvent},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(artista => {
+                            var e = document.createElement("option");
+                            e.value = artista.IdArtista;
+                            e.text = artista.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#idArtista").append(c);
+                }
+            );
+
+        //riempi le categorie scelte prima
+        $.post("utils/event-cart.php",
+            {azione: "getCategorieEvento", idEvento: idEvent},
+             function(data){
+                var c = document.createDocumentFragment();
+                JSON.parse(data).forEach(artista => {
+                        var e = document.createElement("option");
+                        e.selected = true;
+                        e.value = artista.IdCategoria;
+                        e.text = artista.Nome;
+                        c.appendChild(e);
+                    });
+                $("#idCategoria").append(c);
+            }
+        );
+
+        //riempi le categorie non scelte
+        $.post("utils/event-cart.php",
+        {azione: "getCategorieNonEvento", idEvento: idEvent},
+         function(data){
+            var c = document.createDocumentFragment();
+                JSON.parse(data).forEach(artista => {
+                    var e = document.createElement("option");
+                    e.value = artista.IdCategoria;
+                    e.text = artista.Nome;
+                    c.appendChild(e);
+                });
+                $("#idCategoria").append(c);
+            }
+        );
+
+        $("#idArtista").prop("disabled", false);
+        $("#idCategoria").prop("disabled", false);
+    });
 
     //apertura form modifica biglietto
     $(".editTicket").click(function(){

@@ -8,6 +8,7 @@ foreach ($luoghi as $luogo) {
     ';
     }
 }
+
 $sessionData .= '
     <div id="modal-editEvent" class="uk-modal-full uk-modal" uk-modal stack="true">
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
@@ -23,8 +24,23 @@ $sessionData .= '
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Locandina evento</label>
-                        <input type="file" name="pathLocandina" id="pathLocandina" />
+                        <label class="uk-form-label" for="form-stacked-text">Artisti dell\' evento</label></br>
+                        <select style="width: 50%" id="idArtista" multiple>
+                        </select>
+                        <a href="#modal-addArtista" uk-toggle class="uk-toggle uk-float-right">
+                            <button id="apriModalAddArtista" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                        </a>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Categorie dell\' evento</label></br>
+                        <select style="width: 60%" id="idCategoria" multiple>
+                        </select>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">Locandina evento</label></br>
+                        <input type="file" name="pathLocandina" id="pathLocandina"></input>
                     </div>
 
                     <div class="uk-margin">
