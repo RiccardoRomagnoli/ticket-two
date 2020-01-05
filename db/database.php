@@ -136,6 +136,50 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getUserNotificationsNotReaded($id){
+        $stmt = $this->db->prepare(
+            "SELECT * 
+            FROM Notifica
+            WHERE IdUtente = ? 
+                AND Letto = 0
+            ORDER BY IdNotifica DESC");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getUserNotificationsAlreadyReaded($id){
+        $stmt = $this->db->prepare(
+            "SELECT * 
+            FROM Notifica
+            WHERE IdUtente = ? 
+                AND Letto = 1
+            ORDER BY IdNotifica DESC");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function changeNotificationToReaded($idNotification){
+        $query = "UPDATE Notifica SET Letto = 1 WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        
+        return $stmt->execute();
+    }
+
+    public function deleteNotification($idNotification){
+        $query = "DELETE FROM Notifica WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        
+        return $stmt->execute();
+    }
+
     public function getLatestTenEventsByCategory($idCategory){
         $stmt = $this->db->prepare(
             "SELECT
@@ -820,6 +864,13 @@ class DatabaseHelper{
         $query = "DELETE FROM Biglietto WHERE IdBiglietto = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $idBiglietto);
+        return $stmt->execute();
+    }
+
+    public function addBiglietto( $idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto){
+        $query = "INSERT INTO Biglietto (IdSezione, IdTipoBiglietto, Prezzo, DataInizio, DataFine, Orario) VALUE (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iidsss', $idSezioneEvento, $idTipoBiglietto, $prezzoBiglietto, $dataInizioBiglietto, $dataFineBiglietto, $orarioBiglietto);
         return $stmt->execute();
     }
 }

@@ -78,6 +78,22 @@
                                         'prezzoBiglietto' => $biglietto["Prezzo"], 'idTipoBiglietto' => $biglietto["IdTipoBiglietto"]
                                     ));
                 break;
+            
+            case 'aggiungiBiglietto':
+                $idSezioneEvento = $_POST['idSezioneEvento'];
+                $dataInizioBiglietto = $_POST['dataInizioBiglietto'];
+                $dataFineBiglietto = $_POST['dataFineBiglietto'];
+                $idTipoBiglietto = $_POST['idTipoBiglietto'];
+                $orarioBiglietto = $_POST['orarioBiglietto'];
+                $prezzoBiglietto= $_POST['prezzoBiglietto'];
+
+                $result = $dbh->addBiglietto( $idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Modifica effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
+                }
+                break;
 
             case 'aggiungiEvento':
             

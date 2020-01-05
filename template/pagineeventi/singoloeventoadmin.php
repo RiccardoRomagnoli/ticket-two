@@ -66,6 +66,14 @@
         }
     }
 
+    $ticketTotali .= '
+        <li class="uk-flex uk-flex-center">
+            <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
+            <button class="addTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
+            </a>  
+        </li>  
+        ';
+
     //zona dei biglietti abbonamento
     $abbonamentiTotali = "";
     foreach($templateParams["bigliettievento"] as $biglietto){ 
@@ -85,6 +93,14 @@
         }
     }
 
+    $abbonamentiTotali .= '
+        <li class="uk-flex uk-flex-center">
+            <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
+            <button class="addTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
+            </a>  
+        </li>  
+        ';
+        
     //sezione dei biglietti, includendo i pezzi creati sopra
     $ticketSection = '
         <div class="uk-grid uk-margin-remove-top">

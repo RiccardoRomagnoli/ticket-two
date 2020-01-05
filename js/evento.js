@@ -167,6 +167,78 @@ $(document).ready(function(){
             });
     });
 
+    //sezione model addBiglietto
+
+    $("#addBigliettoForm").submit(function(e) {
+        e.preventDefault();
+        let idSezioneEvento = $("#idAddSezioneEvento").val();
+        let dataInizioBiglietto = $("#dataAddInizioBiglietto").val();
+        let dataFineBiglietto = $("#dataAddFineBiglietto").val();
+        let idTipoBiglietto = $('#idAddTipoBiglietto').val();
+        let orarioBiglietto = $("#orarioAddBiglietto").val();
+        let prezzoBiglietto = $("#prezzoAddBiglietto").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "aggiungiBiglietto", idSezioneEvento: idSezioneEvento,
+                dataInizioBiglietto: dataInizioBiglietto, dataFineBiglietto: dataFineBiglietto,
+                idTipoBiglietto: idTipoBiglietto, orarioBiglietto: orarioBiglietto, prezzoBiglietto: prezzoBiglietto
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){location.reload();},1500);
+                }
+            });
+    });
+
+    const fpABiglietto = flatpickr("#dataAddFineBiglietto", {
+        minDate: "today",
+    });
+
+    $('.editAddSection').click(function(){
+        let idSezione = $(this).val();
+
+        $.post("utils/event-cart.php",
+                {azione: "getInfoSezione", idSezione: idSezione},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#idSezioneModifica").val(risposta.idSezione);
+                    $("#nomeSezione").val(risposta.nomeSezione);
+                    $("#postiTotali").val(risposta.postiTotali);
+                }
+            );
+    });
+
+    $("#dataAddInizioBiglietto").flatpickr({
+        onChange: function(selectedDates, dateStr, instance) {
+            fpABiglietto.set("minDate", dateStr);
+            fpABiglietto.setDate(dateStr);
+        },
+        minDate: "today",
+    });
+
+    $("#idAddTipoBiglietto").select2({
+        placeholder: "Seleziona un tipo"
+    });
+    
+    $("#idAddSezioneEvento").select2({
+        placeholder: "Seleziona una sezione"
+    });
+
+    $('#idAddSezioneEvento').on('change', function (e) {
+        let idSezione = $(this).val();
+        $('.editAddSection').val(idSezione);
+      });
+
+    $("#orarioAddBiglietto").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
+
+
     //sezione model modificaSezione
 
     $("#modificaSezioneForm").submit(function(e) {
@@ -212,7 +284,6 @@ $(document).ready(function(){
             }
         );
     });
-
 
     //apertura form modifica biglietto
     $(".editTicket").click(function(){
