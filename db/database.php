@@ -164,6 +164,22 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function changeNotificationToReaded($idNotification){
+        $query = "UPDATE Notifica SET Letto = 1 WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        
+        return $stmt->execute();
+    }
+
+    public function deleteNotification($idNotification){
+        $query = "DELETE FROM Notifica WHERE IdNotifica = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idNotification);
+        
+        return $stmt->execute();
+    }
+
     public function getLatestTenEventsByCategory($idCategory){
         $stmt = $this->db->prepare(
             "SELECT
