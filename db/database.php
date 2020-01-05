@@ -136,6 +136,34 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getUserNotificationsNotReaded($id){
+        $stmt = $this->db->prepare(
+            "SELECT * 
+            FROM Notifica
+            WHERE IdUtente = ? 
+                AND Letto = 0
+            ORDER BY IdNotifica DESC");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getUserNotificationsAlreadyReaded($id){
+        $stmt = $this->db->prepare(
+            "SELECT * 
+            FROM Notifica
+            WHERE IdUtente = ? 
+                AND Letto = 1
+            ORDER BY IdNotifica DESC");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getLatestTenEventsByCategory($idCategory){
         $stmt = $this->db->prepare(
             "SELECT
