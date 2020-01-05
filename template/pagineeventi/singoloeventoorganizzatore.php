@@ -56,12 +56,14 @@
 
     //zona dei biglietti singoli interi e ridotti
     $ticketTotali = "";
+    //per ogni biglietto dell'evento
     foreach($templateParams["bigliettievento"] as $biglietto){
+        //se sono semplici ticket di giorni singoli
         if($biglietto["NomeBiglietto"] != "Abbonamento") {
             $ticketTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .'</a>
+                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .' ' . $biglietto["Orario"] . '</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                     ';
@@ -87,7 +89,7 @@
             $abbonamentiTotali .= '
             <li>
                 <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
-                    $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] . '</a>
+                    $biglietto["NomeBiglietto"] . ' Dal ' . $biglietto["DataInizioBiglietto"] . ' al '. $biglietto["DataFineBiglietto"] . '</a>
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                     ';
