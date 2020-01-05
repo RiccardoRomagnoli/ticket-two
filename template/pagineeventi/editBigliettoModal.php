@@ -28,14 +28,17 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Sezione del Biglietto</label></br>
-                        <select id="idSezioneEvento">
+                        <select style="width: 50%" id="idSezioneEvento">
                             '. $optionSezioniEvento .'
                         </select>
+                        <a href="#modal-editSection" uk-toggle class="uk-toggle uk-float-right">
+                            <button class="editSection uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                        </a>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Tipologia Biglietto</label></br>
-                        <select id="idTipoBiglietto">
+                        <select style="width: 50%" id="idTipoBiglietto">
                             '. $optionTipiBiglietto .'
                         </select>
                     </div>

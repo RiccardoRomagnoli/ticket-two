@@ -28,7 +28,7 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Sezione del Biglietto</label></br>
-                        <select id="idAddSezioneEvento">
+                        <select style="width: 50%" id="idAddSezioneEvento">
                             '. $optionSezioniEvento .'
                         </select>
                         <a href="#modal-editSection" uk-toggle class="uk-toggle uk-float-right">
@@ -38,7 +38,7 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Tipologia Biglietto</label></br>
-                        <select id="idAddTipoBiglietto">
+                        <select style="width: 50%" id="idAddTipoBiglietto">
                             '. $optionTipiBiglietto .'
                         </select>
                     </div>

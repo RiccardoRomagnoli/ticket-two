@@ -29,7 +29,7 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Luogo evento</label></br>
-                        <select id="idLuogo">
+                        <select style="width: 50%" id="idLuogo">
                             '. $optionsLuoghi .'
                         </select>
                     </div>
