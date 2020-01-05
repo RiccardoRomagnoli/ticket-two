@@ -178,6 +178,83 @@ $(document).ready(function(){
             });
     });
 
+    //sezione model addLuogo
+
+    $("#idAddProvincia").prop('disabled', true);
+    $("#idAddCitta").prop('disabled', true);
+
+    $("#idAddRegione").select2({
+        placeholder: "Seleziona una regione"
+    });
+
+    $('#idAddRegione').on('change.select2', function (e) {
+        let idRegione = $(this).val();
+        $("#idAddProvincia").empty();
+        $("#idAddCitta").empty();
+        $("#idAddProvincia").prop('disabled', true);
+        $("#idAddCitta").prop('disabled', true);
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "getProvince", idRegione: idRegione
+            },
+            function(data){
+                $("#idAddProvincia").append('<option> </option>');
+                JSON.parse(data).forEach(provincia => {
+                    $("#idAddProvincia").append('<option value="' + provincia.IdProvincia + '">' + provincia.Nome + '</option>');
+                });
+            });
+            $("#idAddProvincia").prop('disabled', false);
+    });
+    
+    $("#idAddProvincia").select2({
+        placeholder: "Seleziona una provincia"
+    });
+
+    $('#idAddProvincia').on('change.select2', function (e) {
+        let idProvincia = $(this).val();
+        $("#idAddCitta").empty();
+        $("#idAddCitta").prop('disabled', true);
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "getCitta", idProvincia: idProvincia
+            },
+            function(data){
+                $("#idAddProvincia").append('<option> </option>');
+                JSON.parse(data).forEach(citta => {
+                    $("#idAddCitta").append('<option value="' + citta.IdCitta + '">' + citta.Nome + '</option>');
+                });
+            });
+            $("#idAddCitta").prop('disabled', false);
+    });
+
+    $("#idAddCitta").select2({
+        placeholder: "Seleziona una citta"
+    });
+
+    $("#addLuogoForm").submit(function(e) {
+        e.preventDefault();
+        let nomeLuogo = $("#nomeAddLuogo").val();
+        let descrizioneLuogo = $("#descrizioneAddLuogo").val();
+        let idCitta = $("#idAddCitta").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "aggiungiLuogo", nomeLuogo: nomeLuogo,
+                descrizioneLuogo: descrizioneLuogo, idCitta: idCitta
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){
+                    //post e ricarica valori nella option del model prima con empty e append
+                    UIkit.modal($("#modal-addLuogo")).hide();
+                    },1500);
+                }
+            });
+    });
+
     //sezione model addBiglietto
 
     $("#addBigliettoForm").submit(function(e) {

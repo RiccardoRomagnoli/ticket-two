@@ -894,5 +894,43 @@ class DatabaseHelper{
         
         return $stmt->execute();
     }
+
+    public function getRegione(){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Regione");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getProvinciaFromRegione($idregione){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Provincia
+                                    WHERE IdRegione = ?");
+        $stmt->bind_param('i', $idregione);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCittaFromProvincia($idprovincia){
+        $stmt = $this->db->prepare("SELECT *
+                                    FROM Citta
+                                    WHERE IdProvincia = ?");
+        $stmt->bind_param('i', $idprovincia);  
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function addLuogo($idCitta, $nomeLuogo, $descrizioneLuogo){
+        $query = "INSERT INTO Luogo (IdCitta, Nome, Descrizione) VALUE (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iss', $idCitta, $nomeLuogo, $descrizioneLuogo);
+        return $stmt->execute();
+    }
 }
 ?>

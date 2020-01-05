@@ -145,6 +145,31 @@
             case 'aggiungiSezione':
             
                 break;
+            
+            case 'aggiungiLuogo':
+                $idCitta = $_POST['idCitta'];
+                $nomeLuogo = $_POST['nomeLuogo'];
+                $descrizioneLuogo = $_POST['descrizioneLuogo'];
+
+                $result = $dbh->addLuogo($idCitta, $nomeLuogo, $descrizioneLuogo);
+                if ($result == true) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Luogo aggiunto!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Luogo non aggiunto!'));
+                }            
+                break;
+
+            case 'getProvince':
+                $idRegione = $_POST['idRegione'];
+                $result = $dbh->getProvinciaFromRegione($idRegione);
+                echo json_encode(array_values($result));            
+            break;
+
+            case 'getCitta':
+                $idProvincia = $_POST['idProvincia'];
+                $result = $dbh->getCittaFromProvincia($idProvincia);
+                echo json_encode(array_values($result));            
+            break;
 
             case 'modificaSezione':
                 $idSezione = $_POST['idSezione'];
