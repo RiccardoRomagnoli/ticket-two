@@ -39,9 +39,25 @@
         </div>
     ';
 
+    $artistiTotali = "";
+    $categorieTotali = "";
+    foreach($templateParams["artistievento"] as $artista){
+        $artistiTotali .= '<a href="./artist.php?id=' . $artista["IdArtista"] . '">' . $artista["Nome"] . '</a> ';
+    }
+
+    foreach($templateParams["categorieevento"] as $categoria){
+        $categorieTotali .= $categoria["Nome"] . ' ';
+    }
+
     //sezione della descrizione dell'evento
     $descriptionSection = '
-        <div class="uk-grid uk-margin-remove-top">
+            <div class="uk-grid uk-margin-remove-top">
+            <div class="uk-width-1-1">
+                ' . $artistiTotali . '
+            </div>
+            <div class="uk-width-1-1">
+                ' . $categorieTotali . '
+            </div>
             <div class="uk-width-1-1">
                 <a href="./place.php?id='. $evento["IdLuogo"] .'" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
             </div>

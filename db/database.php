@@ -425,7 +425,7 @@ class DatabaseHelper{
 
     public function getEventCategoriesByIdEvento($id){
         $stmt = $this->db->prepare(
-            "SELECT Categoria.Nome
+            "SELECT Categoria.Nome, Categoria.IdCategoria
             FROM Evento INNER JOIN CategoriaEvento ON Evento.IdEvento = CategoriaEvento.IdEvento 
                 INNER JOIN Categoria ON Categoria.IdCategoria = CategoriaEvento.IdCategoria 
             WHERE Evento.IdEvento = ?");
@@ -436,6 +436,19 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getEventArtistsByIdEvento($id){
+        $stmt = $this->db->prepare(
+            "SELECT Artista.Nome, Artista.IdArtista
+            FROM Evento INNER JOIN ArtistaEvento ON Evento.IdEvento = ArtistaEvento.IdEvento 
+                INNER JOIN Artista ON Artista.IdArtista = ArtistaEvento.IdArtista 
+            WHERE Evento.IdEvento = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    
     public function getEventTicketsByIdEvento($id){
         $stmt = $this->db->prepare(
             "SELECT Sezione.Nome AS NomeSezione, Sezione.PostiTotali AS PostiTotali, Biglietto.Prezzo as PrezzoBiglietto,
