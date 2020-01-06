@@ -6,7 +6,7 @@ $sessionData .= '
             <form id="addSezioneForm" class ="uk-width-1-1 uk-width-1-3@m uk-margin-left uk-margin-right">
                 <fieldset class="uk-fieldset">
 
-                    <legend class="uk-legend uk-text-center uk-margin-top">Modifica Sezione</legend>
+                    <legend class="uk-legend uk-text-center uk-margin-top">Aggiungi Sezione</legend>
  
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Nome Sezione</label>

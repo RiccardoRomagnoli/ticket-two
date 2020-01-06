@@ -529,10 +529,10 @@ $(document).ready(function(){
             function(data){
                 checkEvento(JSON.parse(data));
                 if(JSON.parse(data).result == "ok") {
-                    window.setTimeout(function(){
-                    //post e ricarica valori nella option del model prima con empty e append
-                    UIkit.modal($("#modal-addLuogo")).hide();
-                    },1500);
+                    window.setTimeout(function(){UIkit.modal($("#modal-addLuogo")).hide();},1500);
+                    $(".selectLuogo").each(function(i,obj){
+                        obj.append(new Option(JSON.parse(data).nomeLuogo, JSON.parse(data).idLuogo));
+                    });
                 }
             });
     });
@@ -597,6 +597,9 @@ $(document).ready(function(){
                     window.setTimeout(function(){
                         //aggiornamento con post della select delle sezioni 
                         UIkit.modal($("#modal-addSection")).hide();},1500);
+                        $(".selectSezioneEvento").each(function(i,obj){
+                            obj.append(new Option(JSON.parse(data).nomeSezione, JSON.parse(data).idSezione));
+                        });
                 }
             });
     });
@@ -624,6 +627,9 @@ $(document).ready(function(){
                 if(JSON.parse(data).result == "ok") {
                     window.setTimeout(function(){
                         UIkit.modal($("#modal-addArtista")).hide();},1500);
+                        $(".selectArtista").each(function(i,obj){
+                            obj.append(new Option(JSON.parse(data).nomeArtista, JSON.parse(data).idArtista));
+                        });
                 }
             }
         });

@@ -930,14 +930,30 @@ class DatabaseHelper{
         $query = "INSERT INTO Luogo (IdCitta, Nome, Descrizione) VALUE (?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('iss', $idCitta, $nomeLuogo, $descrizioneLuogo);
-        return $stmt->execute();
+        $stmt->execute();
+        $idLuogo = $stmt->insert_id;
+
+        $query = "SELECT Nome FROM Luogo WHERE IdLuogo = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idLuogo);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return array($idLuogo, ($result->fetch_all(MYSQLI_ASSOC))[0]["Nome"]);
     }
 
     public function aggiungiSezione($idEvento, $nomeSezione, $postiTotali){
         $query = "INSERT INTO Sezione (IdEvento, Nome, PostiTotali) VALUE (?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('iss', $idEvento, $nomeSezione, $postiTotali);
-        return $stmt->execute();
+        $stmt->execute();
+        $idSezione = $stmt->insert_id;
+
+        $query = "SELECT Nome FROM Sezione WHERE IdSezione = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idSezione);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return array($idSezione, ($result->fetch_all(MYSQLI_ASSOC))[0]["Nome"]);
     }
 
     public function getLuogoEvento($idEvento){
@@ -1076,7 +1092,15 @@ class DatabaseHelper{
         $query = "INSERT INTO Artista (Nome, Descrizione, Foto) VALUE (?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sss', $nomeArtista, $descrizioneArtista, $pathArtista);
-        return $stmt->execute();
+        $stmt->execute();
+        $idArtista = $stmt->insert_id;
+
+        $query = "SELECT Nome FROM Artista WHERE IdArtista = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idArtista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return array($idArtista, ($result->fetch_all(MYSQLI_ASSOC))[0]["Nome"]);
     }
     public function aggiungiEvento($titolo, $pathLocandina, $idLuogo, $dataInizio, $dataFine, $descrizione, $idUtente){
         $query = "INSERT INTO Evento (Titolo, Descrizione, Locandina, DataInizio, DataFine, IdLuogo, IdUtente) VALUE (?, ?, ?, ?, ?, ?, ?)";

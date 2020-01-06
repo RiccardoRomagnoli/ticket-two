@@ -61,8 +61,8 @@
 
                 if($result != 0){
                     $result = $dbh->aggiungiArtista($nomeArtista, $descrizioneArtista, $msg);
-                    if ($result == true) {
-                        echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!'));
+                    if (!empty($result)) {
+                        echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!', 'idArtista' => $result[0], 'nomeArtista' => $result[1]));
                     } else {
                         echo json_encode(array('result' => 'error', 'message' => 'Aggiunta non riuscita!'));
                     }
@@ -131,8 +131,8 @@
                 $nomeSezione = $_POST['nomeSezione'];
                 $postiTotali = $_POST['postiTotali'];
                 $result = $dbh->aggiungiSezione($idEvento, $nomeSezione, $postiTotali);
-                if ($result == true) {
-                    echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!'));
+                if (!empty($result)) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!', 'idSezione' => $result[0], 'nomeSezione' => $result[1]));
                 } else {
                     echo json_encode(array('result' => 'error', 'message' => 'Aggiunta non riuscita!'));
                 }
@@ -144,8 +144,8 @@
                 $descrizioneLuogo = $_POST['descrizioneLuogo'];
 
                 $result = $dbh->addLuogo($idCitta, $nomeLuogo, $descrizioneLuogo);
-                if ($result == true) {
-                    echo json_encode(array('result' => 'ok', 'message' => 'Luogo aggiunto!'));
+                if (!empty($result)) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Luogo aggiunto!', 'idLuogo' => $result[0], 'nomeLuogo' => $result[1]));
                 } else {
                     echo json_encode(array('result' => 'error', 'message' => 'Luogo non aggiunto!'));
                 }            
