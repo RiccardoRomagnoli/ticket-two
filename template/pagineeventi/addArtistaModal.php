@@ -10,17 +10,17 @@ $sessionData .= '
  
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Nome Artista</label>
-                        <input required id="nomeArtistaAdd" class="uk-input" type="text" placeholder="Inserisci nome artista"></input>
+                        <input required id="addNomeArtista" class="uk-input" type="text" placeholder="Inserisci nome artista"></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Descrizione Artista</label>
-                        <textarea id ="descrizioneArtistaAdd" class="uk-textarea" rows="8" placeholder="Inserisci descrizione artista" required></textarea>
+                        <textarea id ="addDescrizioneArtista" class="uk-textarea" rows="8" placeholder="Inserisci descrizione artista" required></textarea>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Immagine dell\'artista</label></br>
-                        <input type="file" name="pathArtista" id="pathArtista"></input>
+                        <input type="file" name="addPathArtista" id="addPathArtista"></input>
                     </div>
 
                     <div class="uk-width-1-1">

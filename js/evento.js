@@ -1,12 +1,77 @@
 $(document).ready(function(){
 
-    const idEvent = $("#idEvent").val();
+    const idEvento = $("#idEvento").val();
+    
+    //flatpickr data configurazione
+    let fpInizio = flatpickr(".dataInizio", {
+        minDate: "today"
+    });
+
+    let fpFine = flatpickr(".dataFine", {
+        minDate: "today"
+    });
+
+    if(Array.isArray(fpInizio)){
+        for (let index = 0; index < fpInizio.length; index++) {
+            fpInizio[index].set("onChange", function(selectedDates, dateStr, instance) {
+                fpFine[index].set("minDate", dateStr);
+                fpFine[index].setDate(dateStr);
+            });
+        }
+    } else {
+            fpInizio.set("onChange", function(selectedDates, dateStr, instance) {
+                fpFine.set("minDate", dateStr);
+                fpFine.setDate(dateStr);
+            });
+    }
+
+    //classi oggetti comuni
+    $(".selectRegione").select2({
+        placeholder: "Seleziona una regione"
+    });
+
+    $(".selectProvincia").select2({
+        placeholder: "Seleziona una provincia"
+    });
+
+    $(".selectCitta").select2({
+        placeholder: "Seleziona una citta"
+    });
+
+    $(".selectTipoBiglietto").select2({
+        placeholder: "Seleziona un tipo"
+    });
+    
+    $(".selectSezioneEvento").select2({
+        placeholder: "Seleziona una sezione"
+    });
+
+    $(".selectArtista").select2({
+        placeholder: "Seleziona un artista",
+        allowClear: true
+    });
+
+    $(".selectCategoria").select2({
+        placeholder: "Seleziona una categoria",
+        allowClear: true
+    });
+
+    $(".selectLuogo").select2({
+        placeholder: "Seleziona un luogo"
+    });
+
+    $(".orarioBiglietto").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
 
     //bottone follow/unfollow
     $("#followBtn").click(function(){
         if( $("#followBtn").text() == "Segui"){
              $.post("utils/follow-event.php",
-                 {idEvent: idEvent, follow: "true"},
+                 {idEvento: idEvento, follow: "true"},
                  function(data){
                     checkEvento(JSON.parse(data));
                     if(JSON.parse(data).result == "ok"){
@@ -15,7 +80,7 @@ $(document).ready(function(){
                     });
         } else {
             $.post("utils/follow-event.php",
-                {idEvent: idEvent, follow: "false"},
+                {idEvento: idEvento, follow: "false"},
                 function(data){
                     checkEvento(JSON.parse(data));
                     if(JSON.parse(data).result == "ok") {
@@ -25,28 +90,369 @@ $(document).ready(function(){
         }
     });
 
+    //pulsanti id specifici
 
-    $(".uk-search-input").click(function(){
-
-        console.log($(this).text());
+    $('#addSelectIdRegione').on('change.select2', function (e) {
+        let idRegione = $(this).val();
+        $("#addSelectIdProvincia").empty();
+        $("#addSelectIdCitta").empty();
+        $("#addSelectIdProvincia").prop('disabled', true);
+        $("#addSelectIdCitta").prop('disabled', true);
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "getProvince", idRegione: idRegione
+            },
+            function(data){
+                $("#addSelectIdProvincia").append('<option> </option>');
+                JSON.parse(data).forEach(provincia => {
+                    $("#addSelectIdProvincia").append('<option value="' + provincia.IdProvincia + '">' + provincia.Nome + '</option>');
+                });
+            });
+            $("#addSelectIdProvincia").prop('disabled', false);
     });
 
-    //sezione model modifica evento
+    $('#addSelectIdProvincia').on('change.select2', function (e) {
+        let idProvincia = $(this).val();
+        $("#addSelectIdCitta").empty();
+        $("#addSelectIdCitta").prop('disabled', true);
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "getCitta", idProvincia: idProvincia
+            },
+            function(data){
+                $("#addSelectIdCitta").append('<option> </option>');
+                JSON.parse(data).forEach(citta => {
+                    $("#addSelectIdCitta").append('<option value="' + citta.IdCitta + '">' + citta.Nome + '</option>');
+                });
+            });
+            $("#addSelectIdCitta").prop('disabled', false);
+    });
 
-    $("#modificaEventoForm").submit(function(e) {
+    //pulsanti apertura modal e form 
+    $(".openModalAddSection").click(function(){
+        $("#addSezioneForm")[0].reset();
+    });
+    
+    $(".openModalAddArtista").click(function(){
+        $("#addArtistaForm")[0].reset();
+    });
+    
+    $(".openModalAddLuogo").click(function(){
+        $("#addLuogoForm")[0].reset();
+        $("#addSelectIdRegione").empty();
+        $("#addSelectIdProvincia").empty();
+        $("#addSelectIdCitta").empty();
+        $("#addSelectIdRegioni").prop('disabled', true);
+        $("#addSelectIdProvincia").prop('disabled', true);
+        $("#addSelectIdCitta").prop('disabled', true);
+
+        //TODO: fill regioni con post addSelectIdRegioni e attivala
+        $.post("utils/event-cart.php",
+                {azione: "getRegioni"},
+                function(data){
+                    $("#addSelectIdRegione").append('<option></option>');
+                    JSON.parse(data).forEach(regione => {
+                        $("#addSelectIdRegione").append('<option value="' + regione.IdRegione + '">' + regione.Nome + '</option>');
+                    });
+                });
+                $("#addSelectIdRegione").prop('disabled', false);
+    });
+
+    $(".openModalEditTicket").click(function(){
+        let idBiglietto = $(this).val();
+        $("#editBigliettoForm")[0].reset();
+        $("#editSelectIdSezioneEvento").empty();
+        $("#editSelectIdTipoBiglietto").empty();
+        $("#editSelectIdSezioneEvento").prop('disabled', true);
+        $("#editSelectIdTipoBiglietto").prop('disabled', true);
+
+        //riempi la sezione scelta prima
+        $.post("utils/event-cart.php",
+                {azione: "getSezioneBiglietto", idBiglietto: idBiglietto},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(sezione => {
+                            var e = document.createElement("option");
+                            e.selected = true;
+                            e.value = sezione.IdSezione;
+                            e.text = sezione.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdSezioneEvento").append(c);
+                }
+            );
+            
+        //riempi le altre sezioni non scelte
+        $.post("utils/event-cart.php",
+                {azione: "getSezioneNonBiglietto", idBiglietto: idBiglietto},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(sezione => {
+                            var e = document.createElement("option");
+                            e.value = sezione.IdSezione;
+                            e.text = sezione.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdSezioneEvento").append(c);
+                }
+            );
+
+
+        //riempi il tipo di biglietto scelti
+        $.post("utils/event-cart.php",
+                {azione: "getTipoBigliettoBiglietto", idBiglietto: idBiglietto},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(tipoBiglietto => {
+                            var e = document.createElement("option");
+                            e.selected = true;
+                            e.value = tipoBiglietto.IdTipoBiglietto;
+                            e.text = tipoBiglietto.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdTipoBiglietto").append(c);
+                }
+            );
+            
+        //riempi i tipi di biglietto non scelti
+        $.post("utils/event-cart.php",
+                {azione: "getTipoBigliettoNonBiglietto", idBiglietto: idBiglietto},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(tipoBiglietto => {
+                            var e = document.createElement("option");
+                            e.value = tipoBiglietto.IdTipoBiglietto;
+                            e.text = tipoBiglietto.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdTipoBiglietto").append(c);
+                }
+            );
+        //riempi resto dei campi
+        $.post("utils/event-cart.php",
+                {azione: "getInfoBiglietto", idBiglietto: idBiglietto},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#editIdBiglietto").val(idBiglietto);
+                    $("#editDataInizioBiglietto").val(risposta.dataInizio);
+                    $("#editDataFineBiglietto").val(risposta.dataFine);
+                    $("#editOrarioBiglietto").val(risposta.orarioBiglietto);
+                    $("#editPrezzoBiglietto").val(risposta.prezzoBiglietto);
+                }
+            );
+        $("#editSelectIdSezioneEvento").prop('disabled', false);
+        $("#editSelectIdTipoBiglietto").prop('disabled', false);
+    });
+
+    $("#openModalEditEvent").click(function(){
+        $("#editEventoForm")[0].reset();
+
+        $.post("utils/event-cart.php",
+                {azione: "getInfoEvento", idEvento: idEvento},
+                 function(data){
+                    //fill i campi della model
+                    let risposta = JSON.parse(data);
+                    $("#editNomeEvento").val(risposta.nomeEvento);
+                    $("#editDataInizio").val(risposta.dataInizioEvento);
+                    $("#editDataFine").val(risposta.dataFineEvento);
+                    $("#editDescrizioneEvento").text(risposta.descrizioneEvento);
+                }
+            );
+
+        $("#editSelectIdArtista").prop("disabled", true);
+        $("#editSelectIdCategoria").prop("disabled", true);
+        $("#editSelectIdLuogo").prop("disabled", true);
+        $("#editSelectIdArtista").empty();
+        $("#editSelectIdCategoria").empty();
+        $("#editSelectIdLuogo").empty();
+
+        //riempi il luoghi scelto prima
+        $.post("utils/event-cart.php",
+                {azione: "getLuogoEvento", idEvento: idEvento},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(luogo => {
+                            var e = document.createElement("option");
+                            e.selected = true;
+                            e.value = luogo.IdLuogo;
+                            e.text = luogo.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdLuogo").append(c);
+                }
+            );
+            
+        //riempi gli altri luoghi non scelti
+        $.post("utils/event-cart.php",
+                {azione: "getLuoghiNonEvento", idEvento: idEvento},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(luogo => {
+                            var e = document.createElement("option");
+                            e.value = luogo.IdLuogo;
+                            e.text = luogo.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdLuogo").append(c);
+                }
+            );
+
+
+        //riempi gli artisti scelti prima
+        $.post("utils/event-cart.php",
+                {azione: "getArtistiEvento", idEvento: idEvento},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(artista => {
+                            var e = document.createElement("option");
+                            e.selected = true;
+                            e.value = artista.IdArtista;
+                            e.text = artista.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdArtista").append(c);
+                }
+            );
+            
+        //riempi gli artisti non scelti
+        $.post("utils/event-cart.php",
+                {azione: "getArtistiNonEvento", idEvento: idEvento},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(artista => {
+                            var e = document.createElement("option");
+                            e.value = artista.IdArtista;
+                            e.text = artista.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#editSelectIdArtista").append(c);
+                }
+            );
+
+        //riempi le categorie scelte prima
+        $.post("utils/event-cart.php",
+            {azione: "getCategorieEvento", idEvento: idEvento},
+             function(data){
+                var c = document.createDocumentFragment();
+                JSON.parse(data).forEach(artista => {
+                        var e = document.createElement("option");
+                        e.selected = true;
+                        e.value = artista.IdCategoria;
+                        e.text = artista.Nome;
+                        c.appendChild(e);
+                    });
+                $("#editSelectIdCategoria").append(c);
+            }
+        );
+
+        //riempi le categorie non scelte
+        $.post("utils/event-cart.php",
+        {azione: "getCategorieNonEvento", idEvento: idEvento},
+         function(data){
+            var c = document.createDocumentFragment();
+                JSON.parse(data).forEach(artista => {
+                    var e = document.createElement("option");
+                    e.value = artista.IdCategoria;
+                    e.text = artista.Nome;
+                    c.appendChild(e);
+                });
+                $("#editSelectIdCategoria").append(c);
+            }
+        );
+
+        $("#editSelectIdArtista").prop("disabled", false);
+        $("#editSelectIdCategoria").prop("disabled", false);
+        $("#editSelectIdLuogo").prop("disabled", false);
+    });
+
+    $('#openModalEditSectionInAddBiglietto').click(function(){
+        $("#editSezioneForm")[0].reset();
+        let idSezione = $('#addSelectIdSezioneEvento').val();
+
+        $.post("utils/event-cart.php",
+                {azione: "getInfoSezione", idSezione: idSezione},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#editIdSezione").val(risposta.idSezione);
+                    $("#editNomeSezione").val(risposta.nomeSezione);
+                    $("#editPostiTotali").val(risposta.postiTotali);
+                }
+            );
+    });
+
+    $('#openModalEditSectionInEditBiglietto').click(function(){
+        $("#editSezioneForm")[0].reset();
+
+        let idSezione = $('#editSelectIdSezioneEvento').val();
+
+        $.post("utils/event-cart.php",
+                {azione: "getInfoSezione", idSezione: idSezione},
+                function(data){
+                    let risposta = JSON.parse(data);
+                    $("#editIdSezione").val(risposta.idSezione);
+                    $("#editNomeSezione").val(risposta.nomeSezione);
+                    $("#editPostiTotali").val(risposta.postiTotali);
+                }
+            );
+    });
+
+    $('.openModalAddTicket').click(function(){
+        $("#addBigliettoForm")[0].reset();
+
+        $("#addSelectIdSezioneEvento").prop("disabled", true);
+        $("#addSelectIdTipoBiglietto").prop("disabled", true);
+        $("#addSelectIdSezioneEvento").empty();
+        $("#addSelectIdTipoBiglietto").empty();
+
+        //riempi le sezioni dell'evento
+        $.post("utils/event-cart.php",
+                {azione: "getSezioniEvento", idEvento: idEvento},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(sezione => {
+                            var e = document.createElement("option");
+                            e.value = sezione.IdSezione;
+                            e.text = sezione.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#addSelectIdSezioneEvento").append(c);
+                }
+            );
+ 
+        //riempi i tipi di biglietto
+        $.post("utils/event-cart.php",
+                {azione: "getTipiBiglietto"},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(tipoBiglietto => {
+                            var e = document.createElement("option");
+                            e.value = tipoBiglietto.IdTipoBiglietto;
+                            e.text = tipoBiglietto.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#addSelectIdTipoBiglietto").append(c);
+                }
+            );
+        $("#addSelectIdSezioneEvento").prop("disabled", false);
+        $("#addSelectIdTipoBiglietto").prop("disabled", false);
+    });
+
+    //submit forms
+    $("#addEventoForm").submit(function(e) {
         e.preventDefault();
-        let titolo = $("#nomeEvento").val();
-        let dataInizio = $("#dataInizioModifica").val();
-        let dataFine = $("#dataFineModifica").val();
-        let descrizione = $("#descrizioneEvento").val();
-        let myFile = $('#pathLocandina').prop('files')[0];
-        let idLuogo = $("#idLuogo").val();
-        let categorie = $("#idCategoria").val(); 
-        let artisti =  $("#idArtista").val();
+        let titolo = $("#addNomeEvento").val();
+        let dataInizio = $("#addDataInizio").val();
+        let dataFine = $("#addDataFine").val();
+        let descrizione = $("#addDescrizioneEvento").val();
+        let myFile = $('#addPathLocandina').prop('files')[0];
+        let idLuogo = $("#addSelectIdLuogo").val();
+        let categorie = $("#addSelectIdCategoria").val(); 
+        let artisti =  $("#addSelectIdArtista").val();
         let formData = new FormData();
         
-        formData.append("azione", "modificaEvento");
-        formData.append("idEvento", idEvent);
+        formData.append("azione", "aggiungiEvento");
         formData.append("titolo", titolo);
         formData.append("dataInizio", dataInizio);
         formData.append("dataFine", dataFine);
@@ -54,33 +460,7 @@ $(document).ready(function(){
         formData.append("fotoLocation", myFile);
         formData.append("idLuogo", idLuogo);
 
-        //delete categorie e artisti di un evento
-
-        $.post("utils/event-cart.php",
-        {idEvento: idEvent, azione: "cancellaCategorieEvento"},
-        function(data){
-            categorie.forEach(categoria => {
-                //aggiungi per ogni categoria delle select
-                $.post("utils/event-cart.php",
-                {idEvento: idEvent, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
-                function(data){
-                });    
-            }); 
-        });
-
-        $.post("utils/event-cart.php",
-            {idEvento: idEvent, azione: "cancellaArtistiEvento"},
-            function(data){
-                //aggiungi per ogni artista delle select
-                artisti.forEach(artista => {
-                    $.post("utils/event-cart.php",
-                    {idEvento: idEvent, idArtista: artista, azione: "aggiungiArtistaEvento"},
-                    function(data){
-                    });    
-                });
-        });
-
-        //modifica dei campi dell'evento
+        //aggiunta dei campi dell'evento
         $.ajax({
             url: 'utils/event-cart.php',
             data: formData,
@@ -90,64 +470,36 @@ $(document).ready(function(){
             success: function(data){
                 checkEvento(JSON.parse(data));
                 if(JSON.parse(data).result == "ok") {
-                    window.setTimeout(function(){location.reload()},1500);
+                    //aggiungi per ogni categoria delle select
+                    categorie.forEach(categoria => {
+                        $.post("utils/event-cart.php",
+                        {idEvento: JSON.parse(data).idEvento, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
+                        function(data){
+                        });    
+                    }); 
+
+                    //aggiungi per ogni artista delle select
+                    artisti.forEach(artista => {
+                        $.post("utils/event-cart.php",
+                        {idEvento: JSON.parse(data).idEvento, idArtista: artista, azione: "aggiungiArtistaEvento"},
+                        function(data){
+                        });    
+                    });
+                    window.setTimeout(function(){window.location = "./evento.php?idevento=" + JSON.parse(data).idEvento;}, 1500);
                 }
             }
         });
-
     });
 
-    $("#idArtista").select2({
-        placeholder: "Seleziona un artista",
-        allowClear: true
-    });
-
-    $("#idCategoria").select2({
-        placeholder: "Seleziona una categoria",
-        allowClear: true
-    });
-
-    $("#idLuogo").select2({
-        placeholder: "Seleziona un luogo"
-    });
-
-    const fp = flatpickr("#dataFineModifica", {
-        minDate: "today",
-    });
-
-    $("#dataInizioModifica").flatpickr({
-        onChange: function(selectedDates, dateStr, instance) {
-            fp.set("minDate", dateStr);
-            fp.setDate(dateStr);
-        },
-        minDate: "today",
-    });
-
-    $("#deleteEventBtn").click(function(){
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "eliminaEvento", idEvento: idEvent
-            },
-            function(data){
-                checkEvento(JSON.parse(data));
-                if(JSON.parse(data).result == "ok"){
-                    window.setTimeout(function(){location.reload()},1500);
-                }
-            });
-    });
-
-    //sezione model modificaBiglietto
-
-    $("#modificaBigliettoForm").submit(function(e) {
+    $("#editBigliettoForm").submit(function(e) {
         e.preventDefault();
-        let idBiglietto = $("#idBigliettoModifica").val();
-        let idSezioneEvento = $("#idSezioneEvento").val();
-        let dataInizioBiglietto = $("#dataInizioBiglietto").val();
-        let dataFineBiglietto = $("#dataFineBiglietto").val();
-        let idTipoBiglietto = $('#idTipoBiglietto').val();
-        let orarioBiglietto = $("#orarioBiglietto").val();
-        let prezzoBiglietto = $("#prezzoBiglietto").val();
+        let idBiglietto = $("#editIdBiglietto").val();
+        let idSezioneEvento = $("#editSelectIdSezioneEvento").val();
+        let dataInizioBiglietto = $("#editDataInizioBiglietto").val();
+        let dataFineBiglietto = $("#editDataFineBiglietto").val();
+        let idTipoBiglietto = $('#editSelectIdTipoBiglietto').val();
+        let orarioBiglietto = $("#editOrarioBiglietto").val();
+        let prezzoBiglietto = $("#editPrezzoBiglietto").val();
         $.post(
             "utils/event-cart.php",
             {
@@ -163,136 +515,11 @@ $(document).ready(function(){
             });
     });
 
-    const fpFBiglietto = flatpickr("#dataFineBiglietto", {
-        minDate: "today",
-    });
-
-    $("#dataInizioBiglietto").flatpickr({
-        onChange: function(selectedDates, dateStr, instance) {
-            fpFBiglietto.set("minDate", dateStr);
-            fpFBiglietto.setDate(dateStr);
-        },
-        minDate: "today",
-    });
-
-    $("#idTipoBiglietto").select2({
-        placeholder: "Seleziona un tipo"
-    });
-    
-    $("#idSezioneEvento").select2({
-        placeholder: "Seleziona una sezione"
-    });
-
-    $('#idSezioneEvento').on('change', function (e) {
-        let idSezione = $(this).val();
-        $('.editSection').val(idSezione);
-      });
-
-    $('.editSection').click(function(){
-        let idSezione = $(this).val();
-
-        $.post("utils/event-cart.php",
-                {azione: "getInfoSezione", idSezione: idSezione},
-                function(data){
-                    let risposta = JSON.parse(data);
-                    $("#idSezioneModifica").val(risposta.idSezione);
-                    $("#nomeSezione").val(risposta.nomeSezione);
-                    $("#postiTotali").val(risposta.postiTotali);
-                }
-            );
-    });
-
-    $("#orarioBiglietto").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true
-    });
-
-    $("#deleteBigliettoBtn").click(function(){
-        let idBiglietto = $("#idBigliettoModifica").val();
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "eliminaBiglietto", idBiglietto: idBiglietto
-            },
-            function(data){
-                checkEvento(JSON.parse(data));
-                if(JSON.parse(data).result == "ok"){
-                    window.setTimeout(function(){location.reload()},1500);
-                }
-            });
-    });
-
-    //sezione model addLuogo
-
-    $("#idAddProvincia").prop('disabled', true);
-    $("#idAddCitta").prop('disabled', true);
-
-    $("#idAddRegione").select2({
-        placeholder: "Seleziona una regione"
-    });
-
-    $('#idAddRegione').on('change.select2', function (e) {
-        let idRegione = $(this).val();
-        $("#idAddProvincia").empty();
-        $("#idAddCitta").empty();
-        $("#idAddProvincia").prop('disabled', true);
-        $("#idAddCitta").prop('disabled', true);
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "getProvince", idRegione: idRegione
-            },
-            function(data){
-                $("#idAddProvincia").append('<option> </option>');
-                JSON.parse(data).forEach(provincia => {
-                    $("#idAddProvincia").append('<option value="' + provincia.IdProvincia + '">' + provincia.Nome + '</option>');
-                });
-            });
-            $("#idAddProvincia").prop('disabled', false);
-    });
-    
-    $("#idAddProvincia").select2({
-        placeholder: "Seleziona una provincia"
-    });
-
-    $('#idAddProvincia').on('change.select2', function (e) {
-        let idProvincia = $(this).val();
-        $("#idAddCitta").empty();
-        $("#idAddCitta").prop('disabled', true);
-        $.post(
-            "utils/event-cart.php",
-            {
-                azione: "getCitta", idProvincia: idProvincia
-            },
-            function(data){
-                $("#idAddProvincia").append('<option> </option>');
-                JSON.parse(data).forEach(citta => {
-                    $("#idAddCitta").append('<option value="' + citta.IdCitta + '">' + citta.Nome + '</option>');
-                });
-            });
-            $("#idAddCitta").prop('disabled', false);
-    });
-
-    $("#apriModalAddLuogo").click(function(){
-            $("#addLuogoForm")[0].reset();
-            $("#idAddProvincia").empty();
-            $("#idAddCitta").empty();
-            $("#idAddProvincia").prop('disabled', true);
-            $("#idAddCitta").prop('disabled', true);
-        }
-    );
-
-    $("#idAddCitta").select2({
-        placeholder: "Seleziona una citta"
-    });
-
     $("#addLuogoForm").submit(function(e) {
         e.preventDefault();
-        let nomeLuogo = $("#nomeAddLuogo").val();
-        let descrizioneLuogo = $("#descrizioneAddLuogo").val();
-        let idCitta = $("#idAddCitta").val();
+        let nomeLuogo = $("#addNomeLuogo").val();
+        let descrizioneLuogo = $("#addDescrizioneLuogo").val();
+        let idCitta = $("#addSelectIdCitta").val();
         $.post(
             "utils/event-cart.php",
             {
@@ -310,16 +537,14 @@ $(document).ready(function(){
             });
     });
 
-    //sezione model addBiglietto
-
     $("#addBigliettoForm").submit(function(e) {
         e.preventDefault();
-        let idSezioneEvento = $("#idAddSezioneEvento").val();
-        let dataInizioBiglietto = $("#dataAddInizioBiglietto").val();
-        let dataFineBiglietto = $("#dataAddFineBiglietto").val();
-        let idTipoBiglietto = $('#idAddTipoBiglietto').val();
-        let orarioBiglietto = $("#orarioAddBiglietto").val();
-        let prezzoBiglietto = $("#prezzoAddBiglietto").val();
+        let idSezioneEvento = $("#addSelectIdSezioneEvento").val();
+        let dataInizioBiglietto = $("#addDataInizioBiglietto").val();
+        let dataFineBiglietto = $("#addDataFineBiglietto").val();
+        let idTipoBiglietto = $('#addSelectIdTipoBiglietto').val();
+        let orarioBiglietto = $("#addOrarioBiglietto").val();
+        let prezzoBiglietto = $("#addPrezzoBiglietto").val();
         $.post(
             "utils/event-cart.php",
             {
@@ -335,60 +560,11 @@ $(document).ready(function(){
             });
     });
 
-    const fpABiglietto = flatpickr("#dataAddFineBiglietto", {
-        minDate: "today",
-    });
-
-    $('.editAddSection').click(function(){
-        let idSezione = $(this).val();
-
-        $.post("utils/event-cart.php",
-                {azione: "getInfoSezione", idSezione: idSezione},
-                function(data){
-                    let risposta = JSON.parse(data);
-                    $("#idSezioneModifica").val(risposta.idSezione);
-                    $("#nomeSezione").val(risposta.nomeSezione);
-                    $("#postiTotali").val(risposta.postiTotali);
-                }
-            );
-    });
-
-    $("#dataAddInizioBiglietto").flatpickr({
-        onChange: function(selectedDates, dateStr, instance) {
-            fpABiglietto.set("minDate", dateStr);
-            fpABiglietto.setDate(dateStr);
-        },
-        minDate: "today",
-    });
-
-    $("#idAddTipoBiglietto").select2({
-        placeholder: "Seleziona un tipo"
-    });
-    
-    $("#idAddSezioneEvento").select2({
-        placeholder: "Seleziona una sezione"
-    });
-
-    $('#idAddSezioneEvento').on('change', function (e) {
-        let idSezione = $(this).val();
-        $('.editAddSection').val(idSezione);
-      });
-
-    $("#orarioAddBiglietto").flatpickr({
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true
-    });
-
-
-    //sezione model modificaSezione
-
-    $("#modificaSezioneForm").submit(function(e) {
+    $("#editSezioneForm").submit(function(e) {
         e.preventDefault();
-        let idSezione = $("#idSezioneModifica").val();
-        let nomeSezione = $("#nomeSezione").val();
-        let postiTotali = $("#postiTotali").val();
+        let idSezione = $("#editIdSezione").val();
+        let nomeSezione = $("#editNomeSezione").val();
+        let postiTotali = $("#editPostiTotali").val();
 
         $.post(
             "utils/event-cart.php",
@@ -404,17 +580,15 @@ $(document).ready(function(){
             });
     });
 
-    //sezione model addSezione
-
     $("#addSezioneForm").submit(function(e) {
         e.preventDefault();
-        let nomeSezione = $("#nomeSezioneAdd").val();
-        let postiTotali = $("#postiTotaliAdd").val();
+        let nomeSezione = $("#addNomeSezione").val();
+        let postiTotali = $("#addPostiTotali").val();
 
         $.post(
             "utils/event-cart.php",
             {
-                azione: "aggiungiSezione", idEvento: idEvent, nomeSezione: nomeSezione,
+                azione: "aggiungiSezione", idEvento: idEvento, nomeSezione: nomeSezione,
                 postiTotali: postiTotali
             },
             function(data){
@@ -426,132 +600,12 @@ $(document).ready(function(){
                 }
             });
     });
-    
-    $("#addSection").click(function(){
-        $("#addSezioneForm")[0].reset();
-    });
-
-    //bottone acquisto ticket
-
-    $(".aggiungiTicket").click(function(){
-        let idBiglietto = $(this).val();
-        let nTicket = $("#numeroTicket" + idBiglietto).val();
-        
-        //carrello non esiste creo riga sul db
-        $.post("utils/event-cart.php",
-            {azione: "creaCart"},
-            function(data){
-                idCart = data;
-                //aggiungo righe al carrello in base alla quantità
-                for(let c=0; c<nTicket; c++){
-                    $.post("utils/event-cart.php",
-                        {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
-                        function(data){checkEvento(JSON.parse(data));}
-                    );
-                }
-            }
-        );
-    });  
-
-    //bottone apertura modal modifica evento
-    $("#openModalEditEvent").click(function(){
-        //pulisci le select
-        $("#idArtista").prop("disabled", true);
-        $("#idCategoria").prop("disabled", true);
-        $("#idArtista").empty();
-        $("#idCategoria").empty();
-
-        //riempi gli artisti scelti prima
-        $.post("utils/event-cart.php",
-                {azione: "getArtistiEvento", idEvento: idEvent},
-                 function(data){
-                    var c = document.createDocumentFragment();
-                    JSON.parse(data).forEach(artista => {
-                            var e = document.createElement("option");
-                            e.selected = true;
-                            e.value = artista.IdArtista;
-                            e.text = artista.Nome;
-                            c.appendChild(e);
-                        });
-                    $("#idArtista").append(c);
-                }
-            );
-            
-        //riempi gli artisti non scelti
-        $.post("utils/event-cart.php",
-                {azione: "getArtistiNonEvento", idEvento: idEvent},
-                 function(data){
-                    var c = document.createDocumentFragment();
-                    JSON.parse(data).forEach(artista => {
-                            var e = document.createElement("option");
-                            e.value = artista.IdArtista;
-                            e.text = artista.Nome;
-                            c.appendChild(e);
-                        });
-                    $("#idArtista").append(c);
-                }
-            );
-
-        //riempi le categorie scelte prima
-        $.post("utils/event-cart.php",
-            {azione: "getCategorieEvento", idEvento: idEvent},
-             function(data){
-                var c = document.createDocumentFragment();
-                JSON.parse(data).forEach(artista => {
-                        var e = document.createElement("option");
-                        e.selected = true;
-                        e.value = artista.IdCategoria;
-                        e.text = artista.Nome;
-                        c.appendChild(e);
-                    });
-                $("#idCategoria").append(c);
-            }
-        );
-
-        //riempi le categorie non scelte
-        $.post("utils/event-cart.php",
-        {azione: "getCategorieNonEvento", idEvento: idEvent},
-         function(data){
-            var c = document.createDocumentFragment();
-                JSON.parse(data).forEach(artista => {
-                    var e = document.createElement("option");
-                    e.value = artista.IdCategoria;
-                    e.text = artista.Nome;
-                    c.appendChild(e);
-                });
-                $("#idCategoria").append(c);
-            }
-        );
-
-        $("#idArtista").prop("disabled", false);
-        $("#idCategoria").prop("disabled", false);
-    });
-
-    //apertura form modifica biglietto
-    $(".editTicket").click(function(){
-        let idBiglietto = $(this).val();
-        $.post("utils/event-cart.php",
-                {azione: "getInfoBiglietto", idBiglietto: idBiglietto},
-                function(data){
-                    let risposta = JSON.parse(data);
-                    $("#idBigliettoModifica").val(idBiglietto);
-                    $('#idSezioneEvento option[value=' + risposta.idSezioneEvento +']').prop('selected', 'selected').change();
-                    $("#dataInizioBiglietto").val(risposta.dataInizio);
-                    $("#dataFineBiglietto").val(risposta.dataFine);
-                    $('#idTipoBiglietto option[value=' + risposta.idTipoBiglietto +']').prop('selected', 'selected').change();
-                    $("#orarioBiglietto").val(risposta.orarioBiglietto);
-                    $("#prezzoBiglietto").val(risposta.prezzoBiglietto);
-                }
-            );
-    });
-
-    //sezione modal add artista
 
     $("#addArtistaForm").submit(function(e) {
         e.preventDefault();
-        let nomeArtista = $("#nomeArtistaAdd").val();
-        let descrizioneArtista = $("#descrizioneArtistaAdd").val();
-        let myFile = $('#pathArtista').prop('files')[0];
+        let nomeArtista = $("#addNomeArtista").val();
+        let descrizioneArtista = $("#addDescrizioneArtista").val();
+        let myFile = $('#addPathArtista').prop('files')[0];
         let formData = new FormData();
         
         formData.append("azione", "aggiungiArtista");
@@ -574,7 +628,164 @@ $(document).ready(function(){
             }
         });
     });
-    
+
+    $("#editEventoForm").submit(function(e) {
+        e.preventDefault();
+        let titolo = $("#editNomeEvento").val();
+        let dataInizio = $("#editDataInizio").val();
+        let dataFine = $("#editDataFine").val();
+        let descrizione = $("#editDescrizioneEvento").val();
+        let myFile = $('#editPathLocandina').prop('files')[0];
+        let idLuogo = $("#editSelectIdLuogo").val();
+        let categorie = $("#editSelectIdCategoria").val(); 
+        let artisti =  $("#editSelectIdArtista").val();
+        let formData = new FormData();
+        
+        formData.append("azione", "modificaEvento");
+        formData.append("idEvento", idEvento);
+        formData.append("titolo", titolo);
+        formData.append("dataInizio", dataInizio);
+        formData.append("dataFine", dataFine);
+        formData.append("descrizione", descrizione);
+        formData.append("fotoLocation", myFile);
+        formData.append("idLuogo", idLuogo);
+
+        //delete categorie e artisti di un evento
+
+        $.post("utils/event-cart.php",
+        {idEvento: idEvento, azione: "cancellaCategorieEvento"},
+        function(data){
+            categorie.forEach(categoria => {
+                //aggiungi per ogni categoria delle select
+                $.post("utils/event-cart.php",
+                {idEvento: idEvento, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
+                function(data){
+                });    
+            }); 
+        });
+
+        $.post("utils/event-cart.php",
+            {idEvento: idEvento, azione: "cancellaArtistiEvento"},
+            function(data){
+                //aggiungi per ogni artista delle select
+                artisti.forEach(artista => {
+                    $.post("utils/event-cart.php",
+                    {idEvento: idEvento, idArtista: artista, azione: "aggiungiArtistaEvento"},
+                    function(data){
+                    });    
+                });
+        });
+
+        //modifica dei campi dell'evento
+        $.ajax({
+            url: 'utils/event-cart.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            }
+        });
+
+    });
+
+    //delete form
+    $("#deleteEventoBtn").click(function(){
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "eliminaEvento", idEvento: idEvento
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok"){
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
+
+    $("#deleteBigliettoBtn").click(function(){
+        let idBiglietto = $("#editIdBiglietto").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "eliminaBiglietto", idBiglietto: idBiglietto
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok"){
+                    window.setTimeout(function(){location.reload()},1500);
+                }
+            });
+    });
+
+    //riempimento combobox per pagina aggiungi evento
+    if($('#addEventoForm').length){
+        //pulisci le select
+        $("#addSelectIdArtista").prop("disabled", true);
+        $("#addSelectIdCategoria").prop("disabled", true);
+        $("#addSelectIdArtista").empty();
+        $("#addSelectIdCategoria").empty();
+            
+        //riempi gli artisti non scelti
+        $.post("utils/event-cart.php",
+                {azione: "getArtistiNonEvento", idEvento: 0},
+                 function(data){
+                    var c = document.createDocumentFragment();
+                    JSON.parse(data).forEach(artista => {
+                            var e = document.createElement("option");
+                            e.value = artista.IdArtista;
+                            e.text = artista.Nome;
+                            c.appendChild(e);
+                        });
+                    $("#addSelectIdArtista").append(c);
+                }
+            );
+
+        //riempi le categorie non scelte
+        $.post("utils/event-cart.php",
+        {azione: "getCategorieNonEvento", idEvento: 0},
+         function(data){
+            var c = document.createDocumentFragment();
+                JSON.parse(data).forEach(artista => {
+                    var e = document.createElement("option");
+                    e.value = artista.IdCategoria;
+                    e.text = artista.Nome;
+                    c.appendChild(e);
+                });
+                $("#addSelectIdCategoria").append(c);
+            }
+        );
+
+        $("#addSelectIdArtista").prop("disabled", false);
+        $("#addSelectIdCategoria").prop("disabled", false);
+    }
+
+    //bottone acquisto ticket
+    $(".buyTicket").click(function(){
+        let idBiglietto = $(this).val();
+        let nTicket = $("#numeroTicket" + idBiglietto).val();
+        
+        //carrello non esiste creo riga sul db
+        $.post("utils/event-cart.php",
+            {azione: "creaCart"},
+            function(data){
+                idCart = data;
+                //aggiungo righe al carrello in base alla quantità
+                for(let c=0; c<nTicket; c++){
+                    $.post("utils/event-cart.php",
+                        {idCart: idCart, idBiglietto: idBiglietto, azione: "acquistoBiglietto"},
+                        function(data){checkEvento(JSON.parse(data));}
+                    );
+                }
+            }
+        );
+    });
+
     //check eventi
     function checkEvento(response){
         if(response.result == "ok"){

@@ -3,7 +3,7 @@
 
     //dati utili per la pagina
     $sessionData = '
-        <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
+        <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'">
     ';
 
     //sezione del titolo con controllo follow o non
@@ -94,7 +94,7 @@
                             }
                 $ticketTotali .= '
                             </select>
-                            <button value="'. $biglietto["IdBiglietto"] .'" class="aggiungiTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
+                            <button value="'. $biglietto["IdBiglietto"] .'" class="buyTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
                         </div>
                     <hr/>
                 </li>';
@@ -125,7 +125,7 @@
                         }
                 $abbonamentiTotali .='
                         </select>
-                        <button value="'. $biglietto["IdBiglietto"] .'" class="aggiungiTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
+                        <button value="'. $biglietto["IdBiglietto"] .'" class="buyTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="cart"></button>
                     </div>
                     <hr/>
                 </li>';

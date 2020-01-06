@@ -1,14 +1,4 @@
 <?php 
-$regioni = $dbh->getRegione();
-
-$optionRegione = '<option></option>';
-$firstOptionValue = $regioni[0]["IdRegione"];
-foreach ($regioni as $r) {
-        $optionRegione .= '
-        <option value="'. $r["IdRegione"] .'">'. $r["Nome"] .'</option>
-    ';
-}
-
 $sessionData .= '
     <div id="modal-addLuogo" class="uk-modal-full uk-modal" stack="true" uk-modal>
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
@@ -20,35 +10,34 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Nome luogo *</label>
-                        <input required id="nomeAddLuogo" class="uk-input" type="text" placeholder="Inserisci nome luogo">
+                        <input required id="addNomeLuogo" class="uk-input" type="text" placeholder="Inserisci nome luogo">
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Descrizione luogo</label>
-                        <textarea id ="descrizioneAddLuogo" class="uk-textarea" rows="8" placeholder="Inserisci descrizione luogo" required></textarea>
+                        <textarea id ="addDescrizioneLuogo" class="uk-textarea" rows="8" placeholder="Inserisci descrizione luogo" required></textarea>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Regione del luogo</label></br>
-                        <select style="width: 50%" id="idAddRegione">
-                            '. $optionRegione .'
+                        <select style="width: 50%" class="selectRegione" id="addSelectIdRegione">
                         </select>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Provincia del luogo</label></br>
-                        <select style="width: 50%" id="idAddProvincia">
+                        <select style="width: 50%" class="selectProvincia" id="addSelectIdProvincia">
                         </select>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Città del luogo</label></br>
-                        <select style="width: 50%" id="idAddCitta">
+                        <select style="width: 50%" class="selectCitta" id="addSelectIdCitta">
                         </select>
                     </div>
 
                     <div class="uk-width-1-1">
-                        <button id="saveAddLuogoBtn" type="submit" class="uk-button uk-button-primary uk-margin-left uk-width-1-3 uk-float-left">Salva</button>
+                        <button id="addLuogoBtn" type="submit" class="uk-button uk-button-primary uk-margin-left uk-width-1-3 uk-float-left">Salva</button>
                     </div>
                 </fieldset>
             </form>

@@ -940,9 +940,32 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
+    public function getLuogoEvento($idEvento){
+        $stmt = $this->db->prepare("SELECT Luogo.Nome, Luogo.IdLuogo
+                                    FROM Evento INNER JOIN Luogo ON Evento.IdLuogo = Luogo.IdLuogo
+                                    WHERE Evento.IdEvento = ?");
+        $stmt->bind_param('i', $idEvento);                           
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getLuoghiNonEvento($idevento){
+        $stmt = $this->db->prepare("SELECT * 
+                                    FROM Luogo
+                                    WHERE Luogo.IdLuogo 
+                                        NOT IN (SELECT Evento.IdLuogo 
+                                                FROM Evento 
+                                                WHERE Evento.IdEvento = ?)");
+        $stmt->bind_param('i', $idevento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getArtisti(){
         $stmt = $this->db->prepare("SELECT Nome, IdArtista
-        FROM Artista");
+                                    FROM Artista");
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -970,6 +993,52 @@ class DatabaseHelper{
                                                 FROM Evento INNER JOIN CategoriaEvento ON Evento.IdEvento = CategoriaEvento.IdEvento 
                                                 WHERE Evento.IdEvento = ?)");
         $stmt->bind_param('i', $idevento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getSezioneBiglietto($idbiglietto){
+        $stmt = $this->db->prepare("SELECT Sezione.IdSezione, Sezione.Nome
+                                    FROM Biglietto INNER JOIN Sezione ON Biglietto.IdSezione = Sezione.IdSezione
+                                    WHERE Biglietto.IdBiglietto = ?");
+        $stmt->bind_param('i', $idbiglietto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getSezioneNonBiglietto($idbiglietto){
+        $stmt = $this->db->prepare("SELECT Sezione.IdSezione, Sezione.Nome 
+                                    FROM Sezione
+                                    WHERE Sezione.IdSezione 
+                                        NOT IN (SELECT Sezione.IdSezione
+                                                FROM Biglietto INNER JOIN Sezione ON Biglietto.IdSezione = Sezione.IdSezione
+                                                WHERE Biglietto.IdBiglietto = ?)");
+        $stmt->bind_param('i', $idbiglietto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTipoBiglietto($idbiglietto){
+        $stmt = $this->db->prepare("SELECT TipoBiglietto.IdTipoBiglietto, TipoBiglietto.Nome
+                                    FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                    WHERE Biglietto.IdBiglietto = ?");
+        $stmt->bind_param('i', $idbiglietto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTipoNonBiglietto($idbiglietto){
+        $stmt = $this->db->prepare("SELECT TipoBiglietto.IdTipoBiglietto, TipoBiglietto.Nome
+                                    FROM TipoBiglietto
+                                    WHERE  TipoBiglietto.IdTipoBiglietto 
+                                        NOT IN (SELECT TipoBiglietto.IdTipoBiglietto
+                                                FROM Biglietto INNER JOIN TipoBiglietto ON Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto
+                                                WHERE Biglietto.IdBiglietto = ?)");
+        $stmt->bind_param('i', $idbiglietto);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -1008,6 +1077,13 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sss', $nomeArtista, $descrizioneArtista, $pathArtista);
         return $stmt->execute();
+    }
+    public function aggiungiEvento($titolo, $pathLocandina, $idLuogo, $dataInizio, $dataFine, $descrizione, $idUtente){
+        $query = "INSERT INTO Evento (Titolo, Descrizione, Locandina, DataInizio, DataFine, IdLuogo, IdUtente) VALUE (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sssssii', $titolo, $descrizione, $pathLocandina, $dataInizio, $dataFine, $idLuogo, $idUtente);
+        $stmt->execute();
+        return $stmt->insert_id;
     }
 }
 ?>

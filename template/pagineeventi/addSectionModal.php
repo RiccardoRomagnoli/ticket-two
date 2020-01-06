@@ -10,12 +10,12 @@ $sessionData .= '
  
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Nome Sezione</label>
-                        <input required id="nomeSezioneAdd" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input>
+                        <input required id="addNomeSezione" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Posti Totali</label>
-                        <input required class="uk-input" id="postiTotaliAdd" type="number" min="1" max="300" step="1">
+                        <input required class="uk-input" id="addPostiTotali" type="number" min="1" max="300" step="1">
                     </div>
 
                     <div class="uk-width-1-1">

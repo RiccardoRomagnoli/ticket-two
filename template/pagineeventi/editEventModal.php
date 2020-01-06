@@ -1,77 +1,66 @@
 <?php 
-$optionsLuoghi = '<option value="'. $evento["IdLuogo"] .'">'. $evento["NomeLuogo"] .'</option>';
-$luoghi = $dbh->getLuoghi();
-foreach ($luoghi as $luogo) {
-    if($luogo["IdLuogo"] != $evento["IdLuogo"]){
-        $optionsLuoghi .= '
-        <option value="'. $luogo["IdLuogo"] .'">'. $luogo["Nome"] .'</option>
-    ';
-    }
-}
-
 $sessionData .= '
     <div id="modal-editEvent" class="uk-modal-full uk-modal" uk-modal stack="true">
         <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-            <form id="modificaEventoForm" class ="uk-width-1-1 uk-width-1-3@m uk-margin-left uk-margin-right">
+            <form id="editEventoForm" class ="uk-width-1-1 uk-width-1-3@m uk-margin-left uk-margin-right">
                 <fieldset class="uk-fieldset">
 
                     <legend class="uk-legend uk-text-center uk-margin-top">Modifica Evento</legend>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Nome Evento</label>
-                        <input required id="nomeEvento" class="uk-input" type="text" placeholder="Inserisci nome Evento" value="'. $evento["TitoloEvento"] .'"></input>
+                        <input required id="editNomeEvento" class="uk-input" type="text" placeholder="Inserisci nome Evento"></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Artisti dell\' evento</label></br>
-                        <select style="width: 50%" id="idArtista" multiple>
+                        <select style="width: 50%" id="editSelectIdArtista" class="selectArtista" multiple>
                         </select>
                         <a href="#modal-addArtista" uk-toggle class="uk-toggle uk-float-right">
-                            <button id="apriModalAddArtista" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                            <button class="openModalAddArtista uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
                         </a>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Categorie dell\' evento</label></br>
-                        <select style="width: 60%" id="idCategoria" multiple>
+                        <select style="width: 60%" id="editSelectIdCategoria" class="selectCategoria" multiple>
                         </select>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Locandina evento</label></br>
-                        <input type="file" name="pathLocandina" id="pathLocandina"></input>
+                        <input type="file" name="pathLocandina" id="editPathLocandina"></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Luogo evento</label></br>
-                        <select style="width: 50%" id="idLuogo">
-                            '. $optionsLuoghi .'
+                        <select style="width: 50%" id="editSelectIdLuogo" class="selectLuogo">
                         </select>
                         <a href="#modal-addLuogo" uk-toggle class="uk-toggle uk-float-right">
-                            <button id="apriModalAddLuogo" class="uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                            <button class="openModalAddLuogo uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
                         </a>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Data inizio evento</label>
-                        <input required id="dataInizioModifica" class="dataPicker uk-input" type="text" 
-                            placeholder="Inserisci Data di inizio evento" data-input value="'. $evento["DataInizio"] .'"></input>
+                        <input required id="editDataInizio" class="dataInizio uk-input" type="text" 
+                            placeholder="Inserisci Data di inizio evento" data-input></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Data fine evento</label>
-                        <input required id="dataFineModifica" class="dataPicker uk-input" type="text" 
-                            placeholder="Inserisci Data di fine evento" data-input value="'. $evento["DataFine"] .'"></input>
+                        <input required id="editDataFine" class="dataFine uk-input" type="text" 
+                            placeholder="Inserisci Data di fine evento" data-input></input>
                     </div>
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-stacked-text">Descrizione</label>
-                        <textarea required id ="descrizioneEvento" class="uk-textarea" rows="8" placeholder="Inserisci descrizione evento">'. $evento["EventoDescrizione"] .'</textarea>
+                        <textarea required id ="editDescrizioneEvento" class="uk-textarea" rows="8" placeholder="Inserisci descrizione evento"></textarea>
                     </div>
                     <div class="uk-width-1-1">
-                        <button id="saveEventBtn" type="submit" class="uk-button uk-button-primary uk-margin-left uk-width-1-3 uk-float-left">Salva</button>
-                        <button id="deleteEventBtn" type="button" class="uk-button uk-button-danger uk-margin-right uk-width-1-3 uk-float-right">Elimina</button>
+                        <button id="saveEventoBtn" type="submit" class="uk-button uk-button-primary uk-margin-left uk-width-1-3 uk-float-left">Salva</button>
+                        <button id="deleteEventoBtn" type="button" class="uk-button uk-button-danger uk-margin-right uk-width-1-3 uk-float-right">Elimina</button>
                     </div>
                 </fieldset>
             </form>

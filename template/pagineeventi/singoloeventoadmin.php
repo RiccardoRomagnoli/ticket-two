@@ -1,6 +1,7 @@
 <?php 
     $evento = $templateParams["evento"][0];
     $sessionData = '';
+
     //model per modifica cancellazione e aggiunta
     require_once 'template/pagineeventi/editEventModal.php';
     require_once 'template/pagineeventi/editBigliettoModal.php';
@@ -11,7 +12,7 @@
     
     //dati utili per la pagina
     $sessionData .= '
-        <input type="hidden" id="idEvent" value="' . $evento["IdEvento"] .'">
+        <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'">
     ';
 
     //sezione del titolo
@@ -77,7 +78,7 @@
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                         <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
-                            <button value="'. $biglietto["IdBiglietto"] .'" class="editTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                            <button value="'. $biglietto["IdBiglietto"] .'" class="openModalEditTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
                         </a>    
                     </div>
                 <hr/>
@@ -88,7 +89,7 @@
     $ticketTotali .= '
         <li class="uk-flex uk-flex-center">
             <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
-            <button class="addTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
+            <button class="openModalAddTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
             </a>  
         </li>  
         ';
@@ -104,7 +105,7 @@
                     ' . $biglietto["PrezzoBiglietto"] . '€
                     <div class="uk-accordion-content">
                     <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
-                        <button value="'. $biglietto["IdBiglietto"] .'" class="editTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
+                        <button value="'. $biglietto["IdBiglietto"] .'" class="openModalEditTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
                     </a>
                     </div>
                 <hr/>
@@ -115,7 +116,7 @@
     $abbonamentiTotali .= '
         <li class="uk-flex uk-flex-center">
             <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
-            <button class="addTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
+            <button class="openModalAddTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
             </a>  
         </li>  
         ';
