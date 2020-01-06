@@ -31,7 +31,7 @@
                     <li class="uk-nav-header">Menu</li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="./profilo.php">Profilo</a></li>
-                    <li><a href="#">Crea Evento</a></li>
+                    <li><a href="./addevento.php">Crea Evento</a></li>
                     <li><a href="./myCreatedEvents.php">I Miei Eventi</a></li>
                     <li><a href="./notifications.php">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
