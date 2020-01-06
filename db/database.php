@@ -808,7 +808,9 @@ class DatabaseHelper{
         $stmt->bind_param('isssss', $idSezione, $dataInizio, $dataFine, $orario, $dataInizio, $dataFine);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        if(empty($result->fetch_all(MYSQLI_ASSOC))){
+            return array(array('PostiOccupati' => 0));
+        }
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -1108,6 +1110,33 @@ class DatabaseHelper{
         $stmt->bind_param('sssssii', $titolo, $descrizione, $pathLocandina, $dataInizio, $dataFine, $idLuogo, $idUtente);
         $stmt->execute();
         return $stmt->insert_id;
+    }
+
+    public function ricercaArtista($nomeArtista){
+        $query = 'SELECT * FROM Artista WHERE Nome LIKE "%?%"';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $nomeArtista);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function ricercaLuogo($nomeLuogo){
+        $query = 'SELECT * FROM Luogo WHERE Nome LIKE "%?%"';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $nomeLuogo);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function ricercaEvento($nomeEvento){
+        $query = 'SELECT * FROM Evento WHERE Titolo LIKE "%?%" && DataInizio >= CURDATE()';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $nomeEvento);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>
