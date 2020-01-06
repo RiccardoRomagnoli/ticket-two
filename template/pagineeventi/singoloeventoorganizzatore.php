@@ -1,13 +1,17 @@
 <?php 
     $evento = $templateParams["evento"][0];
     $sessionData = '';
+    
     //model per modifica cancellazione e aggiunta
-    require_once 'template/pagineeventi/editEventModal.php';
-    require_once 'template/pagineeventi/editBigliettoModal.php';
-    require_once 'template/pagineeventi/editSectionModal.php';
-    require_once 'template/pagineeventi/addBigliettoModal.php';
-    require_once 'template/pagineeventi/addLuogoModal.php';
-    require_once 'template/pagineeventi/addSectionModal.php';
+    if($evento["IdUtente"] == $idutente){
+        require_once 'template/pagineeventi/editEventModal.php';
+        require_once 'template/pagineeventi/editBigliettoModal.php';
+        require_once 'template/pagineeventi/editSectionModal.php';
+        require_once 'template/pagineeventi/addBigliettoModal.php';
+        require_once 'template/pagineeventi/addLuogoModal.php';
+        require_once 'template/pagineeventi/addSectionModal.php';
+        require_once 'template/pagineeventi/addArtistaModal.php';
+    }
 
     //dati utili per la pagina
     $sessionData .= '

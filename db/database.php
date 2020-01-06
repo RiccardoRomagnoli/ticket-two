@@ -1003,5 +1003,11 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
+    public function aggiungiArtista($nomeArtista, $descrizioneArtista, $pathArtista){
+        $query = "INSERT INTO Artista (Nome, Descrizione, Foto) VALUE (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sss', $nomeArtista, $descrizioneArtista, $pathArtista);
+        return $stmt->execute();
+    }
 }
 ?>

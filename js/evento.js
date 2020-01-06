@@ -59,27 +59,25 @@ $(document).ready(function(){
         $.post("utils/event-cart.php",
         {idEvento: idEvent, azione: "cancellaCategorieEvento"},
         function(data){
+            categorie.forEach(categoria => {
+                //aggiungi per ogni categoria delle select
+                $.post("utils/event-cart.php",
+                {idEvento: idEvent, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
+                function(data){
+                });    
+            }); 
         });
 
         $.post("utils/event-cart.php",
             {idEvento: idEvent, azione: "cancellaArtistiEvento"},
             function(data){
-        });       
-
-        //aggiungi per ogni categoria e artista delle let
-
-        categorie.forEach(categoria => {
-            $.post("utils/event-cart.php",
-            {idEvento: idEvent, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
-            function(data){
-            });    
-        }); 
-
-        artisti.forEach(artista => {
-            $.post("utils/event-cart.php",
-            {idEvento: idEvent, idArtista: artista, azione: "aggiungiArtistaEvento"},
-            function(data){
-            });    
+                //aggiungi per ogni artista delle select
+                artisti.forEach(artista => {
+                    $.post("utils/event-cart.php",
+                    {idEvento: idEvent, idArtista: artista, azione: "aggiungiArtistaEvento"},
+                    function(data){
+                    });    
+                });
         });
 
         //modifica dei campi dell'evento
@@ -545,6 +543,36 @@ $(document).ready(function(){
                     $("#prezzoBiglietto").val(risposta.prezzoBiglietto);
                 }
             );
+    });
+
+    //sezione modal add artista
+
+    $("#addArtistaForm").submit(function(e) {
+        e.preventDefault();
+        let nomeArtista = $("#nomeArtistaAdd").val();
+        let descrizioneArtista = $("#descrizioneArtistaAdd").val();
+        let myFile = $('#pathArtista').prop('files')[0];
+        let formData = new FormData();
+        
+        formData.append("azione", "aggiungiArtista");
+        formData.append("nomeArtista", nomeArtista);
+        formData.append("descrizioneArtista", descrizioneArtista);
+        formData.append("fotoArtista", myFile);
+
+        $.ajax({
+            url: 'utils/event-cart.php',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){
+                        UIkit.modal($("#modal-addArtista")).hide();},1500);
+                }
+            }
+        });
     });
     
     //check eventi

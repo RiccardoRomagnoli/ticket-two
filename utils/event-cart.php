@@ -27,6 +27,31 @@
                 }
                 break;
 
+            case 'aggiungiArtista':
+                $nomeArtista = $_POST['nomeArtista'];
+                $descrizioneArtista = $_POST['descrizioneArtista'];
+                $result = 0;
+                $msg = "";
+
+                if(!empty($_FILES["fotoArtista"])){
+                    list($result, $msg) = uploadImage(UPLOAD_DIR, $_FILES["fotoArtista"]);
+                } else {
+                    $result = 1;
+                    $msg = "artist_default.jpg";
+                }
+
+                if($result != 0){
+                    $result = $dbh->aggiungiArtista($nomeArtista, $descrizioneArtista, $msg);
+                    if ($result == true) {
+                        echo json_encode(array('result' => 'ok', 'message' => 'Aggiunta effettuata!'));
+                    } else {
+                        echo json_encode(array('result' => 'error', 'message' => 'Aggiunta non riuscita!'));
+                    }
+                } else {
+                        echo json_encode(array('result' => 'error', 'message' => $msg));
+                }
+                break;
+                
             case 'getArtistiEvento':    
                     $idEvento = $_POST['idEvento'];
                     $result = $dbh-> getEventArtistsByIdEvento($idEvento);
@@ -182,10 +207,6 @@
                 } else {
                     echo json_encode(array('result' => 'error', 'message' => 'Modifica non riuscita!'));
                 }
-                break;
-
-            case 'cancellaSezione':
-                
                 break;
 
             case 'aggiungiSezione':
