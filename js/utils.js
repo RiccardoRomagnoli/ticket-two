@@ -29,6 +29,24 @@ $(document).ready(function(){
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     }
+
+    //notifications
+    const interval = setInterval(function() {
+        $.post("utils/Notification.php",
+        {},
+        function(data, status){sendNotification(JSON.parse(data));});
+      }, 5000); 
+      
+    function sendNotification(data){
+        if(data.result == "ok"){
+            UIkit.notification({
+                message: '<strong>Nuova Notifica</strong><br>'+data.text+'<br>'+data.date,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 7000
+            });
+        }
+    }
 });
 
 

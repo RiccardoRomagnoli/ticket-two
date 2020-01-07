@@ -1257,5 +1257,21 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getNotReadNotify($IdUtente){
+        $query = 'SELECT * FROM Notifica WHERE IdUtente = ? AND Letto = 0 AND Visualizzato = 0 ORDER BY IdNotifica LIMIT 1';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $IdUtente);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function updateNotify($IdNotify){
+        $query = "UPDATE Notifica SET Visualizzato = 1 WHERE IdNotifica = ?";        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $IdNotify);
+        $stmt->execute();
+    }  
 }
 ?>
