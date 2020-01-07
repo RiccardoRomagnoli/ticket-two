@@ -31,7 +31,7 @@
     $photoSection = '
         <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-auto@m uk-width-xlarge@l">
-                <img data-src="upload/'. $evento["Locandina"]. '" width="1800" height="1200" alt="" uk-img>
+                <img data-src="upload/'. $evento["Locandina"]. '" width="1800" height="1200" alt="Locandina Evento" uk-img>
             </div>
         </div>
     ';
@@ -50,6 +50,9 @@
     $descriptionSection = '
             <div class="uk-grid uk-margin-remove-top">
             <div class="uk-width-1-1">
+            ' . $evento["DataInizio"] . '-' . $evento["DataFine"] . '
+            </div>
+            <div class="uk-width-1-1">
                 ' . $artistiTotali . '
             </div>
             <div class="uk-width-1-1">
@@ -59,10 +62,14 @@
                 <a href="./place.php?id='. $evento["IdLuogo"] .'" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
             </div>
             <div class="uk-width-1-1">
-            ' . $evento["DataInizio"] . '-' . $evento["DataFine"] . '
-            </div>
-            <div class="uk-width-1-1">
-                ' . $evento["EventoDescrizione"] . '
+                <ul uk-accordion>
+                    <li>
+                        <a class="uk-accordion-title" href="#">Descrizione evento</a>
+                        <div class="uk-accordion-content">
+                        ' . $evento["EventoDescrizione"] . '    
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     ';

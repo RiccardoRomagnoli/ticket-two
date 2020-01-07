@@ -808,10 +808,11 @@ class DatabaseHelper{
         $stmt->bind_param('isssss', $idSezione, $dataInizio, $dataFine, $orario, $dataInizio, $dataFine);
         $stmt->execute();
         $result = $stmt->get_result();
-        if(empty($result->fetch_all(MYSQLI_ASSOC))){
+        $exitResult = $result->fetch_all(MYSQLI_ASSOC);
+        if(empty($exitResult)){
             return array(array('PostiOccupati' => 0));
         }
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $exitResult;
     }
 
     public function getAbbonamentoSezionePresi($idSezione, $dataInizio, $dataFine){
@@ -1112,28 +1113,31 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
-    public function ricercaArtista($nomeArtista){
-        $query = 'SELECT * FROM Artista WHERE Nome LIKE "%?%"';
+    public function ricercaArtisti($nomeArtista){
+        $param = "%{$nomeArtista}%";
+        $query = 'SELECT * FROM Artista WHERE Nome LIKE ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $nomeArtista);
+        $stmt->bind_param('s', $param);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function ricercaLuogo($nomeLuogo){
-        $query = 'SELECT * FROM Luogo WHERE Nome LIKE "%?%"';
+    public function ricercaLuoghi($nomeLuogo){
+        $param = "%{$nomeLuogo}%";
+        $query = 'SELECT * FROM Luogo WHERE Nome LIKE ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $nomeLuogo);
+        $stmt->bind_param('s', $param);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function ricercaEvento($nomeEvento){
-        $query = 'SELECT * FROM Evento WHERE Titolo LIKE "%?%" && DataInizio >= CURDATE()';
+    public function ricercaEventi($nomeEvento){
+        $param = "%{$nomeEvento}%";
+        $query = 'SELECT * FROM Evento WHERE Titolo LIKE ? && DataInizio >= CURDATE()';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $nomeEvento);
+        $stmt->bind_param('s', $param);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);

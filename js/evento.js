@@ -199,7 +199,6 @@ $(document).ready(function(){
                 }
             );
 
-
         //riempi il tipo di biglietto scelti
         $.post("utils/event-cart.php",
                 {azione: "getTipoBigliettoBiglietto", idBiglietto: idBiglietto},
@@ -230,6 +229,7 @@ $(document).ready(function(){
                     $("#editSelectIdTipoBiglietto").append(c);
                 }
             );
+
         //riempi resto dei campi
         $.post("utils/event-cart.php",
                 {azione: "getInfoBiglietto", idBiglietto: idBiglietto},
