@@ -474,7 +474,7 @@ $(document).ready(function(){
                     categorie.forEach(categoria => {
                         $.post("utils/event-cart.php",
                         {idEvento: JSON.parse(data).idEvento, idCategoria: categoria, azione: "aggiungiCategoriaEvento"},
-                        function(data){
+                        function(data1){
                         });    
                     }); 
 
@@ -482,7 +482,11 @@ $(document).ready(function(){
                     artisti.forEach(artista => {
                         $.post("utils/event-cart.php",
                         {idEvento: JSON.parse(data).idEvento, idArtista: artista, azione: "aggiungiArtistaEvento"},
-                        function(data){
+                        function(data1){
+                            $.post("utils/event-cart.php",
+                            {idEvento: JSON.parse(data).idEvento, azione: "aggiungiNotifica"},
+                            function(data1){
+                            }); 
                         });    
                     });
                     window.setTimeout(function(){window.location = "./evento.php?idevento=" + JSON.parse(data).idEvento;}, 1500);

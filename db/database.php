@@ -787,8 +787,27 @@ class DatabaseHelper{
         $query = "UPDATE Evento SET IdLuogo = ?, Titolo = ?, Descrizione = ?, Locandina = ?, DataInizio = ?, DataFine = ? WHERE IdEvento = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('isssssi', $idLuogo, $titolo, $descrizione, $fotoLocation, $dataInizio, $dataFine, $idEvento);
-        
-        return $stmt->execute();
+        $result = $stmt->execute();
+
+        if(!empty($idEvento)){
+            //aggiungi notifica per chi segue l'evento
+
+            //prendi tutti gli utenti che seguono l'evento
+            $query = "SELECT IdUtente FROM EventoSeguito WHERE IdEvento = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idEvento);
+            $stmt->execute();
+            $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+            foreach ($idUtenti as $idUtente) {
+                $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                $stmt = $this->db->prepare($query);
+                $messaggio = "E' stato modificato un evento che segui.";
+                $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                $stmt->execute();
+            }
+        }
+        return $result;
     }
 
     public function eliminaEvento($idEvento) {
@@ -883,19 +902,65 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function addBiglietto( $idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto){
+    public function addBiglietto($idSezioneEvento, $dataInizioBiglietto, $dataFineBiglietto, $idTipoBiglietto, $orarioBiglietto, $prezzoBiglietto){
         $query = "INSERT INTO Biglietto (IdSezione, IdTipoBiglietto, Prezzo, DataInizio, DataFine, Orario) VALUE (?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('iidsss', $idSezioneEvento, $idTipoBiglietto, $prezzoBiglietto, $dataInizioBiglietto, $dataFineBiglietto, $orarioBiglietto);
-        return $stmt->execute();
+        $result = $stmt->execute();
+        if(!empty($idSezioneEvento)){
+            //aggiungi notifica per gli seguono l'evento
+
+            //prendo l'evento della sezione
+            $query = "SELECT IdEvento FROM Sezione WHERE IdSezione = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idSezioneEvento);
+            $stmt->execute();
+            $idEventi = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            //per ogni evento, in pratica è solo 1
+            foreach ($idEventi as $idEvento) {
+                //prendi tutti gli utenti che seguono l'evento
+                $query = "SELECT IdUtente FROM EventoSeguito WHERE IdEvento = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('i', $idEvento["IdEvento"]);
+                $stmt->execute();
+                $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                foreach ($idUtenti as $idUtente) {
+                    $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                    $stmt = $this->db->prepare($query);
+                    $messaggio = "E' stato aggiunto un nuovo biglietto ad un evento che segui.";
+                    $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                    $stmt->execute();
+                }
+            }
+        }
+        return $result;
     }
 
     public function modificaEventoNoImage($idEvento, $titolo, $idLuogo, $dataInizio, $dataFine, $descrizione){
         $query = "UPDATE Evento SET IdLuogo = ?, Titolo = ?, Descrizione = ?, DataInizio = ?, DataFine = ? WHERE IdEvento = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('issssi', $idLuogo, $titolo, $descrizione, $dataInizio, $dataFine, $idEvento);
-        
-        return $stmt->execute();
+        $result = $stmt->execute();
+
+        if(!empty($idEvento)){
+            //aggiungi notifica per chi segue l'evento
+
+            //prendi tutti gli utenti che seguono l'evento
+            $query = "SELECT IdUtente FROM EventoSeguito WHERE IdEvento = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idEvento);
+            $stmt->execute();
+
+            $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            foreach ($idUtenti as $idUtente) {
+                $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                $stmt = $this->db->prepare($query);
+                $messaggio = "E' stato modificato un evento che segui.";
+                $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                $stmt->execute();
+            }
+        }
+        return $result;
     }
 
     public function getRegione(){
@@ -1105,12 +1170,62 @@ class DatabaseHelper{
         $result = $stmt->get_result();
         return array($idArtista, ($result->fetch_all(MYSQLI_ASSOC))[0]["Nome"]);
     }
+
     public function aggiungiEvento($titolo, $pathLocandina, $idLuogo, $dataInizio, $dataFine, $descrizione, $idUtente){
         $query = "INSERT INTO Evento (Titolo, Descrizione, Locandina, DataInizio, DataFine, IdLuogo, IdUtente) VALUE (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sssssii', $titolo, $descrizione, $pathLocandina, $dataInizio, $dataFine, $idLuogo, $idUtente);
         $stmt->execute();
-        return $stmt->insert_id;
+        $idEvento = $stmt->insert_id;
+        //se effettivamente l'ho aggiunto
+        if(!empty($idEvento)){
+            //aggiungi notifica per gli utenti che seguono il luogo
+            //prendo gli utenti che seguono il luogo
+            $query = "SELECT IdUtente FROM LuogoSeguito WHERE IdLuogo = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idLuogo);
+            $stmt->execute();
+            $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+            //per ogni utente aggiungo una notifica
+            foreach ($idUtenti as $idUtente) {
+                $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                $stmt = $this->db->prepare($query);
+                $messaggio = "E' stato aggiunto l'evento " . $titolo . " ad un luogo che segui.";
+                $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                $stmt->execute();
+            }
+        }
+
+        return $idEvento;
+    }
+
+    public function aggiungiNotifica($idEvento){
+        //aggiungi notifica per gli utenti che seguono gli artisti
+        //prendo tutti gli artisti dell'evento
+        $result = "";
+        $query = "SELECT IdArtista FROM ArtistaEvento WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idEvento);
+        $stmt->execute();
+        $idArtisti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        //per ogni artista mi trovo gli utenti che lo seguono
+        foreach ($idArtisti as $idArtista) {
+            $query = "SELECT IdUtente FROM ArtistaSeguito WHERE IdArtista = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('i', $idArtista["IdArtista"]);
+            $stmt->execute();
+            $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            
+            //per ogni utente aggiungo una notifica
+            foreach ($idUtenti as $idUtente) {
+                $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                $stmt = $this->db->prepare($query);
+                $messaggio = "E' stato aggiunto un evento ad un artista che segui.";
+                $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                $result = $stmt->execute();
+            }
+        }
     }
 
     public function ricercaArtisti($nomeArtista){

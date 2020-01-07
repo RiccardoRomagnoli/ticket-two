@@ -98,6 +98,11 @@
                 }
             break;
 
+            case 'aggiungiNotifica':
+                $idEvento = $_POST["idEvento"];
+                $dbh->aggiungiNotifica($idEvento);
+            break;
+
             case 'aggiungiBiglietto':
                 $idSezioneEvento = $_POST['idSezioneEvento'];
                 $dataInizioBiglietto = $_POST['dataInizioBiglietto'];

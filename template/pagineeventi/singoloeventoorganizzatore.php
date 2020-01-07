@@ -73,7 +73,7 @@
             <div class="uk-width-1-1">
                 <ul uk-accordion>
                     <li>
-                        <a class="uk-accordion-title" href="#">Descrizione evento</a>
+                        <a class="uk-flex uk-flex-center uk-accordion-title" href="#">Descrizione evento</a>
                         <div class="uk-accordion-content">
                         ' . $evento["EventoDescrizione"] . '    
                         </div>
