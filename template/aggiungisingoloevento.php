@@ -27,7 +27,7 @@
                 <div class="uk-width-1-1">
                     <div class="uk-margin">
                         <label class="uk-form-label" for="addSelectIdArtista">Artisti dell' evento</label></br>
-                        <select style="width: 50%" class="selectArtista"id="addSelectIdArtista" multiple>
+                        <select style="width: 50%" class="selectArtista" id="addSelectIdArtista" multiple>
                         </select>
                         <a href="#modal-addArtista" uk-toggle class="uk-toggle uk-float-right">
                             <button class="openModalAddArtista uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
