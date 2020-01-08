@@ -310,7 +310,7 @@ class DatabaseHelper{
             FROM Evento, Luogo, Citta
             WHERE Evento.IdLuogo = Luogo.IdLuogo 
             and Luogo.IdCitta = Citta.IdCitta
-            and Evento.IdUtente IN (" . $idEventsMatchingMyCategoriesExcludingMyEvents . ") 
+            and Evento.IdEvento IN (" . $idEventsMatchingMyCategoriesExcludingMyEvents . ") 
             ORDER BY Evento.IdEvento DESC limit 10";
         $stmt = $this->db->prepare($latestTenEventsSimilarToMine);
         $stmt->bind_param('ii', $idUser, $idUser);
