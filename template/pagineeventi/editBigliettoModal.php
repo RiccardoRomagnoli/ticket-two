@@ -11,9 +11,9 @@ $sessionData .= '
                     <input type="hidden" id="editIdBiglietto"/>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Sezione del Biglietto</br>
+                        <label class="uk-form-label" for="editSelectIdSezioneEvento">Sezione del Biglietto</label></br>
                         <select style="width: 50%" class="selectSezioneEvento" id="editSelectIdSezioneEvento">
-                        </select></label>
+                        </select>
                         <a href="#modal-addSection" uk-toggle class="uk-toggle uk-float-right">
                             <button id="addSection" class="openModalAddSection uk-icon-button uk-float-right" uk-icon="plus-circle"></button>
                         </a>
@@ -23,32 +23,32 @@ $sessionData .= '
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Tipologia Biglietto</br>
+                        <label class="uk-form-label" for="editSelectIdTipoBiglietto">Tipologia Biglietto</label></br>
                         <select style="width: 50%" class="selectTipoBiglietto" id="editSelectIdTipoBiglietto">
-                        </select></label>
+                        </select>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Data inizio evento
+                        <label class="uk-form-label" for="editDataInizioBiglietto">Data inizio evento</label>
                         <input required id="editDataInizioBiglietto" class="dataInizio uk-input" type="text" 
-                            placeholder="Inserisci Data di inizio evento" data-input></input></label>
+                            placeholder="Inserisci Data di inizio evento" data-input></input>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Data fine evento
+                        <label class="uk-form-label" for="editDataFineBiglietto">Data fine evento</label>
                         <input required id="editDataFineBiglietto" class="dataFine uk-input" type="text" 
-                            placeholder="Inserisci Data di fine evento" data-input></input></label>
+                            placeholder="Inserisci Data di fine evento" data-input></input>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Orario
+                        <label class="uk-form-label" for="editOrarioBiglietto">Orario</label>
                         <input required id="editOrarioBiglietto" class="dataPicker uk-input" type="text" 
-                            placeholder="Inserisci ora evento" data-input></input></label>
+                            placeholder="Inserisci ora evento" data-input></input>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Prezzo
-                        <input required class="uk-input" id="editPrezzoBiglietto" type="number" min="0.01" step="0.01"></label>
+                        <label class="uk-form-label" for="editPrezzoBiglietto">Prezzo</label>
+                        <input required class="uk-input" id="editPrezzoBiglietto" type="number" min="0.01" step="0.01">
                     </div>
 
                     <div class="uk-width-1-1">
