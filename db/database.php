@@ -1287,6 +1287,36 @@ class DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $IdNotify);
         $stmt->execute();
-    }  
+    }
+
+    public function aggiungiReportEvento($idEvento, $idUtente, $descrizioneReport){
+        $query = "INSERT INTO Segnalazione (IdUtente, IdEvento, Descrizione) VALUE (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iis',$idUtente, $idEvento, $descrizioneReport);
+        $result = $stmt->execute();
+
+        $query = "SELECT IdArtista FROM ArtistaEvento WHERE IdEvento = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $idEvento);
+        $stmt->execute();
+        $idArtisti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        //per ogni artista mi trovo gli utenti che lo seguono
+        foreach ($idArtisti as $idArtista) {
+            $query = "SELECT IdUtente FROM Utente WHERE IdTipoUtente = 1";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $idUtenti = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            
+            //per ogni utente aggiungo una notifica
+            foreach ($idUtenti as $idUtente) {
+                $query = "INSERT INTO Notifica (IdUtente, Testo, Data, Letto) VALUE (?, ?, CURDATE(), 0)";
+                $stmt = $this->db->prepare($query);
+                $messaggio = "E' stata fatta una segnalazione";
+                $stmt->bind_param('is', $idUtente["IdUtente"], $messaggio);
+                $stmt->execute();
+            }
+        }
+        return $result;
+    }
 }
 ?>

@@ -134,6 +134,10 @@ $(document).ready(function(){
     $(".openModalAddSection").click(function(){
         $("#addSezioneForm")[0].reset();
     });
+
+    $(".openModalReportEvent").click(function(){
+        $("#addReportEventForm")[0].reset();
+    });
     
     $(".openModalAddArtista").click(function(){
         $("#addArtistaForm")[0].reset();
@@ -701,6 +705,24 @@ $(document).ready(function(){
             }
         });
 
+    });
+
+    $("#addReportEventoForm").submit(function(e) {
+        e.preventDefault();
+        let descrizioneReport = $("#addDescrizioneReport").val();
+        $.post(
+            "utils/event-cart.php",
+            {
+                azione: "aggiungiReportEvento", idEvento: idEvento,
+                descrizioneReport: descrizioneReport
+            },
+            function(data){
+                checkEvento(JSON.parse(data));
+                if(JSON.parse(data).result == "ok") {
+                    window.setTimeout(function(){
+                        UIkit.modal($("#modal-addReportEvento")).hide();},1500);
+                }
+            });
     });
 
     //delete form

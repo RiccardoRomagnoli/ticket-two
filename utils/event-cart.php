@@ -143,6 +143,18 @@
                 }
             break;
             
+            case 'aggiungiReportEvento':
+                $idEvento = $_POST['idEvento'];
+                $descrizioneReport = $_POST['descrizioneReport'];
+                $idUtente = $_SESSION['idUtente'];
+                $result = $dbh->aggiungiReportEvento($idEvento, $idUtente, $descrizioneReport);
+                if (!empty($result)) {
+                    echo json_encode(array('result' => 'ok', 'message' => 'Segnalazione effettuata!'));
+                } else {
+                    echo json_encode(array('result' => 'error', 'message' => 'Segnalazione non riuscita!'));
+                }
+            break;
+
             case 'aggiungiLuogo':
                 $idCitta = $_POST['idCitta'];
                 $nomeLuogo = $_POST['nomeLuogo'];

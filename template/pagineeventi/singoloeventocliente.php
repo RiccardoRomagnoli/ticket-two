@@ -1,8 +1,10 @@
 <?php
     $evento = $templateParams["evento"][0];
+    $sessionData = '';
+    require_once 'template/pagineeventi/addReportEventoModal.php';
 
     //dati utili per la pagina
-    $sessionData = '
+    $sessionData .= '
         <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'">
     ';
 
@@ -13,6 +15,9 @@
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
                 <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <a href="#modal-addReportEvento" uk-toggle class="uk-toggle uk-float-right">
+                    <button class="openModalReportEvent uk-button uk-button-danger uk-button-primary">Segnala</button>
+                </a>
                 <button id="followBtn" class="uk-button uk-button-default uk-float-right">Segui</button>
             </div>
         </div>  
@@ -22,6 +27,9 @@
         <div class="uk-grid uk-text-center">
             <div class="uk-panel uk-width-1-1">
                 <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
+                <a href="#modal-addReportEvento" uk-toggle class="uk-toggle uk-float-right">
+                    <button class="openModalReportEvent uk-button uk-button-danger uk-button-primary">Segnala</button>
+                </a>                
                 <button id="followBtn" class="uk-button uk-button-default uk-float-right">Non seguire più</button>
             </div>
         </div>
