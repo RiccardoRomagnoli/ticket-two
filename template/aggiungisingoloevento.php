@@ -1,175 +1,88 @@
-<?php 
-    $evento = $templateParams["evento"][0];
+<?php
+    $optionsLuoghi = '<option value=""></option>';
+    $luoghi = $dbh->getLuoghi();
     $sessionData = '';
-    
-    //model per modifica cancellazione e aggiunta
-    if($evento["IdUtente"] == $idutente){
-        require_once 'template/pagineeventi/editEventModal.php';
-        require_once 'template/pagineeventi/editBigliettoModal.php';
-        require_once 'template/pagineeventi/editSectionModal.php';
-        require_once 'template/pagineeventi/addBigliettoModal.php';
-        require_once 'template/pagineeventi/addLuogoModal.php';
-        require_once 'template/pagineeventi/addSectionModal.php';
-        require_once 'template/pagineeventi/addArtistaModal.php';
-    }
-
-    //dati utili per la pagina
-    $sessionData .= '
-        <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'">
-    ';
-
-    //sezione del titolo
-    $titleSection = '
-        <div class="uk-grid uk-text-center">
-            <div class="uk-panel uk-width-1-1">
-                <h1 class="uk-float-left uk-margin-remove-bottom">' . $evento["TitoloEvento"] . '</h1>
-                ';
-    //controllo pulsante modifica se proprietario dell'evento
-    if($evento["IdUtente"] == $idutente){
-            $titleSection .= '
-                <a href="#modal-editEvent" uk-toggle class="uk-toggle uk-float-right">
-                    <button id="openModalEditEvent" class="uk-button uk-button-default uk-button-primary">Modifica</button>
-                </a>
-                ';
-    }
-    $titleSection .= '            
-            </div>
-        </div>  
-        ';
-
-    //sezione della foto
-    $photoSection = '
-        <div class="uk-grid uk-margin-remove-top">
-            <div class="uk-width-auto@m uk-width-xlarge@l">
-                <img data-src="upload/'. $evento["Locandina"]. '" width="1800" height="1200" alt="" uk-img>
-            </div>
-        </div>
-    ';
-
-    $artistiTotali = "";
-    $categorieTotali = "";
-    foreach($templateParams["artistievento"] as $artista){
-        $artistiTotali .= '<a href="./artist.php?id=' . $artista["IdArtista"] . '">' . $artista["Nome"] . '</a> ';
-    }
-
-    foreach($templateParams["categorieevento"] as $categoria){
-        $categorieTotali .= $categoria["Nome"] . ' ';
-    }
-
-    //sezione della descrizione dell'evento
-    $descriptionSection = '
-            <div class="uk-grid uk-margin-remove-top">
-            <div class="uk-width-1-1">
-                ' . $artistiTotali . '
-            </div>
-            <div class="uk-width-1-1">
-                ' . $categorieTotali . '
-            </div>
-            <div class="uk-width-1-1">
-                <a href="./place.php?id='. $evento["IdLuogo"] .'" class="uk-float-left">' . $evento["NomeLuogo"] . '</a>
-            </div>
-            <div class="uk-width-1-1">
-            ' . $evento["DataInizio"] . '-' . $evento["DataFine"] . '
-            </div>
-            <div class="uk-width-1-1">
-                ' . $evento["EventoDescrizione"] . '
-            </div>
-        </div>
-    ';
-
-    //zona dei biglietti singoli interi e ridotti
-    $ticketTotali = "";
-    //per ogni biglietto dell'evento
-    foreach($templateParams["bigliettievento"] as $biglietto){
-        //se sono semplici ticket di giorni singoli
-        if($biglietto["NomeBiglietto"] != "Abbonamento") {
-            $ticketTotali .= '
-            <li>
-                <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' 
-                . $biglietto["NomeBiglietto"] . ' ' . $biglietto["DataInizioBiglietto"] .' ' . $biglietto["Orario"] . '</a>
-                    ' . $biglietto["PrezzoBiglietto"] . '€
-                    <div class="uk-accordion-content">
-                    ';
-                    //controllo se l'organizzatore è proprietario dell'evento
-                    if($evento["IdUtente"] == $idutente){
-                        $ticketTotali .= '
-                        <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
-                            <button value="'. $biglietto["IdBiglietto"] .'" class="openModalEditTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
-                        </a>    
-                        ';
-                    }
-            $ticketTotali .= '
-                    </div>
-                <hr/>
-            </li>';
-        }
-    }
-    if($evento["IdUtente"] == $idutente){
-        $ticketTotali .= '
-        <li class="uk-flex uk-flex-center">
-            <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
-               <button class="openModalAddTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
-            </a>  
-        </li>  
+    foreach ($luoghi as $luogo) {
+            $optionsLuoghi .= '
+            <option value="'. $luogo["IdLuogo"] .'">'. $luogo["Nome"] .'</option>
         ';
     }
-
-    //zona dei biglietti abbonamento
-    $abbonamentiTotali = "";
-    foreach($templateParams["bigliettievento"] as $biglietto){ 
-        if($biglietto["NomeBiglietto"] == "Abbonamento") {
-            $abbonamentiTotali .= '
-            <li>
-                <a class="uk-accordion-title" href="#">' . $biglietto["NomeSezione"] . ' ' .
-                    $biglietto["NomeBiglietto"] . ' Dal ' . $biglietto["DataInizioBiglietto"] . ' al '. $biglietto["DataFineBiglietto"] . '</a>
-                    ' . $biglietto["PrezzoBiglietto"] . '€
-                    <div class="uk-accordion-content">
-                    ';
-                    //controllo se l'organizzatore è proprietario dell'evento
-                    if($evento["IdUtente"] == $idutente){
-                        $abbonamentiTotali .= '
-                    <a href="#modal-editBiglietto" uk-toggle class="uk-toggle uk-float-right">
-                        <button value="'. $biglietto["IdBiglietto"] .'" class="openModalEditTicket uk-icon-button uk-float-right uk-form-width-small" uk-icon="pencil"></button>
-                    </a>
-                    ';
-                    }
-            $abbonamentiTotali .= '
-                    </div>
-                <hr/>
-            </li>';
-        }
-    }
-
-    if($evento["IdUtente"] == $idutente){
-        $abbonamentiTotali .= '
-        <li class="uk-flex uk-flex-center">
-            <a href="#modal-addBiglietto" uk-toggle class="uk-toggle ">
-               <button class="openModalAddTicket uk-icon-button uk-form-width-small" uk-icon="plus-circle"></button>
-            </a>  
-        </li>  
-        ';
-    }
-    //sezione dei biglietti, includendo i pezzi creati sopra
-    $ticketSection = '
-        <div class="uk-grid uk-margin-remove-top">
-            <div class="uk-width-1-1">
-                <ul uk-tab>
-                    <li class="uk-active uk-width-1-2"><a href="#">Biglietti</a></li>
-                    <li class="uk-width-1-2"><a href="#">Abbonamenti</a></li>
-                </ul>
-                <ul class="uk-switcher uk-margin">
-                    <li>
-                        <ul uk-accordion>
-                            ' . $ticketTotali . '
-                        </ul>
-                    </li>
-                    <li>
-                        <ul uk-accordion>
-                        ' . $abbonamentiTotali . '
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    ';
+    require_once 'template/pagineeventi/addLuogoModal.php';
+    require_once 'template/pagineeventi/addArtistaModal.php';
+    echo $sessionData;
 ?>
+
+<div class="uk-section-xsmall uk-padding-remove-top uk-section-default uk-flex uk-flex-center"> 
+    <div class="uk-margin-small uk-width-3-4"> 
+
+        <form class="uk-grid-small" id="addEventoForm">
+            <fieldset class="uk-fieldset">
+                <legend class="uk-legend uk-text-center uk-margin-top">Modifica Evento</legend>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addNomeEvento">Nome Evento</label>
+                        <input required id="addNomeEvento" class="uk-input" type="text" placeholder="Inserisci nome Evento" value=""></input>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addSelectIdArtista">Artisti dell' evento</label></br>
+                        <select style="width: 50%" class="selectArtista"id="addSelectIdArtista" multiple>
+                        </select>
+                        <a href="#modal-addArtista" uk-toggle class="uk-toggle uk-float-right">
+                            <button class="openModalAddArtista uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addSelectIdCategoria">Categorie dell' evento</label></br>
+                        <select style="width: 60%" class="selectCategoria" id="addSelectIdCategoria" multiple>
+                        </select>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                <div class="uk-margin">
+                        <label class="uk-form-label" for="addPathLocandina">Locandina evento</label></br>
+                        <input type="file" name="addPathLocandina" id="addPathLocandina"></input>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addSelectIdLuogo">Luogo evento</label></br>
+                        <select style="width: 50%" class="selectLuogo" id="addSelectIdLuogo">
+                            <?php echo $optionsLuoghi ?>
+                        </select>
+                        <a href="#modal-addLuogo" uk-toggle class="uk-toggle uk-float-right">
+                            <button class="openModalAddLuogo uk-icon-button uk-float-right uk-form-width-small" uk-icon="plus-circle"></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addDataInizio">Data inizio evento</label>
+                        <input required id="addDataInizio" class="dataInizio uk-input" type="text" 
+                            placeholder="Inserisci Data di inizio evento" data-input value=""></input>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addDataFine">Data fine evento</label>
+                        <input required id="addDataFine" class="dataFine uk-input" type="text" 
+                            placeholder="Inserisci Data di fine evento" data-input value=""></input>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="addDescrizioneEvento">Descrizione</label>
+                        <textarea required id ="addDescrizioneEvento" class="uk-textarea" rows="8" placeholder="Inserisci descrizione evento"></textarea>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <button id="addEventBtn" type="submit" class="uk-button uk-button-primary uk-margin-left uk-width-1-3 uk-float-left">Salva</button>
+                    <button id="resetEventBtn" type="reset" class="uk-button uk-button-danger uk-margin-right uk-width-1-3 uk-float-right">Reset</button>
+                </div>
+            </fieldset>      
+        </form>
+    </div>
+</div>
