@@ -366,7 +366,7 @@ class DatabaseHelper{
             FROM Acquisto, RigaAcquisto, Biglietto, Sezione, TipoBiglietto
             WHERE Acquisto.IdAcquisto = RigaAcquisto.IdAcquisto AND RigaAcquisto.IdBiglietto = Biglietto.IdBiglietto AND
                 Biglietto.IdSezione = Sezione.IdSezione AND Biglietto.IdTipoBiglietto = TipoBiglietto.IdTipoBiglietto AND
-                Sezione.IdEvento = ? AND Acquisto.IdUtente = ?");
+                Sezione.IdEvento = ? AND Acquisto.IdUtente = ? AND RigaAcquisto.Nome != \"\" AND RigaAcquisto.Cognome != \"\"");
         $stmt->bind_param('ii', $idEvent, $idUser);
         $stmt->execute();
         $result = $stmt->get_result();
