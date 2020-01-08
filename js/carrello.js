@@ -65,14 +65,23 @@ $(document).ready(function(){
     });
 
     $("#crea").click(function(){
-        var Password = SHA512($("#passwordPay").val());
-
-        $.post("utils/singup-guest.php",
-        {Password:Password, GuestId:GuestId},
-        function(data, status){checkResult(JSON.parse(data));}
-        );
-        UIkit.modal("#pay-success-register").hide();
-        window.setTimeout(function(){location.reload()},1000);
+        
+        var Password = $("#passwordPay").val();
+        if(Password.length > 5){
+            Password = SHA512(Password);
+            $.post("utils/singup-guest.php",
+            {Password:Password, GuestId:GuestId},
+            function(data, status){checkResult(JSON.parse(data));}
+            );
+            UIkit.modal("#pay-success-register").hide();
+            window.setTimeout(function(){location.reload()},1000);
+        }else{
+            UIkit.notification({
+                message: 'Inserisci almeno 6 caratteri',
+                status: 'warning',
+                pos: 'top-right'
+            });
+        }
     });
 
     function checkInsertPaymentResult(response, Numero, Data){
