@@ -13,7 +13,7 @@
             registerLoggedUser($result[0]);
             unset($_COOKIE['idAcquisto']); 
             setcookie('idAcquisto', null, -1, '/');
-        } else {
+        }else {
             echo json_encode(array('result' => 'error', 'message' => 'Qualcosa non va, controlla i dati inseriti!'));
         }
     }

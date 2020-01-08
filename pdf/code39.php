@@ -57,7 +57,10 @@ function Code39($xpos, $ypos, $biglietto, $baseline=0.5, $height=5){
 
 	$this->SetFont('Arial','',20);
 	$this->Text(20, $ypos + $height*1.5 + 4, $biglietto["NomeReferente"]." ".$biglietto["CognomeReferente"]." ".$biglietto["DataReferente"]);
-	$this->Text(20, $ypos + $height*2 + 4, $biglietto["Titolo"]." - ".$biglietto["DataInizio"]." - ".$biglietto["NomeTipo"]." - ".$biglietto["NomeSezione"]);
+	$this->Text(20, $ypos + $height*2 + 4, $biglietto["Titolo"]);
+	$this->Text(20, $ypos + $height*2.5 + 4, $biglietto["DataInizio"]);
+	$this->Text(20, $ypos + $height*3 + 4, $biglietto["NomeTipo"]);
+	$this->Text(20, $ypos + $height*3.5 + 4, $biglietto["NomeSezione"]);
 	$this->SetFillColor(0);
 
 	$code = '*'.strtoupper($code).'*';
