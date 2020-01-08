@@ -377,7 +377,7 @@ class DatabaseHelper{
     public function getReports(){
         $stmt = $this->db->prepare(
             "SELECT Segnalazione.*, Evento.Titolo 
-            FROM Segnalazione 
+            FROM Segnalazione, Evento
             WHERE Segnalazione.IdEvento = Evento.IdEvento
             ORDER BY IdSegnalazione DESC");
         $stmt->execute();

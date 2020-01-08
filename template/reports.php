@@ -42,7 +42,7 @@
     function buildAllReports($reports){
         $build = '';
         foreach($reports as $report):
-            $build = $build . buildSingleNotReadedNotification($report);
+            $build = $build . buildReport($report);
         endforeach;
         return $build;
     }
@@ -51,7 +51,9 @@
         $build = 
             '<div class="uk-card uk-card-default uk-width-1-1">
                 <div class="uk-card-body">
-                    <h3 class="uk-card-title uk-margin-remove-top">' . $report["Titolo"] . '</h3>
+                    <a href="./evento.php?idevento=' . $report["IdEvento"] . '">
+                        <h3 class="uk-card-title uk-margin-remove-top">' . $report["Titolo"] . '</h3>
+                    </a>
                     <p>' . $report["Descrizione"] . '</p>
                 </div>
             </div>';

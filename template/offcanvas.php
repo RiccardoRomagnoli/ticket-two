@@ -20,8 +20,7 @@
                     <li class="uk-nav-header">Menu</li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="./profilo.php">Profilo</a></li>
-                    <li><a href="#">Segnalazioni</a></li>
-                    <li><a href="#">Approvazioni</a></li>
+                    <li><a href="./reports.php">Segnalazioni</a></li>
                     <li><a href="./notifications.php">Notifiche</a></li>
                     <li><a href="./logout.php">Disconnettiti</a></li>
                 ';
