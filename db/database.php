@@ -183,7 +183,7 @@ class DatabaseHelper{
     public function getLatestTenEventsByCategory($idCategory){
         $stmt = $this->db->prepare(
             "SELECT
-                Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+                Evento.IdEvento as IdEvento, Evento.Titolo as Titolo, Evento.Descrizione as EventoDescrizione,
                 Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
                 Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
             FROM Evento, Luogo, Citta, CategoriaEvento
