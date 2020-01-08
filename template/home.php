@@ -1,13 +1,13 @@
 <!-- sezione eventi 1 -->
-<h1 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi1"]; ?></h1>
+<h2 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi1"]; ?></h1>
 <?php echo eventsSliderTop($templateParams["eventi1"]); ?>
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 <!-- sezione eventi 2 -->
-<h1 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi2"]; ?></h1>
+<h2 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi2"]; ?></h1>
 <?php echo eventsSliderTop($templateParams["eventi2"]); ?>
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 <!-- categorie eventi -->
-<h1 class="uk-h1 uk-text-center">Eventi per categoria</h1>
+<h2 class="uk-h1 uk-text-center">Eventi per categoria</h1>
 <div class="uk-section">
     <div class="uk-container">
         <ul uk-accordion>
@@ -95,7 +95,9 @@
                         <div class="uk-card-media-top">
                             <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $locandina_evento . '" uk-img="" style="background-image: upload/' . $locandina_evento . '">
                         </div>
-                        <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle"><h3 class="uk-card-title">' . eventCardTitle($evento) . '</h3></div>
+                        <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle">
+                            <h3 class="uk-card-title">' . $evento["Titolo"] . '</br>' . eventCardTitle($evento) . '</h3>
+                        </div>
                     </div>
                 </a>
             </li>

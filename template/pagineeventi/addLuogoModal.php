@@ -9,31 +9,31 @@ $sessionData .= '
                     <legend class="uk-legend uk-text-center uk-margin-top">Aggiungi Luogo</legend>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Nome luogo *</label>
-                        <input required id="addNomeLuogo" class="uk-input" type="text" placeholder="Inserisci nome luogo">
+                        <label class="uk-form-label" for="form-stacked-text">Nome luogo *
+                        <input required id="addNomeLuogo" class="uk-input" type="text" placeholder="Inserisci nome luogo"></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Descrizione luogo</label>
-                        <textarea id ="addDescrizioneLuogo" class="uk-textarea" rows="8" placeholder="Inserisci descrizione luogo" required></textarea>
+                        <label class="uk-form-label" for="form-stacked-text">Descrizione luogo
+                        <textarea id ="addDescrizioneLuogo" class="uk-textarea" rows="8" placeholder="Inserisci descrizione luogo" required></textarea></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Regione del luogo</label></br>
+                        <label class="uk-form-label" for="form-stacked-text">Regione del luogo</br>
                         <select style="width: 50%" class="selectRegione" id="addSelectIdRegione">
-                        </select>
+                        </select></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Provincia del luogo</label></br>
+                        <label class="uk-form-label" for="form-stacked-text">Provincia del luogo</br>
                         <select style="width: 50%" class="selectProvincia" id="addSelectIdProvincia">
-                        </select>
+                        </select></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Città del luogo</label></br>
+                        <label class="uk-form-label" for="form-stacked-text">Città del luogo</br>
                         <select style="width: 50%" class="selectCitta" id="addSelectIdCitta">
-                        </select>
+                        </select></label>
                     </div>
 
                     <div class="uk-width-1-1">

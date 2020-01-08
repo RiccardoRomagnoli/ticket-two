@@ -7,16 +7,16 @@ $sessionData .= '
                 <fieldset class="uk-fieldset">
 
                     <legend class="uk-legend uk-text-center uk-margin-top">Modifica Sezione</legend>
-                    <input type="hidden" id="editIdSezione">
+                    <input type="hidden" id="editIdSezione"/>
  
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Nome Sezione</label>
-                        <input required id="editNomeSezione" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input>
+                        <label class="uk-form-label" for="form-stacked-text">Nome Sezione
+                        <input required id="editNomeSezione" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Posti Totali</label>
-                        <input required class="uk-input" id="editPostiTotali" type="number" max="300" step="1">
+                        <label class="uk-form-label" for="form-stacked-text">Posti Totali
+                        <input required class="uk-input" id="editPostiTotali" type="number" max="300" step="1"></label>
                     </div>
 
                     <div class="uk-width-1-1">

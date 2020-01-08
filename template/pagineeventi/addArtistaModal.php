@@ -9,18 +9,18 @@ $sessionData .= '
                     <legend class="uk-legend uk-text-center uk-margin-top">Aggiungi Artista</legend>
  
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Nome Artista</label>
-                        <input required id="addNomeArtista" class="uk-input" type="text" placeholder="Inserisci nome artista"></input>
+                        <label class="uk-form-label" for="form-stacked-text">Nome Artista
+                        <input required id="addNomeArtista" class="uk-input" type="text" placeholder="Inserisci nome artista"></input></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Descrizione Artista</label>
-                        <textarea id ="addDescrizioneArtista" class="uk-textarea" rows="8" placeholder="Inserisci descrizione artista" required></textarea>
+                        <label class="uk-form-label" for="form-stacked-text">Descrizione Artista
+                        <textarea id ="addDescrizioneArtista" class="uk-textarea" rows="8" placeholder="Inserisci descrizione artista" required></textarea></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Immagine dell\'artista</label></br>
-                        <input type="file" name="addPathArtista" id="addPathArtista"></input>
+                        <label class="uk-form-label" for="form-stacked-text">Immagine dell\'artista</br>
+                        <input type="file" name="addPathArtista" id="addPathArtista"></input></label>
                     </div>
 
                     <div class="uk-width-1-1">

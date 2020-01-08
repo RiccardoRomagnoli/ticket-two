@@ -9,13 +9,13 @@ $sessionData .= '
                     <legend class="uk-legend uk-text-center uk-margin-top">Aggiungi Sezione</legend>
  
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Nome Sezione</label>
-                        <input required id="addNomeSezione" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input>
+                        <label class="uk-form-label" for="form-stacked-text">Nome Sezione
+                        <input required id="addNomeSezione" class="uk-input" type="text" placeholder="Inserisci nome sezione"></input></label>
                     </div>
 
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Posti Totali</label>
-                        <input required class="uk-input" id="addPostiTotali" type="number" min="1" max="300" step="1">
+                        <label class="uk-form-label" for="form-stacked-text">Posti Totali
+                        <input required class="uk-input" id="addPostiTotali" type="number" min="1" max="300" step="1"></label>
                     </div>
 
                     <div class="uk-width-1-1">

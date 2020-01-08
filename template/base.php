@@ -35,15 +35,16 @@
                 <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
                     <div class="uk-navbar-item uk-width-expand">
                         <form class="uk-search uk-search-navbar uk-width-1-1">
-                            <input class="uk-search-input" type="search" placeholder="Cerca Evento, Luogo, Autore..." autofocus>
+                            <label for="searchBar" hidden>Search bar</label>
+                            <input id="searchBar" class="uk-search-input" type="search" placeholder="Cerca Evento, Luogo, Autore..." autofocus>
                         </form>
                     </div>
-                    <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#" title="searchbar"></a>
                 </div>
 
                 <!-- Nav Components -->
                 <div class="uk-navbar-left nav-overlay">
-                    <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                    <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#" title="sideMenu"></a>
                 </div>
                 <div class="uk-navbar-center nav-overlay">
                     <a class="uk-navbar-item uk-logo" href="./index.php"><h1 class="uk-heading-small">Ticket Two</h1></a>
@@ -93,8 +94,7 @@
                     <div class="uk-text-right@m uk-text-center">
                         <div uk-grid="" class="uk-child-width-auto uk-grid-small uk-flex-center uk-grid">
                             <div class="uk-first-column">
-                                <a href="https://bitbucket.org/Tale97/tw_pulita_romagnoli_talmi/src/master/" uk-icon="icon: github" class="uk-icon-link uk-icon">
-                                </a>
+                                <a href="https://bitbucket.org/Tale97/tw_pulita_romagnoli_talmi/src/master/" uk-icon="icon: github" class="uk-icon-link uk-icon">Repo</a>
                             </div> 
                         </div>
                     </div>
@@ -105,7 +105,7 @@
     
     <!-- To Top Arrow -->
     <div class="uk-margin uk-position-fixed uk-position-bottom-right uk-position-large">
-        <a id="toTop" style="display: none" href="#" uk-scroll uk-totop></a>
+        <a id="toTop" style="display: none" href="#" uk-scroll uk-totop title="scrollToTop"></a>
     </div>
 
     <?php require("login.php"); ?>
