@@ -234,14 +234,17 @@ class DatabaseHelper{
     public function getTenRandomValidInterestEvents($idUser){
         $stmt = $this->db->prepare(
             "SELECT Evento.*, Citta.Nome as NomeCitta
-            FROM Evento, CategoriaEvento, Luogo, Citta
+            FROM Evento, Luogo, Citta
             WHERE Evento.IdLuogo = Luogo.IdLuogo 
                 and Luogo.IdCitta = Citta.IdCitta
                 and Evento.DataInizio >= CURDATE()
-                and CategoriaEvento.IdCategoria IN 
-                (SELECT IdCategoria
-                FROM CategoriaSeguita
-                WHERE IdUtente = ?)
+                and Evento.IdEvento IN 
+                    (SELECT DISTINCT IdEvento
+                    FROM CategoriaEvento
+                    WHERE IDCategoria IN 
+                        (SELECT IdCategoria
+                        FROM CategoriaSeguita
+                        WHERE IdUtente = ?))
             ORDER BY RAND() LIMIT 10");
         $stmt->bind_param('i', $idUser);
         $stmt->execute();
