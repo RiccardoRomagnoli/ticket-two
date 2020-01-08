@@ -202,7 +202,7 @@
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button id="crea" class="uk-button uk-button-default uk-modal-close" type="button">Crea Account</button>
-            <button class="uk-button uk-button-default" href="./carrello.php">Annulla</button>
+            <a class="uk-button uk-button-default" href="./carrello.php">Annulla</a>
         </div>
     </div>
 </div>

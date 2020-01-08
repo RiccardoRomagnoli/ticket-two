@@ -6,7 +6,7 @@
     } else {
         $Password = $_POST['Password'];
         $GuestId = $_POST['GuestId'];
-
+        
         $result = $dbh->getUserById($dbh->registerGuest($Password, $GuestId));
         if (count($result)==1) {
             echo json_encode(array('result' => 'ok', 'message' => 'Registrazione effettuata con successo!'));

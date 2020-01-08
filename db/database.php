@@ -741,6 +741,7 @@ class DatabaseHelper{
         $query = "UPDATE Utente SET Password = ? WHERE IdUtente = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('si', $Password, $IdGuest);
+        $stmt->execute();
         
         return $IdGuest;
     }
