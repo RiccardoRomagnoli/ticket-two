@@ -1,13 +1,13 @@
 <!-- sezione eventi 1 -->
-<h1 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi1"]; ?></h1>
+<h2 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi1"]; ?></h1>
 <?php echo eventsSliderTop($templateParams["eventi1"]); ?>
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 <!-- sezione eventi 2 -->
-<h1 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi2"]; ?></h1>
+<h2 class="uk-h1 uk-text-center"><?php echo $templateParams["titoloEventi2"]; ?></h1>
 <?php echo eventsSliderTop($templateParams["eventi2"]); ?>
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 <!-- categorie eventi -->
-<h1 class="uk-h1 uk-text-center">Eventi per categoria</h1>
+<h2 class="uk-h1 uk-text-center">Eventi per categoria</h1>
 <div class="uk-section">
     <div class="uk-container">
         <ul uk-accordion>

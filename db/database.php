@@ -284,7 +284,7 @@ class DatabaseHelper{
 
     public function getLatestTenCreatedEventsByIdUserCreator($id){
         $stmt = $this->db->prepare(
-            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as Titolo, Evento.Descrizione as EventoDescrizione,
                  Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
                  Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
             FROM Evento, Luogo, Citta
@@ -307,7 +307,7 @@ class DatabaseHelper{
             FROM CategoriaEvento
             WHERE IdEvento NOT IN (" . $myEvents . ") AND IdCategoria IN (" . $categoriesOfMyEvents . ")";
         $latestTenEventsSimilarToMine = 
-            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as TitoloEvento, Evento.Descrizione as EventoDescrizione,
+            "SELECT Evento.IdEvento as IdEvento, Evento.Titolo as Titolo, Evento.Descrizione as EventoDescrizione,
             Evento.Locandina as Locandina, Evento.DataInizio as DataInizio,
             Evento.DataFine as DataFine, Citta.Nome as NomeCitta, Luogo.Nome as NomeLuogo
             FROM Evento, Luogo, Citta
