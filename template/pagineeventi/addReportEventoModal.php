@@ -9,8 +9,8 @@ $sessionData .= '
                     <legend class="uk-legend uk-text-center uk-margin-top">Fai un report a quest\' evento</legend>
  
                     <div class="uk-margin">
-                        <label class="uk-form-label" for="form-stacked-text">Descrizione</label>
-                        <textarea id ="addDescrizioneReport" class="uk-textarea" rows="8" placeholder="Inserisci descrizione report" required></textarea>
+                        <label class="uk-form-label" for="form-stacked-text">Descrizione
+                        <textarea id ="addDescrizioneReport" class="uk-textarea" rows="8" placeholder="Inserisci descrizione report" required></textarea></label>
                     </div>
 
                     <div class="uk-width-1-1">

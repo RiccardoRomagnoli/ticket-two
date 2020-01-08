@@ -5,7 +5,7 @@
 
     //dati utili per la pagina
     $sessionData .= '
-        <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'">
+        <input type="hidden" id="idEvento" value="' . $evento["IdEvento"] .'"/>
     ';
 
     //sezione del titolo con controllo follow o non

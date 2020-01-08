@@ -8,24 +8,23 @@
 
             //post creazione cart
             case 'creaCart':
-                //guest senza cookie del carrello
-                if(empty($_SESSION['idUtente']) && empty($_SESSION['carrelloaperto'])){
-                    $result = $dbh->creaCartGuest();
-                    setcookie("idAcquisto", $result, time() + (86400 * 30), "/");
-                    $_SESSION['carrelloaperto'] = $result;
-                    echo $result;
-                }elseif(empty($_SESSION['idUtente']) && !empty($_SESSION['carrelloaperto'])){//guest con cookie
-                    echo $_SESSION['carrelloaperto'];
-                }
-                //utente senza carrello
-                if(!empty($_SESSION['idUtente']) && $_SESSION['idUtente'] != '' && $_SESSION['carrelloaperto'] == ''){
-                    //crea cart
-                    $idUser = $_SESSION['idUtente'];
-                    $result = $dbh->creaCart($idUser);
-                    $_SESSION['carrelloaperto'] = $result[0]["IdAcquisto"]; 
-                    echo $result[0]["IdAcquisto"];
-                }elseif(!empty($_SESSION['idUtente']) && $_SESSION['idUtente'] != '' && $_SESSION['carrelloaperto'] != ''){//utente con carrello
-                    echo $_SESSION['carrelloaperto']; 
+                if(empty($_SESSION['idUtente'])){
+                    if(empty($_COOKIE['carrello'])){
+                        $result = $dbh->creaCartGuest();
+                        setcookie("idAcquisto", $result, time() + (86400 * 30), "/");
+                        echo $result;
+                    }else{
+                        echo $_COOKIE['carrello'];
+                    }
+                } else {
+                    if(empty($_SESSION['carrello'])){
+                        $idUser = $_SESSION['idUtente'];
+                        $result = $dbh->creaCart($idUser);
+                        $_SESSION['carrello'] = $result[0]["IdAcquisto"];
+                        echo $result[0]["IdAcquisto"];
+                    }else{
+                        echo $_SESSION['carrello']; 
+                    }
                 }
             break;
 
