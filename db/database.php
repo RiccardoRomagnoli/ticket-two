@@ -374,6 +374,18 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getReports(){
+        $stmt = $this->db->prepare(
+            "SELECT Segnalazione.*, Evento.Titolo 
+            FROM Segnalazione 
+            WHERE Segnalazione.IdEvento = Evento.IdEvento
+            ORDER BY IdSegnalazione DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function checkIfUserFollowArtist($idUser, $idArtist){
         $query = "SELECT * FROM ArtistaSeguito WHERE IdArtista = ? AND IdUtente = ?";
         $stmt = $this->db->prepare($query);
