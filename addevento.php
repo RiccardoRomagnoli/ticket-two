@@ -4,7 +4,7 @@ require_once 'initializer.php';
 //Base Template
 $templateParams["titolo"] = "TicketTwo";
 $templateParams["nome"] = "";
-
+$templateParams["js"] = ["js/evento.js"];
 //Event Template
 $idutente = 0;
 if(isset($_SESSION["idUtente"])){

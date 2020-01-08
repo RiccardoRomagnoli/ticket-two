@@ -22,7 +22,7 @@ $templateParams["eventoseguito"] = $dbh->isEventFollowed($idutente, $idevento);
 $templateParams["artistievento"] = $dbh->getEventArtistsByIdEvento($idevento);
 $templateParams["categorieevento"] = $dbh->getEventCategoriesByIdEvento($idevento);
 $templateParams["bigliettievento"] = $dbh->getEventTicketsByIdEvento($idevento);
-
+$templateParams["js"] = ["js/evento.js"];
 if($idutente != 0) {
     if(!empty($dbh->getCartOpen($idutente))){
         $_SESSION["carrello"] = $dbh->getCartOpen($idutente)[0]["IdAcquisto"];

@@ -16,12 +16,12 @@
                 <legend class="uk-legend uk-text-center uk-margin-top">Modifica Luogo</legend>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">Nome luogo *</label>
+                    <label class="uk-form-label" for="name">Nome luogo *</label>
                     <input id="name" class="uk-input" type="text" placeholder="Inserisci nome luogo" value="<?php echo $name?>">
                 </div>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">Descrizione luogo</label>
+                    <label class="uk-form-label" for="description">Descrizione luogo</label>
                     <textarea id ="description" class="uk-textarea" rows="8" placeholder="Inserisci descrizione luogo" ><?php echo $description?></textarea>
                 </div>
                 
