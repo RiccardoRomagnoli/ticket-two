@@ -95,7 +95,9 @@
                         <div class="uk-card-media-top">
                             <div class="uk-height-medium uk-background-cover uk-light" data-src="upload/' . $locandina_evento . '" uk-img="" style="background-image: upload/' . $locandina_evento . '">
                         </div>
-                        <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle"><h3 class="uk-card-title">' . eventCardTitle($evento) . '</h3></div>
+                        <div class="uk-card-body uk-height-small uk-text-center uk-flex uk-flex-center uk-flex-middle">
+                            <h3 class="uk-card-title">' . $evento["Titolo"] . '</br>' . eventCardTitle($evento) . '</h3>
+                        </div>
                     </div>
                 </a>
             </li>
