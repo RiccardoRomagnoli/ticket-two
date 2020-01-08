@@ -3,7 +3,7 @@
         <div class="uk-container">
             <span class="uk-text-lead uk-text-center">
                 Qui puoi vedere tutti i biglietti e gli abbonamenti che hai acquistato per l'evento
-                <h1 class="uk-heading-small uk-text-center uk-margin-remove-bottom uk-margin-top"><?php echo $templateParams["evento"][0]["TitoloEvento"];?></h1>
+                <h2 class="uk-heading-small uk-text-center uk-margin-remove-bottom uk-margin-top"><?php echo $templateParams["evento"][0]["TitoloEvento"];?></h2>
             </span>
         </div>
     </div>
