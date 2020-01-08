@@ -79,7 +79,7 @@
                 $result = 0;
                 $msg = "";
                 if(!empty($_FILES["fotoLocation"])){
-                    list($result, $msg) = uploadImage(UPLOAD_DIR, $_FILES["fotoLocation"]);
+                    list($result, $msg) = uploadImage("." . UPLOAD_DIR, $_FILES["fotoLocation"]);
                 } else {
                     $result = 1;
                     $msg = "event_default.jpg";
@@ -295,7 +295,7 @@
                 $result = 0;
                 $msg = "";
                 if(!empty($_FILES["fotoLocation"])){
-                    list($result, $msg) = uploadImage(UPLOAD_DIR, $_FILES["fotoLocation"]);
+                    list($result, $msg) = uploadImage("." . UPLOAD_DIR, $_FILES["fotoLocation"]);
                 }
                 $idLuogo = $_POST['idLuogo'];
                 if($result != 0){
