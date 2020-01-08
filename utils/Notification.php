@@ -9,5 +9,7 @@
         }else{
             echo json_encode(array('result' => 'no'));
         }
+    }else{
+        echo json_encode(array('result' => 'no'));
     }
 ?>

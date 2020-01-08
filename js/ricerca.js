@@ -1,4 +1,7 @@
-$(document).ready(function(){    
+$(document).ready(function(){
+    
+    $('table').css("cursor","pointer");
+
     //tabella artisti
     let tableArtisti = $('#tableRicercaArtisti').DataTable( {            
         ajax: {
@@ -33,7 +36,7 @@ $(document).ready(function(){
       });
 
     //tabella eventi
-      let tableEventi = $('#tableRicercaEventi').DataTable( {            
+    let tableEventi = $('#tableRicercaEventi').DataTable( {            
         ajax: {
             "url": "utils/search.php",
             "type": "POST",

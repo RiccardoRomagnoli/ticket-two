@@ -9,7 +9,7 @@
                 <li class="uk-open">
                     <a class="uk-accordion-title" href="#">Eventi</a>
                     <div class="uk-accordion-content">
-                        <table id="tableRicercaEventi" class="display" style="width:100%">
+                        <table id="tableRicercaEventi"  class="display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Id</th>
