@@ -17,7 +17,7 @@ if(isUserLoggedIn()) {
 $templateParams["titolo"] = "TicketTwo";
 $templateParams["infoArtista"] = $dbh->getArtistById($_GET["id"]);
 if(count($templateParams["infoArtista"])==0){
-    $templateParams["nome"] = "error404.php";
+    header("location: error404.php");
 } else {
     $templateParams["nome"] = "template/artist.php";
     $templateParams["eventi"] = $dbh->getEventByIdArtist($_GET["id"]);

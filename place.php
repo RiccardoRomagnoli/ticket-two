@@ -17,7 +17,7 @@ if(isUserLoggedIn()) {
 $templateParams["titolo"] = "TicketTwo";
 $templateParams["infoLuogo"] = $dbh->getPlaceById($_GET["id"]);
 if(count($templateParams["infoLuogo"])==0){
-    $templateParams["nome"] = "error404.php";
+    header("location: error404.php");
 } else {
     $templateParams["nome"] = "template/place.php";
     $templateParams["eventi"] = $dbh->getEventByIdPlace($_GET["id"]);

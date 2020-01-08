@@ -12,14 +12,14 @@ if(isset($_SESSION["idUtente"])){
 }
 
 if(!isUserLoggedIn()) {
-    $templateParams["nome"] = "error404.php";
+    header("location: error404.php");
 } else {
     switch($_SESSION["tipoUtente"]){
         case "Admin" || "Organizzatore":
             $templateParams["nome"] = "aggiungisingoloevento.php";
             break;
         case "Cliente":
-            $templateParams["nome"] = "error404.php";
+            header("location: error404.php");
             break;
     }
 }
