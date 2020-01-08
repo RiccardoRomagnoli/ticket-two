@@ -12,7 +12,7 @@
 
                     <div id="nameDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Nome"></label>
+                            <label hidden for="name">Nome</label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
                             <input id="name" class="uk-input" type="text" placeholder="Inserisci Nome"> 
                         </div>
@@ -20,7 +20,7 @@
 
                     <div id="surnameDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Cognome"></label>
+                            <label hidden for="surname">Cognome</label>
                             <span class="uk-form-icon" uk-icon="icon: user" ></span>
                             <input id="surname" class="uk-input" type="text" placeholder="Inserisci Cognome"> 
                         </div>
@@ -28,7 +28,7 @@
 
                     <div class="uk-margin">
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Mail"></label>
+                            <label hidden for="mail">Email</label>
                             <span class="uk-form-icon" uk-icon="icon: mail" ></span>
                             <input id="mail" class="uk-input" type="email" placeholder="Inserisci Mail"> 
                         </div>
@@ -36,14 +36,14 @@
 
                     <div class="uk-margin">
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Password"></label>
+                            <label hidden for="password">Password</label>
                             <span class="uk-form-icon" uk-icon="icon: lock"></span>
                             <input id="password" class="uk-input" type="password" placeholder="Password">
                         </div>
                     </div>
                     <div id="passwordRipDiv" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Ripeti Passowrd"></label>
+                            <label hidden for="passwordRip">Ripeti Password</label>
                             <span class="uk-form-icon" uk-icon="icon: lock"></span>
                             <input id="passwordRip" class="uk-input" type="password" placeholder="Ripeti Password">
                         </div>
@@ -52,8 +52,10 @@
                     <div id="radio" class="uk-margin animate-login" hidden>
                         <div class="uk-inline uk-width-1-1">
                             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                                <label><input class="uk-radio" type="radio" name="radio" value="false" checked> Utente</label>
-                                <label><input class="uk-radio" type="radio" name="radio" value="true"> Organizzatore</label>
+                                <label hidden for="utente">Seleziona utente</label>
+                                <label hidden for="organizzatore">Seleziona Organizzatore</label>
+                                <label><input id="utente" class="uk-radio" type="radio" name="radio" value="false" checked> Utente</label>
+                                <label><input id="organizzatore" class="uk-radio" type="radio" name="radio" value="true"> Organizzatore</label>
                             </div>
                         </div>
                     </div>
@@ -85,7 +87,7 @@
                 <p>Inserisci la tua mail associata all'account, riceverai la tua password provvisoria con cui potrai accedere e che dovai modificare successivamente</p>
                 <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
-                        <label hidden for="email"></label>
+                        <label hidden for="email-recupera">Inserire Email di Recupero</label>
                         <span class="uk-form-icon" uk-icon="icon: mail"></span>
                         <input id="email-recupera" class="uk-input" type="email" placeholder="Inserisci Email">
                     </div>
