@@ -21,12 +21,12 @@
                 <legend class="uk-legend uk-text-center uk-margin-top">Modifica Artista</legend>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">Nome artista *</label>
+                    <label class="uk-form-label" for="name">Nome artista *</label>
                     <input id="name" class="uk-input" type="text" placeholder="Inserisci nome artista" value="<?php echo $name?>">
                 </div>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="form-stacked-text">Descrizione artista</label>
+                    <label class="uk-form-label" for="description">Descrizione artista</label>
                     <textarea id ="description" class="uk-textarea" rows="8" placeholder="Inserisci descrizione artista" ><?php echo $description?></textarea>
                 </div>
                 
@@ -35,6 +35,7 @@
                     <img src="upload/<?php echo $photo?>" id="editFoto" alt="">
                 </div>
 
+                <label for="fileToUpload">Upload foto</label>
                 <input type="file" name="fileToUpload" id="fileToUpload" accept="image/png, image/jpeg, image/jpg">
 
                 <?php 
