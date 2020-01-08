@@ -7,7 +7,7 @@ if(isUserLoggedIn() && $_SESSION["tipoUtente"] == "Cliente" && count($templatePa
     $templateParams["nome"] = "template/myTicketPurchase.php";
     
 } else {
-    $templateParams["nome"] = "error404.php";
+    header("location: error404.php");
 }
 
 require 'template/base.php';

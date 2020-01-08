@@ -6,7 +6,7 @@ if(isUserLoggedIn()) {
     $templateParams["notificheDaLeggere"] = $dbh->getUserNotificationsNotReaded($_SESSION['idUtente']);
     $templateParams["notificheLette"] = $dbh->getUserNotificationsAlreadyReaded($_SESSION['idUtente']);
 } else {
-    $templateParams["nome"] = "error404.php";
+    header("location: error404.php");
 }
 
 require 'template/base.php';
