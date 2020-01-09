@@ -1108,14 +1108,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getSezioneNonBiglietto($idbiglietto){
+    public function getSezioneNonBiglietto($idbiglietto, $idEvento){
         $stmt = $this->db->prepare("SELECT Sezione.IdSezione, Sezione.Nome 
                                     FROM Sezione
-                                    WHERE Sezione.IdSezione 
+                                    WHERE Sezione.IdEvento = ? && Sezione.IdSezione 
                                         NOT IN (SELECT Sezione.IdSezione
                                                 FROM Biglietto INNER JOIN Sezione ON Biglietto.IdSezione = Sezione.IdSezione
                                                 WHERE Biglietto.IdBiglietto = ?)");
-        $stmt->bind_param('i', $idbiglietto);
+        $stmt->bind_param('ii', $idEvento, $idbiglietto);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
