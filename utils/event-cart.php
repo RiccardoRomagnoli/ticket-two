@@ -9,12 +9,12 @@
             //post creazione cart
             case 'creaCart':
                 if(empty($_SESSION['idUtente'])){
-                    if(empty($_COOKIE['carrello'])){
+                    if(empty($_COOKIE['idAcquisto'])){
                         $result = $dbh->creaCartGuest();
                         setcookie("idAcquisto", $result, time() + (86400 * 30), "/");
                         echo $result;
                     }else{
-                        echo $_COOKIE['carrello'];
+                        echo $_COOKIE['idAcquisto'];
                     }
                 } else {
                     if(empty($_SESSION['carrello'])){

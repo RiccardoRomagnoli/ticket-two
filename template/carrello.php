@@ -34,14 +34,14 @@
                 <div class="uk-card-body">
                     <label hidden for="nome<?php echo $biglietto["IdRigaAcquisto"]?>">Nome</label>
                     <input id="nome<?php echo $biglietto["IdRigaAcquisto"]?>" 
-                           class="uk-input" 
+                           class="uk-input nome" 
                            type="text" 
                            placeholder="Inserisci Nome" 
                            value="<?php echo $biglietto["NomeReferente"]?>">
 
                     <label hidden for="cognome<?php echo $biglietto["IdRigaAcquisto"]?>">Cognome</label>
                     <input id="cognome<?php echo $biglietto["IdRigaAcquisto"]?>" 
-                           class="uk-input" 
+                           class="uk-input cognome" 
                            type="text" 
                            placeholder="Inserisci Cognome" 
                            value="<?php echo $biglietto["Cognome"]?>">
@@ -68,7 +68,7 @@
 
 <div class="uk-container uk-margin-bottom uk-width-1-1">
     <div class="uk-button-group uk-flex-center uk-width-1-1">
-        <button class="uk-button uk-button-primary uk-text-center" href="#modal-buy" uk-toggle>Procedi all'acquisto</button>
+        <button class="uk-button uk-button-primary uk-text-center" id="procedi">Procedi all'acquisto</button>
     </div>
 </div>
 <?php endif; ?>

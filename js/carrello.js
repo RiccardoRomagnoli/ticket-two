@@ -44,6 +44,39 @@ $(document).ready(function(){
         }
     });
 
+    $("#procedi").click(function(e){
+        e.preventDefault();
+        var flag = true;
+
+        let nomi =  $(".nome");
+        let cognomi =  $(".cognome");
+        let datanascita =  $(".datanascita");
+
+        nomi.each(function(){
+            if($(this).val() == "")
+            flag = false;
+        });
+        cognomi.each(function(){
+            if($(this).val() == "")
+            flag = false;
+        });
+        datanascita.each(function(){
+            if($(this).val() == "")
+            flag = false;
+        });
+
+        if(flag)
+            UIkit.modal("#modal-buy").show();
+        else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+'Verifica che tutti i biglietti abbiano un nominativo!',
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    });
+
     $("#addPaymentBtn").click(function(){
         var Titolare  = $("#titolare").val();
         var Numero  = $("#numero").val();
