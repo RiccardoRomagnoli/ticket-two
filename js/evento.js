@@ -190,7 +190,7 @@ $(document).ready(function(){
             
         //riempi le altre sezioni non scelte
         $.post("utils/event-cart.php",
-                {azione: "getSezioneNonBiglietto", idBiglietto: idBiglietto},
+                {azione: "getSezioneNonBiglietto", idBiglietto: idBiglietto, idEvento: idEvento},
                  function(data){
                     var c = document.createDocumentFragment();
                     JSON.parse(data).forEach(sezione => {

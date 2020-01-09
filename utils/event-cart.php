@@ -241,7 +241,8 @@
 
             case 'getSezioneNonBiglietto':    
                 $idBiglietto = $_POST['idBiglietto'];
-                $result = $dbh->getSezioneNonBiglietto($idBiglietto);
+                $idEvento = $_POST['idEvento'];
+                $result = $dbh->getSezioneNonBiglietto($idBiglietto, $idEvento);
                 echo json_encode(array_values($result));
             break;
             
