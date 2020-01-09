@@ -92,6 +92,7 @@ $(document).ready(function(){
 
     //pulsanti id specifici
 
+
     $('#addSelectIdRegione').on('change.select2', function (e) {
         let idRegione = $(this).val();
         $("#addSelectIdProvincia").empty();
@@ -371,11 +372,11 @@ $(document).ready(function(){
         $("#editSelectIdLuogo").prop("disabled", false);
     });
 
-    $('#openModalEditSectionInAddBiglietto').click(function(){
+    $('#openModalEditSectionInAddBiglietto').click(function(e){
         $("#editSezioneForm")[0].reset();
         let idSezione = $('#addSelectIdSezioneEvento').val();
-
-        $.post("utils/event-cart.php",
+        if(idSezione != null){
+            $.post("utils/event-cart.php",
                 {azione: "getInfoSezione", idSezione: idSezione},
                 function(data){
                     let risposta = JSON.parse(data);
@@ -384,6 +385,10 @@ $(document).ready(function(){
                     $("#editPostiTotali").val(risposta.postiTotali);
                 }
             );
+        } else {
+            e.stopPropagation();
+            e.preventDefault();
+        }
     });
 
     $('#openModalEditSectionInEditBiglietto').click(function(){
