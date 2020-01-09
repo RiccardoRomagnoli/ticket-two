@@ -16,7 +16,7 @@ $sessionData .= '
 
                     <div class="uk-margin">
                         <label class="uk-form-label" for="editPostiTotali">Posti Totali</label>
-                        <input required class="uk-input" id="editPostiTotali" type="number" max="300" step="1">
+                        <input required class="uk-input" id="editPostiTotali" type="number" min="1" max="300" step="1">
                     </div>
 
                     <div class="uk-width-1-1">
