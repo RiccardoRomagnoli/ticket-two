@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="passowrd">Password</label>
+                    <label class="uk-form-label" for="password">Password</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" id="password" type="password" placeholder="Inserisci la nuova Password">
                     </div>

@@ -16,6 +16,8 @@
             $result = $dbh->doPaymentGuest($IdAcquisto, $Email, $CVC);
             if (count($result)!=0) {
                 echo json_encode(array('result' => 'ok', 'message' => 'Pagamento avvenuto con successo', "id" => $result));
+                unset($_COOKIE['idAcquisto']); 
+                setcookie('idAcquisto', null, -1, '/');
             } else {
                 echo json_encode(array('result' => 'error', 'message' => 'Qualcosa non va, controlla i dati inseriti!'));
             }

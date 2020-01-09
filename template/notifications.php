@@ -13,7 +13,7 @@
 
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 
-<h1 class="uk-h1 uk-text-center">Notifiche da leggere</h1>
+<h2 class="uk-h1 uk-text-center">Notifiche da leggere</h2>
 
 <div class="uk-width-1-1 uk-margin-remove" uk-grid>
 
@@ -43,7 +43,7 @@
 
 <hr class="uk-width-1-1 uk-divider-icon uk-margin-medium-bottom">
 
-<h1 class="uk-h1 uk-text-center">Notifiche lette</h1>
+<h2 class="uk-h1 uk-text-center">Notifiche lette</h2>
 
 <div class="uk-width-1-1 uk-margin-remove" uk-grid>
 

@@ -1,7 +1,7 @@
 <div uk-grid class="uk-grid-stack uk-flex-center uk-flex-middle">
     <div class="uk-section uk-width-2-3@s uk-width-1-1">
         <div class="uk-container">
-            <h1 class="uk-h1">Ciao <?php echo getUserName(); ?>,</h1>
+            <h2 class="uk-h1">Ciao <?php echo getUserName(); ?>,</h2>
             <span class="uk-text-lead uk-text-center uk-text-left@m">
                 Qui puoi vedere le segnalazioni effettuate dagli utenti.
             </span>

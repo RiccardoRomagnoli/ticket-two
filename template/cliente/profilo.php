@@ -142,12 +142,14 @@
         </div>
         <div class="uk-modal-body">
             <form class="uk-form-stacked">
+                <legend hidden>Aggiungi Interessi</legend>    
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <?php foreach($templateParams["tutti-interessi"] as $interesse): ?>
                         <label>
                             <input class="uk-checkbox addInterestCheck" 
-                                   type="checkbox" 
-                                   value="<?php echo array_search($interesse, $templateParams["tutti-interessi"])+1 ?>"> 
+                                type="checkbox" 
+                                value="<?php echo array_search($interesse, $templateParams["tutti-interessi"])+1 ?>"
+                                title="Interesse"> 
                             <span class="uk-label"><?php echo $interesse ?></span>
                         </label>
                     <?php endforeach; ?>
@@ -188,7 +190,7 @@
                     </div>
                 </div>
                 <div class="uk-margin">
-                    <label class="uk-form-label" for="passowrd">Password</label>
+                    <label class="uk-form-label" for="password">Password</label>
                     <div class="uk-form-controls">
                         <input class="uk-input" id="password" type="password" placeholder="Inserisci la nuova Password">
                     </div>

@@ -71,10 +71,8 @@ $(document).ready(function(){
             Password = SHA512(Password);
             $.post("utils/singup-guest.php",
             {Password:Password, GuestId:GuestId},
-            function(data, status){checkResult(JSON.parse(data));}
+            function(data, status){checkResultSingupGuest(JSON.parse(data));}
             );
-            UIkit.modal("#pay-success-register").hide();
-            window.setTimeout(function(){location.reload()},1000);
         }else{
             UIkit.notification({
                 message: 'Inserisci almeno 6 caratteri',
@@ -83,6 +81,32 @@ $(document).ready(function(){
             });
         }
     });
+
+    function checkResultSingupGuest(response){
+        if(response.result == "ok"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: check"></span> '+response.message,
+                status: 'success',
+                pos: 'top-right'
+            });
+            UIkit.modal("#pay-success-register").hide();
+            window.setTimeout(function(){location.reload()},1000);
+        }else if(response.result == "warning"){
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'warning',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }else{
+            UIkit.notification({
+                message: '<span uk-icon="icon: close"></span> '+response.message,
+                status: 'danger',
+                pos: 'top-right',
+                timeout: 2500
+            });
+        }
+    }
 
     function checkInsertPaymentResult(response, Numero, Data){
         if(response.result == "ok"){

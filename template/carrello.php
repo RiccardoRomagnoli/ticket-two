@@ -32,21 +32,21 @@
                     </div>
                 </div>
                 <div class="uk-card-body">
-                    <label hidden for="Nome"></label>
+                    <label hidden for="nome<?php echo $biglietto["IdRigaAcquisto"]?>">Nome</label>
                     <input id="nome<?php echo $biglietto["IdRigaAcquisto"]?>" 
                            class="uk-input" 
                            type="text" 
                            placeholder="Inserisci Nome" 
                            value="<?php echo $biglietto["NomeReferente"]?>">
 
-                    <label hidden for="Cognome"></label>
+                    <label hidden for="cognome<?php echo $biglietto["IdRigaAcquisto"]?>">Cognome</label>
                     <input id="cognome<?php echo $biglietto["IdRigaAcquisto"]?>" 
                            class="uk-input" 
                            type="text" 
                            placeholder="Inserisci Cognome" 
                            value="<?php echo $biglietto["Cognome"]?>">
 
-                    <label hidden for="Data Nascita"></label>
+                    <label hidden for="datanascita<?php echo $biglietto["IdRigaAcquisto"]?>">Data di Nascita</label>
                     <input  id="datanascita<?php echo $biglietto["IdRigaAcquisto"]?>" 
                             class="datanascita uk-input" 
                             type="text" 
@@ -74,6 +74,7 @@
 <?php endif; ?>
 </div>
 
+<?php if($templateParams["idAcquisto"] != -1): ?>
 <!-- Modal Buy -->
 <div id="modal-buy" class="uk-modal-full uk-modal" uk-modal="stack:true;">
     <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
@@ -105,7 +106,7 @@
                 <?php if(isset($_COOKIE["idAcquisto"])): ?>
                     <div class="uk-margin uk-flex-center uk-text-center">
                         <div class="uk-inline uk-width-1-1">
-                            <label hidden for="Email">Email</label>
+                            <label hidden for="email">Email</label>
                             <span class="uk-form-icon" uk-icon="icon: mail"></span>
                             <input id="email" class="uk-input" type="email" placeholder="Inserisci Email">
                         </div>
@@ -116,7 +117,7 @@
                     <div class="uk-inline uk-width-1-1">
                         <div class="uk-inline">
                             <label hidden for="codice">Codice CVC</label>
-                            <a class="uk-form-icon" href="#" uk-icon="icon: credit-card"></a>
+                            <a class="uk-form-icon" href="#" uk-icon="icon: credit-card" title="CVC"></a>
                             <input id="codice" class="uk-input" type="text" placeholder="Inserisci CVC">
                         </div> 
                     </div>
@@ -194,7 +195,7 @@
             <p>Riceverai il biglietto per email. Stampalo e mostralo all'ingresso. Ricorta, il biglietto è nominativo!<br>Inserisci una password per creare il tuo account, Così potrai accedere ai tuoi biglietti anche dalla tua area riservata!!</p>
             <div class="uk-margin">
                 <div class="uk-inline uk-width-1-1">
-                    <label hidden for="Password"></label>
+                    <label hidden for="passwordPay">Password Account</label>
                     <span class="uk-form-icon" uk-icon="icon: lock"></span>
                     <input id="passwordPay" class="uk-input" type="password" placeholder="Password">
                 </div>
@@ -202,9 +203,10 @@
         </div>
         <div class="uk-modal-footer uk-text-right">
             <button id="crea" class="uk-button uk-button-default" type="button">Crea Account</button>
-            <a class="uk-button uk-button-default" href="./carrello.php">Annulla</a>
+            <a title="Annulla" class="uk-button uk-button-default" href="./carrello.php">Annulla</a>
         </div>
     </div>
 </div>
+<?php endif; ?>
 
 

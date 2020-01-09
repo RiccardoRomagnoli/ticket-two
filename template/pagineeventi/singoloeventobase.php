@@ -1,6 +1,6 @@
 <?php echo $sessionData ?>
 <!--Sezione titolo e pulsante follow/modifica-->
-<div class="uk-section-xsmall uk-section-muted "> 
+<div class="uk-section-xsmall "> 
     <div class="uk-container"> 
         <?php echo $titleSection; ?>
     </div>

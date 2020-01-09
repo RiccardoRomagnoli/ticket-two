@@ -32,7 +32,7 @@
                 registerLoggedUser($result[0]);
             }
 
-        } else {
+        }else{
             echo json_encode(array('result' => 'error', 'message' => 'Qualcosa non va, Non siamo riusciti a registrarti!'));
         }
     }
